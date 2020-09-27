@@ -1,6 +1,9 @@
 # mt2
 
-FIXME: description
+micro twitter version 2.
+
+I wrote `micro twitter` in CommonLisp using Hunchentoot/Huncheksocket library.
+This was a remake of it using Clojure/Sente.
 
 ## Developing
 
