@@ -1,0 +1,18 @@
+{:duct.profile/base
+ {:duct.core/project-ns mt2
+
+  :duct.router/ataraxy
+  {:routes {[:get "/example"] [:mt2.handler/example]
+            [:get "/"] [:mt2.handler.mt2/index]}}
+
+  :mt2.handler.mt2/index {}
+  :mt2.handler/example {}}
+
+ :duct.profile/dev   #duct/include "dev"
+ :duct.profile/local #duct/include "local"
+ :duct.profile/prod  {}
+
+ :duct.module/logging {}
+ :duct.module/cljs {:main mt2.client}
+ :duct.module.web/site
+ {}}
