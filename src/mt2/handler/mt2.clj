@@ -3,6 +3,7 @@
     [ataraxy.core     :as ataraxy]
     [ataraxy.response :as response]
     [clojure.java.io  :as io]
+    [taoensso.timbre  :refer [debug infof]]
     [hiccup.page      :as hiccup]
     [integrant.core   :as ig]
     [ring.middleware.anti-forgery :as anti-forgery]))
@@ -26,11 +27,14 @@
        [:h2 "micro Twritter"]
        contents
        [:hr]
-       [:div "hkimura 2020-09-27."]]])])
+       [:div "hkimura 2020-09-27."]
+       [:script {:src "/js/main.js"}]]])])
 
 
 (defmethod ig/init-key :mt2.handler.mt2/index [_ options]
   (fn [{[_] :ataraxy/result}]
+    ; (debug "index")
+    ; (infof "info %s" (java.util.Date.))
     (page
       [:p [:input#message {:placeholder "type your message"}]
           [:button#send {:type "button"} "send"]]
