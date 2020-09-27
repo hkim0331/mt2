@@ -3,6 +3,12 @@
 ## Unreleased
 * websocket ブロードキャスト
 * ClojureScript からログを書き出す。
+  sente-example の boradcast! は server.clj で定義していて、
+  サーバからのプッシュを実現している。
+
+
+## 0.1.2 - 2020-09-28
+* http-kit
 
 
 ## 0.1.1 - 2020-09-28

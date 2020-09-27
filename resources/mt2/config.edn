@@ -1,6 +1,8 @@
 {:duct.profile/base
  {:duct.core/project-ns mt2
 
+  :duct.server.http/http-kit {:port 3040}
+
   :duct.router/ataraxy
   {:routes {[:get "/example"] [:mt2.handler/example]
             [:get "/"] [:mt2.handler.mt2/index]}}
@@ -14,5 +16,4 @@
 
  :duct.module/logging {}
  :duct.module/cljs {:main mt2.client}
- :duct.module.web/site
- {}}
+ :duct.module.web/site {}}
