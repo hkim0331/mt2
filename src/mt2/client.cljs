@@ -3,7 +3,7 @@
     [clojure.string  :as str]
     [cljs.core.async :as async  :refer (<! >! put! chan)]
     [taoensso.encore :as encore :refer-macros (have have?)]
-    [taoensso.timbre :as timbre :refer-macros (debug tracef debugf infof warnf errorf)]
+    [taoensso.timbre :as timbre :refer-macros (debugf infof warnf errorf)]
     [taoensso.sente  :as sente  :refer (cb-success?)]))
 
 (js/console.log "FIXME")
@@ -12,11 +12,14 @@
 (def output-el (.getElementById js/document "output"))
 (defn ->output! [fmt & args]
   (let [msg (apply encore/format fmt args)]
-    (timbre/debug msg)
+    (timbre/debugf msg)
     (aset output-el "value" (str "• " (.-value output-el) "\n" msg))
     (aset output-el "scrollTop" (.-scrollHeight output-el))))
 
 (->output! "ClojureScript appears to have loaded correctly.")
+
+(def message-el (.getElementById js/document "message"))
+(aset message-el "value" "are you OK?")
 
 ;;;; Sente channel socket client
 
@@ -32,8 +35,16 @@
 
 ;;;; UI events
 
+(when-let [target-el (.getElementById js/document "send")]
+  (.addEventListener target-el "click"
+    (fn [ev]
+      (let [msg (str (.-value message-el))]
+        (js/alert (str "clicked send button, " msg))
+        (aset message-el "value" "")))))
+
 (when-let [target-el (.getElementById js/document "clear")]
   (.addEventListener target-el "click"
     (fn [ev]
-      (debug "clicked clear button")
+      (timbre/debug "debug: clicked clear button.")
+      (timbre/debugf "clicked clear button")
       (aset output-el "value" ""))))
