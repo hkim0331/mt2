@@ -1,18 +1,14 @@
 (ns mt2.handler.mt2
   (:require
-    [ataraxy.core     :as ataraxy]
-    [ataraxy.response :as response]
-
-    [org.httpkit.server :as http-kit]
-
-    [taoensso.sente   :as sente]
-    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
-    [taoensso.timbre  :as timbre :refer [debugf infof warnf errorf]]
-
-    [hiccup.page      :as hiccup]
-
-    [integrant.core   :as ig]
-    [ring.middleware.anti-forgery :as anti-forgery]))
+   [ataraxy.core     :as ataraxy]
+   [ataraxy.response :as response]
+   [hiccup.page      :as hiccup]
+   [integrant.core   :as ig]
+   [org.httpkit.server :as http-kit]
+   [ring.middleware.anti-forgery :as anti-forgery]
+   [taoensso.sente   :as sente]
+   [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
+   [taoensso.timbre  :as timbre :refer [debugf infof warnf errorf]]))
 
 (timbre/set-level! :debug)
 (reset! sente/debug-mode?_ true)
@@ -36,30 +32,30 @@
   (def connected-uids                connected-uids)) ; Watchable, read-only atom
 
 (add-watch connected-uids :connected-uids
-  (fn [_ _ old new]
-    (when (not= old new)
-      (infof "Connected uids change: %s" new))))
+           (fn [_ _ old new]
+             (when (not= old new)
+               (infof "Connected uids change: %s" new))))
 
 (defn page
   [& contents]
   [::response/ok
    (hiccup/html5
-     [:head
-      [:meta {:charset "utf-8"}]
-      [:meta {:name "viewport"
-              :content "width=device-width, initial-scale=1, shrink-to-fit=no"}]
-      [:title "private micro twitter"]
-      (hiccup/include-css
-        "https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css")]
-     [:body
-      (let [csrf-token (force anti-forgery/*anti-forgery-token*)]
-        [:div#sente-csrf-token {:data-csrf-token csrf-token}])
-      [:div.container-fluid
-       [:h2 "micro Twritter"]
-       contents
-       [:hr]
-       [:div "hkimura 2020-09-27."]
-       [:script {:src "/js/main.js"}]]])])
+    [:head
+     [:meta {:charset "utf-8"}]
+     [:meta {:name "viewport"
+             :content "width=device-width, initial-scale=1, shrink-to-fit=no"}]
+     [:title "private micro twitter"]
+     (hiccup/include-css
+      "https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css")]
+    [:body
+     (let [csrf-token (force anti-forgery/*anti-forgery-token*)]
+       [:div#sente-csrf-token {:data-csrf-token csrf-token}])
+     [:div.container-fluid
+      [:h2 "micro Twritter"]
+      contents
+      [:hr]
+      [:div "hkimura 2020-09-27."]
+      [:script {:src "/js/main.js"}]]])])
 
 ;;; ring event handler
 
@@ -67,20 +63,18 @@
   (fn [{[_] :ataraxy/result}]
     (debugf "index")
     (page
-      [:p [:input#message {:placeholder "type your message"}]
-          [:button#send {:type "button"} "send"]]
-      [:p [:textarea#output {:style "width:100%; height: 400px;"}]]
-      [:p [:button#clear {:type "button"} "clear"]])))
+     [:p [:input#message {:placeholder "type your message"}]
+      [:button#send {:type "button"} "send"]]
+     [:p [:textarea#output {:style "width:100%; height: 400px;"}]]
+     [:p [:button#clear {:type "button"} "clear"]])))
 
 (defmethod ig/init-key :mt2.handler.mt2/get-chsk [_ _]
   (fn [req]
     (ring-ajax-get-or-ws-handshake req)))
 
-
 (defmethod ig/init-key :mt2.handler.mt2/post-chsk [_ _]
   (fn [req]
     (ring-ajax-post req)))
-
 
 ;;;; async push
 
@@ -103,7 +97,6 @@
   [{:as ev-msg :keys [id ?data event]}]
   (debugf "event-msg-handler: %s %s %s" id ?data event)
   (-event-msg-handler ev-msg))
-
 
 (defmethod -event-msg-handler :default
   [{:as ev-msg :keys [event id ?data ring-req ?reply-fn send-fn]}]

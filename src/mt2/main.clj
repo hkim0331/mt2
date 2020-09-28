@@ -1,11 +1,9 @@
 (ns mt2.main
   (:gen-class)
   (:require
-    [duct.core :as duct]))
-
+   [duct.core :as duct]))
 
 (duct/load-hierarchy)
-
 
 (defn -main
   [& args]
