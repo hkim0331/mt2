@@ -1,14 +1,12 @@
 (ns mt2.handler.mt2
   (:require
-   [ataraxy.core     :as ataraxy]
    [ataraxy.response :as response]
    [hiccup.page      :as hiccup]
    [integrant.core   :as ig]
-   [org.httpkit.server :as http-kit]
    [ring.middleware.anti-forgery :as anti-forgery]
    [taoensso.sente   :as sente]
    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
-   [taoensso.timbre  :as timbre :refer [debugf infof warnf errorf]]))
+   [taoensso.timbre  :as timbre :refer [debugf infof]]))
 
 (timbre/set-level! :debug)
 (reset! sente/debug-mode?_ true)

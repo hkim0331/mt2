@@ -1,14 +1,8 @@
 (ns mt2.client
   (:require
-   [cljs.core.async :as async  :refer (<! >! put! chan)]
-   [clojure.string  :as str]
    [taoensso.encore :as encore :refer-macros (have have?)]
-   [taoensso.sente  :as sente  :refer (cb-success?)]
-   [taoensso.timbre :as timbre :refer-macros (debugf infof warnf errorf)])
-  (:require-macros
-   [cljs.core.async.macros :as asyncm :refer (go go-loop)]))
+   [taoensso.sente  :as sente]))
 
-(timbre/set-level! :debug)
 (def MAX_MSG_LEN 70)
 
 (def output-el (.getElementById js/document "output"))
@@ -18,15 +12,9 @@
     (aset output-el "value" (str msg "\n" (.-value output-el)))
     (aset output-el "scrollTop" 0)))
 
-;; debug
-;;(->output! "ClojureScript appears to have loaded correctly.")
-
 (def message-el (.getElementById js/document "message"))
-;; debug
-;;(aset message-el "value" "are you OK?")
 
 ;;;; Sente channel socket client
-
 
 (def ?csrf-token
   (when-let [el (.getElementById js/document "sente-csrf-token")]
