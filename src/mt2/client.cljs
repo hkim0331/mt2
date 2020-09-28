@@ -9,6 +9,7 @@
    [cljs.core.async.macros :as asyncm :refer (go go-loop)]))
 
 (timbre/set-level! :debug)
+(def MAX_MSG_LEN 70)
 
 ;(js/console.log "FIXME")
 ;(js/alert "under construction")
@@ -79,6 +80,7 @@
   (let [now (-> (js/Date.)
                 str
                 (subs 0 25))]
+    ;; FIXME: これだと受け取って表示しないことになる。
     (when (seq (second ?data))
       (->output! "%s\n  %s" now (second ?data)))))
 
@@ -104,8 +106,9 @@
   (.addEventListener target-el "click"
                      (fn [ev]
                        (let [msg (str (.-value message-el))]
-                         (chsk-send! [:mt2/msg msg])
-                         (aset message-el "value" "")))))
+                        (when (< 0 (count msg) MAX_MSG_LEN)
+                           (chsk-send! [:mt2/msg msg])
+                           (aset message-el "value" ""))))))
 
 (when-let [target-el (.getElementById js/document "clear")]
   (.addEventListener target-el "click"

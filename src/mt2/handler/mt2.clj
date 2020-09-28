@@ -67,7 +67,8 @@
       [:div.row
        [:div.col-10
         [:input#message
-          {:style "width:100%" :placeholder "type your message"}]]
+          {:style "width:100%"
+           :placeholder "type your message"}]]
        [:div.col-2
         [:button#send
          {:type "button" :class "btn btn-primary btn-sm"}
@@ -89,7 +90,7 @@
 
 (defn broadcast!
   [msg]
-  (debugf "will broadcast %s" msg)
+  ;(debugf "will broadcast %s" msg)
   (doseq [uid (:any @connected-uids)]
     (chsk-send! uid [:mt2/broadcast msg])))
 
