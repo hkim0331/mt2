@@ -4,6 +4,8 @@
 * ClojureScript からログを書き出す。
 * clj-kondo が deps.edn の mt2 に赤マークをつけるのはなぜ？
   unresolved symbol mt2
+* 日付の表示
+* データベースへ保存
 
 
 ## 0.2.0 - 2020-09-28

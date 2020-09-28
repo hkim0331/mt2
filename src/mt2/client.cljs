@@ -8,7 +8,7 @@
   (:require-macros
    [cljs.core.async.macros :as asyncm :refer (go go-loop)]))
 
-(timbre/set-level! :trace)
+(timbre/set-level! :debug)
 
 ;(js/console.log "FIXME")
 ;(js/alert "under construction")
@@ -74,7 +74,10 @@
 ;; FIXME: 日付を入れたい。
 (defmethod -event-msg-handler :chsk/recv
   [{:as ev-msg :keys [?data]}]
-  (->output! "From server: %s" (second ?data)))
+  (let [now (-> (js/Date.)
+                str
+                (subs 0 25))]
+    (->output! "%s\n  %s" now (second ?data))))
 
 (defmethod -event-msg-handler :chsk/handshake
   [{:as ev-msg :keys [?data]}]
