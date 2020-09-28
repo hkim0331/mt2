@@ -65,8 +65,8 @@
       [:div.row
        [:div.col-10
         [:input#message
-          {:style "width:100%"
-           :placeholder "type your message"}]]
+         {:style "width:100%"
+          :placeholder "type your message"}]]
        [:div.col-2
         [:button#send
          {:type "button" :class "btn btn-primary btn-sm"}

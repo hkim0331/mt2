@@ -76,7 +76,7 @@
   (.addEventListener target-el "click"
                      (fn [ev]
                        (let [msg (str (.-value message-el))]
-                        (when (< 0 (count msg) MAX_MSG_LEN)
+                         (when (< 0 (count msg) MAX_MSG_LEN)
                            (chsk-send! [:mt2/msg msg])
                            (aset message-el "value" ""))))))
 
