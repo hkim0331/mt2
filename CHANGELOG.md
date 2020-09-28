@@ -7,6 +7,7 @@
 
 
 ## 0.2.0 - 2020-09-28
+* uberjar
 * start to work as a micro twitter.
 * websocket ブロードキャスト
 * message, output のサイズ調整
