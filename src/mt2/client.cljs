@@ -4,7 +4,11 @@
     [cljs.core.async :as async  :refer (<! >! put! chan)]
     [taoensso.encore :as encore :refer-macros (have have?)]
     [taoensso.timbre :as timbre :refer-macros (debugf infof warnf errorf)]
-    [taoensso.sente  :as sente  :refer (cb-success?)]))
+    [taoensso.sente  :as sente  :refer (cb-success?)])
+  (:require-macros
+    [cljs.core.async.macros :as asyncm :refer (go go-loop)]))
+
+(timbre/set-level! :trace)
 
 ;(js/console.log "FIXME")
 ;(js/alert "under construction")
@@ -12,10 +16,8 @@
 (def output-el (.getElementById js/document "output"))
 (defn ->output! [fmt & args]
   (let [msg (apply encore/format fmt args)]
-    (timbre/debugf msg)
     (aset output-el "value" (str "• " (.-value output-el) "\n" msg))
     (aset output-el "scrollTop" (.-scrollHeight output-el))))
-
 (->output! "ClojureScript appears to have loaded correctly.")
 
 (def message-el (.getElementById js/document "message"))
@@ -54,7 +56,6 @@
 (defn event-msg-handler
   "Wraps `-event-msg-handler` with logging, error catching, etc."
   [{:as ev-msg :keys [id ?data event]}]
-  ;;(->output! ?data)
   (-event-msg-handler ev-msg))
 
 (defmethod -event-msg-handler :default
@@ -97,7 +98,7 @@
   (.addEventListener target-el "click"
     (fn [ev]
       (let [msg (str (.-value message-el))]
-        (chsk-send! [:mt2/msg {:message msg}])
+        (chsk-send! [:mt2/msg msg])
         (aset message-el "value" "")))))
 
 (when-let [target-el (.getElementById js/document "clear")]
@@ -105,7 +106,7 @@
     (fn [ev]
       (aset output-el "value" ""))))
 
-;; start ws
+;; start sente client router
 (sente/start-client-chsk-router! ch-chsk event-msg-handler)
 
 

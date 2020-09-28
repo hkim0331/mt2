@@ -3,17 +3,19 @@
     [ataraxy.core     :as ataraxy]
     [ataraxy.response :as response]
 
-    [taoensso.timbre  :refer [debugf infof warnf errorf]]
+    [org.httpkit.server :as http-kit]
+
     [taoensso.sente   :as sente]
+    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
+    [taoensso.timbre  :as timbre :refer [debugf infof warnf errorf]]
 
     [hiccup.page      :as hiccup]
-
-    [org.httpkit.server :as http-kit]
-    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
 
     [integrant.core   :as ig]
     [ring.middleware.anti-forgery :as anti-forgery]))
 
+(timbre/set-level! :debug)
+(reset! sente/debug-mode?_ true)
 
 ;;; from sente official example
 
@@ -59,8 +61,9 @@
        [:div "hkimura 2020-09-27."]
        [:script {:src "/js/main.js"}]]])])
 
+;;; ring event handler
 
-(defmethod ig/init-key :mt2.handler.mt2/index [_ options]
+(defmethod ig/init-key :mt2.handler.mt2/index [_ _]
   (fn [{[_] :ataraxy/result}]
     (debugf "index")
     (page
@@ -69,12 +72,12 @@
       [:p [:textarea#output {:style "width:100%; height: 400px;"}]]
       [:p [:button#clear {:type "button"} "clear"]])))
 
-(defmethod ig/init-key :mt2.handler.mt2/get-chsk [_ options]
+(defmethod ig/init-key :mt2.handler.mt2/get-chsk [_ _]
   (fn [req]
     (ring-ajax-get-or-ws-handshake req)))
 
 
-(defmethod ig/init-key :mt2.handler.mt2/post-chsk [_ options]
+(defmethod ig/init-key :mt2.handler.mt2/post-chsk [_ _]
   (fn [req]
     (ring-ajax-post req)))
 
@@ -83,9 +86,9 @@
 
 (defn broadcast!
   [msg]
-  (debugf "broadcast %s" msg)
+  (debugf "will broadcast %s" msg)
   (doseq [uid (:any @connected-uids)]
-    (chsk-send! uid [:mt2/push msg])))
+    (chsk-send! uid [:mt2/broadcast msg])))
 
 ;;;; Sente event handlers
 ;;; same with client?
@@ -98,6 +101,7 @@
 (defn event-msg-handler
   "Wraps `-event-msg-handler` with logging, error catching, etc."
   [{:as ev-msg :keys [id ?data event]}]
+  (debugf "event-msg-handler: %s %s %s" id ?data event)
   (-event-msg-handler ev-msg))
 
 
@@ -111,12 +115,10 @@
 
 (defmethod -event-msg-handler :mt2/msg
   [ev-msg]
-  (debugf ":mt2/msg: %s" (:?data ev-msg))
-  (broadcast! (:?data ev-msg)))
-
-; (defmethod -event-msg-handler :example/toggle-broadcast
-;   [{:as ev-msg :keys [?reply-fn]}]
-;   (let [loop-enabled? (swap! broadcast-enabled?_ not)]
-;     (?reply-fn loop-enabled?)))
+  (let [{:keys [?data]} ev-msg]
+    (debugf ":mt2/msg: %s" (:?data ev-msg))
+    (broadcast! (:?data ev-msg))))
 
 ;;;
+
+(sente/start-server-chsk-router! ch-chsk event-msg-handler)
