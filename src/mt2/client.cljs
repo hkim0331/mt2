@@ -11,9 +11,6 @@
 (timbre/set-level! :debug)
 (def MAX_MSG_LEN 70)
 
-;(js/console.log "FIXME")
-;(js/alert "under construction")
-
 (def output-el (.getElementById js/document "output"))
 
 (defn ->output! [fmt & args]
@@ -21,21 +18,19 @@
     (aset output-el "value" (str msg "\n" (.-value output-el)))
     (aset output-el "scrollTop" 0)))
 
-;(->output! "ClojureScript appears to have loaded correctly.")
+;; debug
+;;(->output! "ClojureScript appears to have loaded correctly.")
 
 (def message-el (.getElementById js/document "message"))
+;; debug
 ;;(aset message-el "value" "are you OK?")
 
 ;;;; Sente channel socket client
-;;; same with server?
+
 
 (def ?csrf-token
   (when-let [el (.getElementById js/document "sente-csrf-token")]
     (.getAttribute el "data-csrf-token")))
-
-;(if ?csrf-token
-;  (->output! "CSRF token detected in HTML, great!")
-;  (->output! "CSRF token NOT detected in HTML, default Sente config will reject requests"))
 
 (when-not ?csrf-token
   (->output! "CSRF token NOT detected in HTML, default Sente config will reject requests"))
@@ -80,25 +75,12 @@
   (let [now (-> (js/Date.)
                 str
                 (subs 0 25))]
-    ;; FIXME: これだと受け取って表示しないことになる。
-    (when (seq (second ?data))
-      (->output! "%s\n  %s" now (second ?data)))))
+    (->output! "%s\n  %s" now (second ?data))))
 
 (defmethod -event-msg-handler :chsk/handshake
   [{:as ev-msg :keys [?data]}]
   (let [[?uid ?csrf-token ?handshake-data] ?data]
     (->output! "Handshake:OK")))
-
-;;;; Sente event router (our `event-msg-handler` loop)
-
-;(defonce router_ (atom nil))
-;(defn  stop-router! [] (when-let [stop-f @router_] (stop-f)))
-;(defn start-router! []
-;  (stop-router!)
-;  (reset! router_
-;    (sente/start-client-chsk-router!
-;      ch-chsk event-msg-handler)))
-
 
 ;;;; UI events
 
@@ -115,6 +97,7 @@
                      (fn [ev]
                        (aset output-el "value" ""))))
 
-;; start sente client router
+;;;; start sente client router
+
 (sente/start-client-chsk-router! ch-chsk event-msg-handler)
 
