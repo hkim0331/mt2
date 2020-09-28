@@ -18,12 +18,12 @@
 (defn ->output! [fmt & args]
   (let [msg (apply encore/format fmt args)]
     (aset output-el "value" (str msg "\n" (.-value output-el)))
-    (aset output-el "scrollTop" (.-scrollHeight output-el))))
+    (aset output-el "scrollTop" 0)))
 
-(->output! "ClojureScript appears to have loaded correctly.")
+;(->output! "ClojureScript appears to have loaded correctly.")
 
 (def message-el (.getElementById js/document "message"))
-(aset message-el "value" "are you OK?")
+;;(aset message-el "value" "are you OK?")
 
 ;;;; Sente channel socket client
 ;;; same with server?
@@ -32,8 +32,11 @@
   (when-let [el (.getElementById js/document "sente-csrf-token")]
     (.getAttribute el "data-csrf-token")))
 
-(if ?csrf-token
-  (->output! "CSRF token detected in HTML, great!")
+;(if ?csrf-token
+;  (->output! "CSRF token detected in HTML, great!")
+;  (->output! "CSRF token NOT detected in HTML, default Sente config will reject requests"))
+
+(when-not ?csrf-token
   (->output! "CSRF token NOT detected in HTML, default Sente config will reject requests"))
 
 (let [rand-chsk-type :auto
@@ -68,21 +71,21 @@
   [{:as ev-msg :keys [?data]}]
   (let [[old-state-map new-state-map] (have vector? ?data)]
     (if (:first-open? new-state-map)
-      (->output! "Channel socket successfully established!: %s" new-state-map)
-      (->output! "Channel socket state change: %s"              new-state-map))))
+      (->output! "READY!")
+      (->output! "state changed: %s" new-state-map))))
 
-;; FIXME: 日付を入れたい。
 (defmethod -event-msg-handler :chsk/recv
   [{:as ev-msg :keys [?data]}]
   (let [now (-> (js/Date.)
                 str
                 (subs 0 25))]
-    (->output! "%s\n  %s" now (second ?data))))
+    (when (seq (second ?data))
+      (->output! "%s\n  %s" now (second ?data)))))
 
 (defmethod -event-msg-handler :chsk/handshake
   [{:as ev-msg :keys [?data]}]
   (let [[?uid ?csrf-token ?handshake-data] ?data]
-    (->output! "Handshake: %s" ?data)))
+    (->output! "Handshake:OK")))
 
 ;;;; Sente event router (our `event-msg-handler` loop)
 

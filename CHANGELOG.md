@@ -4,12 +4,26 @@
 * ClojureScript からログを書き出す。
 * clj-kondo が deps.edn の mt2 に赤マークをつけるのはなぜ？
   unresolved symbol mt2
-* 日付の表示
-* データベースへ保存
+* 受け取ったメッセーじをデータベースへ保存する。
+* 禁止ワード。
+* エンターで送信。
+* 長すぎるメッセージを受け取らない。
+
+
+## 0.3.0 - 2020-09-28
+* 常にテキストエリアの先頭を表示する。
+
+```clj
+(aset output-el "scrollTop" 0) ; 0 を (.-scrollHeight obj))で最下行
+```
+* 不要なテキスト（デバッグ用テキスト）をテキストエリアに出さない。
+* カラのメッセージは受け取らない。
+* bootstrap
+* JavaScript での日付取得は (sub (str (js/Date.) 0 25) で。
 
 
 ## 0.2.0 - 2020-09-28
-* uberjar
+* uberjar 作って動作確認。
 * start to work as a micro twitter.
 * websocket ブロードキャスト
 * message, output のサイズ調整

@@ -50,7 +50,7 @@
     [:body
      (let [csrf-token (force anti-forgery/*anti-forgery-token*)]
        [:div#sente-csrf-token {:data-csrf-token csrf-token}])
-     [:div.container-fluid
+     [:div.container
       [:h2 "micro Twritter"]
       contents
       [:hr]
@@ -63,10 +63,19 @@
   (fn [{[_] :ataraxy/result}]
     (debugf "index")
     (page
-     [:p [:input#message {:placeholder "type your message"}]
-      [:button#send {:type "button"} "send"]]
-     [:p [:textarea#output {:style "width:100%; height: 400px;"}]]
-     [:p [:button#clear {:type "button"} "clear"]])))
+     [:p
+      [:div.row
+       [:div.col-10
+        [:input#message
+          {:style "width:100%" :placeholder "type your message"}]]
+       [:div.col-2
+        [:button#send
+         {:type "button" :class "btn btn-primary btn-sm"}
+         "send"]]]]
+     [:p [:textarea#output {:style "width:100%; height:400px;"}]]
+     [:p [:button#clear
+          {:type "button" :class "btn btn-primary"}
+          "clear"]])))
 
 (defmethod ig/init-key :mt2.handler.mt2/get-chsk [_ _]
   (fn [req]
