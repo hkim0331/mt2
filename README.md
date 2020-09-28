@@ -4,6 +4,7 @@ micro twitter version 2.
 
 I wrote `micro twitter` in CommonLisp using Hunchentoot/Huncheksocket library.
 This was a remake of it using Clojure/Sente.
+I must learn a lot more.
 
 ## Developing
 
@@ -37,11 +38,11 @@ Run `go` to prep and initiate the system.
 
 ```clojure
 dev=> (go)
-:duct.server.http.jetty/starting-server {:port 3000}
+:duct.server.http.http-kit/starting-server {:port 3040}
 :initiated
 ```
 
-By default this creates a web server at <http://localhost:3000>.
+This creates a web server at <http://localhost:3040>.
 
 When you make changes to your source files, use `reset` to reload any
 modified files and reset the server. Changes to CSS or ClojureScript
@@ -82,4 +83,6 @@ lein test
 
 ## Legal
 
-Copyright © 2020 FIXME
+Copyright © 2020 hkimura
+
+

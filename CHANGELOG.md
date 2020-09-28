@@ -1,12 +1,16 @@
 # mt2
 
 ## Unreleased
-* websocket ブロードキャスト
 * ClojureScript からログを書き出す。
-  sente-example の boradcast! は server.clj で定義していて、
-  サーバからのプッシュを実現している。
 * clj-kondo が deps.edn の mt2 に赤マークをつけるのはなぜ？
   unresolved symbol mt2
+
+
+## 0.2.0 - 2020-09-28
+* uberjar
+* start to work as a micro twitter.
+* websocket ブロードキャスト
+* message, output のサイズ調整
 
 
 ## 0.1.2 - 2020-09-28
