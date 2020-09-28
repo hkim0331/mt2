@@ -7,6 +7,7 @@
   サーバからのプッシュを実現している。
 * clj-kondo が deps.edn の mt2 に赤マークをつけるのはなぜ？
   unresolved symbol mt2
+* message, output のサイズ調整
 
 
 ## 0.1.2 - 2020-09-28

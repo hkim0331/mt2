@@ -16,6 +16,8 @@
 
    [hiccup   "1.0.5"]
 
+   [http-kit "2.5.0"]
+
    [org.clojure/clojure       "1.10.1"]
    [org.clojure/clojurescript "1.10.773"]
    [org.clojure/core.async    "1.3.610"]]
