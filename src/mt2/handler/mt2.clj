@@ -3,17 +3,19 @@
     [ataraxy.core     :as ataraxy]
     [ataraxy.response :as response]
 
-    [taoensso.timbre  :refer [debugf infof warnf errorf]]
+    [org.httpkit.server :as http-kit]
+
     [taoensso.sente   :as sente]
+    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
+    [taoensso.timbre  :as timbre :refer [debugf infof warnf errorf]]
 
     [hiccup.page      :as hiccup]
-
-    [org.httpkit.server :as http-kit]
-    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
 
     [integrant.core   :as ig]
     [ring.middleware.anti-forgery :as anti-forgery]))
 
+(timbre/set-level! :debug)
+(reset! sente/debug-mode?_ true)
 
 ;;; from sente official example
 
@@ -59,12 +61,64 @@
        [:div "hkimura 2020-09-27."]
        [:script {:src "/js/main.js"}]]])])
 
+;;; ring event handler
 
-(defmethod ig/init-key :mt2.handler.mt2/index [_ options]
+(defmethod ig/init-key :mt2.handler.mt2/index [_ _]
   (fn [{[_] :ataraxy/result}]
     (debugf "index")
     (page
       [:p [:input#message {:placeholder "type your message"}]
           [:button#send {:type "button"} "send"]]
-      [:p [:textarea#output {:style "width:100%; height 400px;"}]]
+      [:p [:textarea#output {:style "width:100%; height: 400px;"}]]
       [:p [:button#clear {:type "button"} "clear"]])))
+
+(defmethod ig/init-key :mt2.handler.mt2/get-chsk [_ _]
+  (fn [req]
+    (ring-ajax-get-or-ws-handshake req)))
+
+
+(defmethod ig/init-key :mt2.handler.mt2/post-chsk [_ _]
+  (fn [req]
+    (ring-ajax-post req)))
+
+
+;;;; async push
+
+(defn broadcast!
+  [msg]
+  (debugf "will broadcast %s" msg)
+  (doseq [uid (:any @connected-uids)]
+    (chsk-send! uid [:mt2/broadcast msg])))
+
+;;;; Sente event handlers
+;;; same with client?
+
+(defmulti -event-msg-handler
+  "Multimethod to handle Sente `event-msg`s"
+  :id) ; Dispatch on event-id
+
+
+(defn event-msg-handler
+  "Wraps `-event-msg-handler` with logging, error catching, etc."
+  [{:as ev-msg :keys [id ?data event]}]
+  (debugf "event-msg-handler: %s %s %s" id ?data event)
+  (-event-msg-handler ev-msg))
+
+
+(defmethod -event-msg-handler :default
+  [{:as ev-msg :keys [event id ?data ring-req ?reply-fn send-fn]}]
+  (let [session (:session ring-req)
+        uid     (:uid     session)]
+    (debugf "Unhandled event: %s" event)
+    (when ?reply-fn
+      (?reply-fn {:umatched-event-as-echoed-from-server event}))))
+
+(defmethod -event-msg-handler :mt2/msg
+  [ev-msg]
+  (let [{:keys [?data]} ev-msg]
+    (debugf ":mt2/msg: %s" (:?data ev-msg))
+    (broadcast! (:?data ev-msg))))
+
+;;;
+
+(sente/start-server-chsk-router! ch-chsk event-msg-handler)

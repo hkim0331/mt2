@@ -20,7 +20,10 @@
 
    [org.clojure/clojure       "1.10.1"]
    [org.clojure/clojurescript "1.10.773"]
-   [org.clojure/core.async    "1.3.610"]]
+   [org.clojure/core.async    "1.3.610"]
+
+   [ring               "1.8.1"]
+   [ring/ring-defaults "0.3.2"]]
 
   :plugins [[duct/lein-duct   "0.12.1"]]
   :main ^:skip-aot mt2.main
