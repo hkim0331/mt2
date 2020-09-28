@@ -90,7 +90,6 @@
 
 (defn broadcast!
   [msg]
-  ;(debugf "will broadcast %s" msg)
   (doseq [uid (:any @connected-uids)]
     (chsk-send! uid [:mt2/broadcast msg])))
 
@@ -122,6 +121,6 @@
     (debugf ":mt2/msg: %s" (:?data ev-msg))
     (broadcast! (:?data ev-msg))))
 
-;;;
+;;; sente server loop
 
 (sente/start-server-chsk-router! ch-chsk event-msg-handler)
