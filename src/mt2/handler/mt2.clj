@@ -66,5 +66,57 @@
     (page
       [:p [:input#message {:placeholder "type your message"}]
           [:button#send {:type "button"} "send"]]
-      [:p [:textarea#output {:style "width:100%; height 400px;"}]]
+      [:p [:textarea#output {:style "width:100%; height: 400px;"}]]
       [:p [:button#clear {:type "button"} "clear"]])))
+
+(defmethod ig/init-key :mt2.handler.mt2/get-chsk [_ options]
+  (fn [req]
+    (ring-ajax-get-or-ws-handshake req)))
+
+
+(defmethod ig/init-key :mt2.handler.mt2/post-chsk [_ options]
+  (fn [req]
+    (ring-ajax-post req)))
+
+
+;;;; async push
+
+(defn broadcast!
+  [msg]
+  (debugf "broadcast %s" msg)
+  (doseq [uid (:any @connected-uids)]
+    (chsk-send! uid [:mt2/push msg])))
+
+;;;; Sente event handlers
+;;; same with client?
+
+(defmulti -event-msg-handler
+  "Multimethod to handle Sente `event-msg`s"
+  :id) ; Dispatch on event-id
+
+
+(defn event-msg-handler
+  "Wraps `-event-msg-handler` with logging, error catching, etc."
+  [{:as ev-msg :keys [id ?data event]}]
+  (-event-msg-handler ev-msg))
+
+
+(defmethod -event-msg-handler :default
+  [{:as ev-msg :keys [event id ?data ring-req ?reply-fn send-fn]}]
+  (let [session (:session ring-req)
+        uid     (:uid     session)]
+    (debugf "Unhandled event: %s" event)
+    (when ?reply-fn
+      (?reply-fn {:umatched-event-as-echoed-from-server event}))))
+
+(defmethod -event-msg-handler :mt2/msg
+  [ev-msg]
+  (debugf ":mt2/msg: %s" (:?data ev-msg))
+  (broadcast! (:?data ev-msg)))
+
+; (defmethod -event-msg-handler :example/toggle-broadcast
+;   [{:as ev-msg :keys [?reply-fn]}]
+;   (let [loop-enabled? (swap! broadcast-enabled?_ not)]
+;     (?reply-fn loop-enabled?)))
+
+;;;
