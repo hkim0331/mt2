@@ -4,10 +4,12 @@
    [buddy.auth :refer [authenticated?]]
    [buddy.auth.accessrules :refer [restrict]]
    [buddy.auth.backends.httpbasic :refer [http-basic-backend]]
-   [buddy.auth.middleware :refer [wrap-authentication wrap-authorization]]))
+   [buddy.auth.middleware :refer [wrap-authentication wrap-authorization]]
+   [environ.core :refer [env]]))
 
 (defn authfn [_ {:keys [username password]}]
-  (and (= username "hkim") (= password "214")))
+  (and (= username (or (env :mt2_user)     "hkim"))
+       (= password (or (env :mt2_password) "214"))))
 
 (def auth-backend (http-basic-backend {:authfn authfn}))
 

@@ -3,12 +3,6 @@
 
   :duct.server.http/http-kit {:port 3040}
 
-  ; :duct.handler/root
-  ; {:middleware [#ig/ref :ring.middleware.defaults/wrap-defaults]}
-  ; :ring.middleware.defaults/wrap-defaults {}
-
-  ;; FIXME: mt2.handler.mt2 よりも mt2.handler.server だったな。
-  ;;        そうすると duct.module/cljs の server.client が変か。
   :duct.router/ataraxy
   {:routes {[:get  "/"] ^:auth [:mt2.handler.mt2/index]
             [:get  "/chsk"] [:mt2.handler.mt2/get-chsk]

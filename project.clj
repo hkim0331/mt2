@@ -1,4 +1,4 @@
-(defproject mt2 "0.4.0"
+(defproject mt2 "0.4.1"
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
   :min-lein-version "2.0.0"
@@ -17,8 +17,8 @@
    [duct/module.web      "0.7.1"]
    [duct/server.http.http-kit "0.1.4"]
 
+   [environ  "1.2.0"]
    [hiccup   "1.0.5"]
-
    [http-kit "2.5.0"]
 
    [org.clojure/clojure       "1.10.1"]

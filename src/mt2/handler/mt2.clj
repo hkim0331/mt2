@@ -52,7 +52,7 @@
       [:h2 "micro Twritter"]
       contents
       [:hr]
-      [:div "hkimura 2020-09-27."]
+      [:div "hkimura 2020-09-30."]
       [:script {:src "/js/main.js"}]]])])
 
 ;;; ring event handler
@@ -63,7 +63,7 @@
     (page
      [:p
       [:div.row
-       [:div.col-10
+       [:div.col-9
         [:input#message
          {:style "width:100%"
           :placeholder "type your message"}]]
@@ -102,7 +102,8 @@
 (defn event-msg-handler
   "Wraps `-event-msg-handler` with logging, error catching, etc."
   [{:as ev-msg :keys [id ?data event]}]
-  (debugf "event-msg-handler: %s %s %s" id ?data event)
+  (debugf "event-msg-handler: id:%s :data:%s event:%s"
+          id ?data event)
   (-event-msg-handler ev-msg))
 
 (defmethod -event-msg-handler :default
