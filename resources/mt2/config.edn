@@ -10,9 +10,13 @@
   ;; FIXME: mt2.handler.mt2 よりも mt2.handler.server だったな。
   ;;        そうすると duct.module/cljs の server.client が変か。
   :duct.router/ataraxy
-  {:routes {[:get  "/"]     [:mt2.handler.mt2/index]
+  {:routes {[:get  "/"] ^:auth [:mt2.handler.mt2/index]
             [:get  "/chsk"] [:mt2.handler.mt2/get-chsk]
-            [:post "/chsk"] [:mt2.handler.mt2/post-chsk]}}
+            [:post "/chsk"] [:mt2.handler.mt2/post-chsk]}
+
+   :middleware {:auth #ig/ref :mt2.middleware/httpbasic}}
+
+  :mt2.middleware/httpbasic {}
 
   :mt2.handler.mt2/index {}
   :mt2.handler.mt2/get-chsk {}
