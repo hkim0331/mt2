@@ -9,7 +9,7 @@
    [taoensso.timbre  :as timbre :refer [debugf infof]]))
 
 (timbre/set-level! :debug)
-(reset! sente/debug-mode?_ true)
+;;(reset! sente/debug-mode?_ true)
 
 ;;; from sente official example
 
