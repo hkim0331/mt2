@@ -3,27 +3,16 @@
 micro twitter version 2.
 
 I wrote `micro twitter` in CommonLisp using Hunchentoot/Huncheksocket library.
-This was a remake of it using Clojure/Sente.
+`mt2` is a remake of it by using Clojure/Sente.
 I must learn a lot more.
 
 ## **NB**
 
-Sometimes browser seems to cache main.js.
-In that case, exec `Clear Browsing Data...`,
-this is Opera's menu, to flush old main.js out.
+Browser caches `main.js`.
+In that case, must exec `Clear Browsing Data...` to flush old main.js out.
+The menu is Opera's.
 
-## Developing
-
-### Setup
-
-When you first clone this repository, run:
-
-```sh
-lein duct setup
-```
-
-This will create files for local configuration, and prep your system
-for the project.
+## developing
 
 ### Environment
 

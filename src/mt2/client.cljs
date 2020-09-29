@@ -1,7 +1,8 @@
 (ns mt2.client
   (:require
-   [taoensso.encore :as encore :refer-macros (have have?)]
-   [taoensso.sente  :as sente]))
+   [taoensso.encore :as encore :refer-macros (have)]
+   [taoensso.sente  :as sente]
+   [taoensso.timbre :as timbre]))
 
 (def MAX_MSG_LEN 70)
 
@@ -45,6 +46,7 @@
 (defn event-msg-handler
   "Wraps `-event-msg-handler` with logging, error catching, etc."
   [{:as ev-msg :keys [id ?data event]}]
+  (timbre/debugf "id: %s, ?data: %s, event: %s" id ?data event)
   (-event-msg-handler ev-msg))
 
 (defmethod -event-msg-handler :default
@@ -54,16 +56,16 @@
 (defmethod -event-msg-handler :chsk/state
   [{:as ev-msg :keys [?data]}]
   (let [[old-state-map new-state-map] (have vector? ?data)]
-    (if (:first-open? new-state-map)
-      (->output! "READY!")
-      (->output! "state changed: %s" new-state-map))))
+    (when (:first-open? new-state-map)
+      #_(->output! "state changed: %s" new-state-map)
+      (timbre/debugf "state changed: %s" new-state-map))))
 
 (defmethod -event-msg-handler :chsk/recv
   [{:as ev-msg :keys [?data]}]
   (let [now (-> (js/Date.)
                 str
                 (subs 0 25))]
-    (->output! "%s\n  %s" now ?data)))
+    (->output! "%s\n  %s" now ?data))) ; (second ?data)
 
 (defmethod -event-msg-handler :chsk/handshake
   [{:as ev-msg :keys [?data]}]
