@@ -8,6 +8,12 @@
 * 禁止ワード。
 * エンターで送信。
 
+## 0.4.0 - 2020-09-29
+* nginx r-proxy
+* systemd
+* httpbasic 認証
+
+
 ## 0.3.1 - 2020-09-28
 * clj-kondo, cljstyle でリファクタ。
 

@@ -1,0 +1,13 @@
+[Unit]
+Description = micro twitter version 2
+
+[Service]
+WorkingDirectory=/home/ubuntu/mt2
+ExecStart=/usr/bin/java -jar mt2.jar
+Restart = always
+TimeoutSec = 300
+Type=simple
+User=ubuntu
+
+[Install]
+WantedBy = multi-user.target

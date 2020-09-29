@@ -1,11 +1,14 @@
-(defproject mt2 "0.3.1"
+(defproject mt2 "0.4.0"
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
   :min-lein-version "2.0.0"
 
   :dependencies
-  [[com.taoensso/sente  "1.16.0"]
-   [com.taoensso/timbre "5.0.1"]
+  [
+   [buddy/buddy-auth     "2.2.0"]
+
+   [com.taoensso/sente   "1.16.0"]
+   [com.taoensso/timbre  "5.0.1"]
 
    [duct/core            "0.8.0"]
    [duct/module.ataraxy  "0.3.0"]
