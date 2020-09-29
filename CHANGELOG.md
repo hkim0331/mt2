@@ -4,19 +4,22 @@
 * ClojureScript からログを標準出力に書き出す。
 * clj-kondo が deps.edn の mt2 に赤マークをつけるのはなぜ？
   unresolved symbol mt2
-* 受け取ったメッセージデータベースへ保存する。
+* 受け取ったメッセージをデータベースへ保存する。
 * 禁止ワード。
 * エンターで送信。
-* 正しいサーバの止め方。
-* 定期的に nil が表示される。これは ping じゃね？
+
+
+## 0.4.1 - 2020-09-30
 * アカウント・パスワードを環境変数から。
+* systemd/stop.sh で mt2 を止める。
+* [:chsk/ping] を表示しない。nil の表示を止める。
 
 
 ## 0.4.0 - 2020-09-29
+* httpbasic 認証
 * Opera のキャッシュが邪魔をする。
 * nginx r-proxy
 * systemd
-* httpbasic 認証
 
 
 ## 0.3.1 - 2020-09-28

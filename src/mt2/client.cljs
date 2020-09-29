@@ -65,7 +65,9 @@
   (let [now (-> (js/Date.)
                 str
                 (subs 0 25))]
-    (->output! "%s\n  %s" now ?data))) ; (second ?data)
+    (when-not (= :chsk/ping (first ?data))
+      (->output! "%s\n  %s" now (second ?data)))))
+
 
 (defmethod -event-msg-handler :chsk/handshake
   [{:as ev-msg :keys [?data]}]

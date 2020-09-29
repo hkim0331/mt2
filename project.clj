@@ -17,8 +17,8 @@
    [duct/module.web      "0.7.1"]
    [duct/server.http.http-kit "0.1.4"]
 
+   [environ  "1.2.0"]
    [hiccup   "1.0.5"]
-
    [http-kit "2.5.0"]
 
    [org.clojure/clojure       "1.10.1"]

@@ -52,7 +52,7 @@
       [:h2 "micro Twritter"]
       contents
       [:hr]
-      [:div "hkimura 2020-09-27."]
+      [:div "hkimura 2020-09-30."]
       [:script {:src "/js/main.js"}]]])])
 
 ;;; ring event handler
