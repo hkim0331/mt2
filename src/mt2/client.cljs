@@ -59,11 +59,11 @@
       (->output! "state changed: %s" new-state-map))))
 
 (defmethod -event-msg-handler :chsk/recv
-  [{:as ev-msg :keys [id event ?data]}]
+  [{:as ev-msg :keys [?data]}]
   (let [now (-> (js/Date.)
                 str
                 (subs 0 25))]
-    (->output! "%s\n  %s" now (second ?data))))
+    (->output! "%s\n  %s" now ?data)))
 
 (defmethod -event-msg-handler :chsk/handshake
   [{:as ev-msg :keys [?data]}]

@@ -63,7 +63,7 @@
     (page
      [:p
       [:div.row
-       [:div.col-10
+       [:div.col-9
         [:input#message
          {:style "width:100%"
           :placeholder "type your message"}]]
