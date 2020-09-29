@@ -6,6 +6,12 @@ I wrote `micro twitter` in CommonLisp using Hunchentoot/Huncheksocket library.
 This was a remake of it using Clojure/Sente.
 I must learn a lot more.
 
+## **NB**
+
+Sometimes browser seems to cache main.js.
+In that case, exec `Clear Browsing Data...`,
+this is Opera's menu, to flush old main.js out.
+
 ## Developing
 
 ### Setup

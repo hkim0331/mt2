@@ -7,21 +7,11 @@
 * 受け取ったメッセーじをデータベースへ保存する。
 * 禁止ワード。
 * エンターで送信。
-* `state changed` と nil が表示されてしまう。
+* 正しいサーバの止め方。
 
-```
-Tue Sep 29 2020 15:46:40
-  nil
-Handshake:OK
-READY!
-state changed: {:type :ws, :open? true, :ever-opened? true,
-:csrf-token "tWyrunQ8I2vNm8NN6qdGoD9sxE74JHt3KG31FWeget+BLw4C30Os
-Q5b7vo/3uWqSxLrEMmU9eSqHFq/2", :uid :taoensso.sente/nil-uid, :handshake-data nil, :first-open? false, :last-ws-close
-{:udt1601361975595, :ev #object[CloseEvent [object CloseEvent]],
-:clean? true, :code 1001, :reason ""}}
-```
 
 ## 0.4.0 - 2020-09-29
+* Opera のキャッシュが邪魔をする。
 * nginx r-proxy
 * systemd
 * httpbasic 認証
