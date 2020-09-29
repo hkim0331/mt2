@@ -9,7 +9,8 @@
 * エンターで送信。
 
 ## 0.4.2 - 2020-09-30
-* DEBUG: environ で渡ってくるのは lisp-case に変換されたキーワード。
+* FIXED: environ で渡ってくるのは lisp-case に変換されたキーワード。
+* FIXED: [:chsk/ping] は [:chsk/ws-ping] が正しい。
 
 ## 0.4.1 - 2020-09-30
 * アカウント・パスワードを環境変数から。
