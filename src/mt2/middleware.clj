@@ -8,8 +8,8 @@
    [environ.core :refer [env]]))
 
 (defn authfn [_ {:keys [username password]}]
-  (and (= username (or (env :mt2_user)     "hkim"))
-       (= password (or (env :mt2_password) "214"))))
+  (and (= username (or (env :mt2-user)     "hkim"))
+       (= password (or (env :mt2-password) "214"))))
 
 (def auth-backend (http-basic-backend {:authfn authfn}))
 

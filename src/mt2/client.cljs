@@ -65,7 +65,7 @@
   (let [now (-> (js/Date.)
                 str
                 (subs 0 25))]
-    (when-not (= :chsk/ping (first ?data))
+    (when-not (= :chsk/ws-ping (first ?data))
       (->output! "%s\n  %s" now (second ?data)))))
 
 
