@@ -1,4 +1,4 @@
-(defproject mt2 "0.4.0"
+(defproject mt2 "0.4.1"
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
   :min-lein-version "2.0.0"
