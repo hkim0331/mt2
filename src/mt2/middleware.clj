@@ -16,6 +16,6 @@
 (defmethod ig/init-key ::httpbasic [_ _]
   (fn [handler]
     (-> handler
- (restrict {:handler authenticated?})
- (wrap-authorization  auth-backend)
- (wrap-authentication auth-backend))))
+        (restrict {:handler authenticated?})
+        (wrap-authorization  auth-backend)
+        (wrap-authentication auth-backend))))
