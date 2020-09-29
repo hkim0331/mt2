@@ -63,7 +63,7 @@
   (let [now (-> (js/Date.)
                 str
                 (subs 0 25))]
-    (->output! "%s\n  %s %s %s" now id event (second ?data))))
+    (->output! "%s\n  %s" now (second ?data))))
 
 (defmethod -event-msg-handler :chsk/handshake
   [{:as ev-msg :keys [?data]}]
