@@ -72,7 +72,7 @@
 (defmethod -event-msg-handler :chsk/handshake
   [{:as ev-msg :keys [?data]}]
   (let [[?uid ?csrf-token ?handshake-data] ?data]
-    (->output! "Handshake:OK")))
+    (->output! "micro twitter started.")))
 
 ;;;; UI events
 
@@ -92,4 +92,3 @@
 ;;;; start sente client router
 
 (sente/start-client-chsk-router! ch-chsk event-msg-handler)
-
