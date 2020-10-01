@@ -91,6 +91,7 @@
 (defn broadcast!
   [msg]
   (doseq [uid (:any @connected-uids)]
+    (debugf "broadcast!:uid: %s" uid)
     (chsk-send! uid [:mt2/broadcast msg])))
 
 ;;;; Sente event handlers
@@ -100,12 +101,10 @@
   "Multimethod to handle Sente `event-msg`s"
   :id) ; Dispatch on event-id
 
-
 (defn event-msg-handler
   "Wraps `-event-msg-handler` with logging, error catching, etc."
   [{:as ev-msg :keys [id ?data event]}]
-  (debugf "event-msg-handler: id:%s :data:%s event:%s"
-          id ?data event)
+  (debugf "event-msg-handler: id: %s, ?data: %s, event: %s" id ?data event)
   (-event-msg-handler ev-msg))
 
 (defmethod -event-msg-handler :default
