@@ -8,6 +8,8 @@
    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
    [taoensso.timbre  :as timbre :refer [debugf infof]]))
 
+(def version "0.4.3")
+
 (timbre/set-level! :debug)
 ;;(reset! sente/debug-mode?_ true)
 
@@ -52,7 +54,7 @@
       [:h2 "micro Twritter"]
       contents
       [:hr]
-      [:div "hkimura 2020-09-30."]
+      [:div "hkimura, " version "."]
       [:script {:src "/js/main.js"}]]])])
 
 ;;; ring event handler
