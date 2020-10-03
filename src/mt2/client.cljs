@@ -2,16 +2,20 @@
   (:require
    [taoensso.encore :as encore :refer-macros (have)]
    [taoensso.sente  :as sente]
-   [taoensso.timbre :as timbre]))
+   [taoensso.timbre :as timbre]
+   [clojure.string  :as string]))
 
 (def MAX_MSG_LEN 70)
+
+(def messages (atom []))
 
 (def output-el (.getElementById js/document "output"))
 
 (defn ->output! [fmt & args]
   (let [msg (apply encore/format fmt args)]
     (aset output-el "value" (str msg "\n" (.-value output-el)))
-    (aset output-el "scrollTop" 0)))
+    (aset output-el "scrollTop" 0)
+    (swap! messages conj msg)))
 
 (def message-el (.getElementById js/document "message"))
 
@@ -88,6 +92,14 @@
   (.addEventListener target-el "click"
                      (fn [ev]
                        (aset output-el "value" ""))))
+
+
+(when-let [target-el (.getElementById js/document "resume")]
+  (.addEventListener target-el "click"
+                     (fn [ev]
+                       #_(js/console.log @messages)
+                       (->output!
+                         (string/join "\n" (reverse @messages))))))
 
 ;;;; start sente client router
 
