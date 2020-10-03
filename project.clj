@@ -8,22 +8,25 @@
    [buddy/buddy-auth     "2.2.0"]
 
    [com.taoensso/sente   "1.16.0"]
-   [com.taoensso/timbre  "5.0.1"]
+   [com.taoensso/timbre  "5.1.0"]
 
    [duct/core            "0.8.0"]
+   [duct/handler.sql     "0.4.0"]
    [duct/module.ataraxy  "0.3.0"]
    [duct/module.cljs     "0.4.1"]
    [duct/module.logging  "0.5.0"]
    [duct/module.web      "0.7.1"]
+
    [duct/server.http.http-kit "0.1.4"]
+   [http-kit "2.5.0"]
 
    [environ  "1.2.0"]
    [hiccup   "1.0.5"]
-   [http-kit "2.5.0"]
 
    [org.clojure/clojure       "1.10.1"]
    [org.clojure/clojurescript "1.10.773"]
    [org.clojure/core.async    "1.3.610"]
+   [org.clojure/java.jdbc     "0.7.11"]
 
    [ring               "1.8.1"]
    [ring/ring-defaults "0.3.2"]]

@@ -19,10 +19,11 @@
     (let [results (jdbc/query db ["select content, timestamp from msgs order by id desc"])]
       results)))
 
-
+;; FIXME: anti forgery
 (defmethod ig/init-key ::add [_ {:keys [db]}]
   (fn [req]
     [::response/ok req]))
+
 
 (defmethod ig/init-key ::list [_ {:keys [db]}]
   (fn [req]
