@@ -8,7 +8,7 @@
    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
    [taoensso.timbre  :as timbre :refer [debugf infof]]))
 
-(def version "0.4.3")
+(def version "0.5.0")
 
 (timbre/set-level! :debug)
 ;;(reset! sente/debug-mode?_ true)
