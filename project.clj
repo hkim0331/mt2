@@ -29,7 +29,10 @@
    [org.clojure/java.jdbc     "0.7.11"]
 
    [ring               "1.8.1"]
-   [ring/ring-defaults "0.3.2"]]
+   [ring/ring-defaults "0.3.2"]
+
+   ;; https://stackoverflow.com/questions/30367045/java-lang-noclassdeffounderror-com-fasterxml-jackson-core-jsonfactorylxc l
+   [com.fasterxml.jackson.core/jackson-core "2.11.3"]]
 
   :plugins [[duct/lein-duct   "0.12.1"]]
   :main ^:skip-aot mt2.main
