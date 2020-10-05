@@ -1,11 +1,11 @@
 (ns mt2.middleware
   (:require
-   [integrant.core :as ig]
    [buddy.auth :refer [authenticated?]]
    [buddy.auth.accessrules :refer [restrict]]
    [buddy.auth.backends.httpbasic :refer [http-basic-backend]]
    [buddy.auth.middleware :refer [wrap-authentication wrap-authorization]]
-   [environ.core :refer [env]]))
+   [environ.core :refer [env]]
+   [integrant.core :as ig]))
 
 (defn authfn [_ {:keys [username password]}]
   (and (= username (or (env :mt2-user)     "hkim"))

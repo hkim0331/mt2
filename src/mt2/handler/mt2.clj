@@ -8,7 +8,7 @@
    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
    [taoensso.timbre  :as timbre :refer [debugf infof]]))
 
-(def version "0.6.0")
+(def version "0.6.1")
 
 (def msgs (atom []))
 
@@ -75,15 +75,14 @@
         [:button#send
          {:type "button" :class "btn btn-primary btn-sm"}
          "send"]]]]
-     [:p [:textarea#output {:style "width:100%; height:400px;"}]]
-     [:p [:button#clear
-          {:type "button" :class "btn btn-primary"} "clear"]
-          ; " "
-          ; [:button#resume
-          ;  {:type "button" :class "btn btn-primary"} "resume"]
-          " "
-          [:button#reload
-           {:type "button" :class "btn btn-primary"} "reload"]])))
+     [:p
+      [:textarea#output {:style "width:100%; height:400px;"}]]
+     [:p
+      [:button#clear
+       {:type "button" :class "btn btn-primary"} "clear"]
+      " "
+      [:button#reload
+       {:type "button" :class "btn btn-primary"} "reload"]])))
 
 (defmethod ig/init-key :mt2.handler.mt2/get-chsk [_ _]
   (fn [req]
@@ -95,13 +94,12 @@
 
 (defmethod ig/init-key :mt2.handler.mt2/reload [_ _]
   (fn [req]
-   (let [ret (->> @msgs
-                  reverse
-                  (interpose "\n")
-                  (apply str))]
-     (debugf "reload: %s" ret)
-     [::response/ok ret])))
-
+    (let [ret (->> @msgs
+                   reverse
+                   (interpose "\n")
+                   (apply str))]
+      (debugf "reload: %s" ret)
+      [::response/ok ret])))
 
 ;;;; async push
 

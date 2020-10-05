@@ -1,10 +1,10 @@
 (ns mt2.handler.msgs
   (:require
    [ataraxy.response :as response]
-   [integrant.core   :as ig]
    ;; 追加 2020-10-03
    [clojure.java.jdbc :as jdbc]
-   [duct.database.sql]))
+   [duct.database.sql]
+   [integrant.core   :as ig]))
 
 (defprotocol Msgs
   (add-msg [db msg])
@@ -24,12 +24,11 @@
   (fn [req]
     [::response/ok req]))
 
-
 (defmethod ig/init-key ::list [_ {:keys [db]}]
   (fn [req]
     (let [ret (list-msgs db)]
       [::response/ok
-        (concat
-           (map (fn [r] (str (:timestamp r) "\n  " (:content r) "\n"))
-                ret))])))
+       (concat
+        (map (fn [r] (str (:timestamp r) "\n  " (:content r) "\n"))
+             ret))])))
 
