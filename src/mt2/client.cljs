@@ -1,9 +1,12 @@
 (ns mt2.client
+  (:require-macros [cljs.core.async.macros :refer [go]])
   (:require
    [taoensso.encore :as encore :refer-macros (have)]
    [taoensso.sente  :as sente]
    [taoensso.timbre :as timbre]
-   [clojure.string  :as string]))
+   [clojure.string  :as string]
+   [cljs-http.client :as http]
+   [cljs.core.async :refer [<!]]))
 
 (def MAX_MSG_LEN 70)
 
@@ -66,12 +69,8 @@
 
 (defmethod -event-msg-handler :chsk/recv
   [{:as ev-msg :keys [?data]}]
-  (let [now (-> (js/Date.)
-                str
-                (subs 0 25))]
-    (when-not (= :chsk/ws-ping (first ?data))
-      (->output! "%s\n  %s" now (second ?data)))))
-
+  (when-not (= :chsk/ws-ping (first ?data))
+    (->output! (second ?data))))
 
 (defmethod -event-msg-handler :chsk/handshake
   [{:as ev-msg :keys [?data]}]
@@ -94,12 +93,21 @@
                        (aset output-el "value" ""))))
 
 
-(when-let [target-el (.getElementById js/document "resume")]
-  (.addEventListener target-el "click"
-                     (fn [ev]
-                       #_(js/console.log @messages)
-                       (->output!
-                         (string/join "\n" (reverse @messages))))))
+;;(when-let [target-el (.getElementById js/document "resume")]
+;;  (.addEventListener target-el "click"
+;;                     (fn [ev]
+;;                       (->output!
+;;                        (string/join "\n" (reverse @messages))))))
+
+;; ws 以外で通信しちゃダメかい。
+(when-let [target-el (.getElementById js/document "reload")]
+  (.addEventListener
+   target-el
+   "click"
+   (fn [ev]
+    (go (let [msgs (<! (http/get "/reload"))]
+          ;;(js/console.log (:body msgs))
+          (->output! (:body msgs)))))))
 
 ;;;; start sente client router
 
