@@ -1,9 +1,12 @@
 (ns mt2.client
+  (:require-macros [cljs.core.async.macros :refer [go]])
   (:require
    [taoensso.encore :as encore :refer-macros (have)]
    [taoensso.sente  :as sente]
    [taoensso.timbre :as timbre]
-   [clojure.string  :as string]))
+   [clojure.string  :as string]
+   [cljs-http.client :as http]
+   [cljs.core.async :refer [<!]]))
 
 (def MAX_MSG_LEN 70)
 
@@ -97,9 +100,18 @@
 (when-let [target-el (.getElementById js/document "resume")]
   (.addEventListener target-el "click"
                      (fn [ev]
-                       #_(js/console.log @messages)
                        (->output!
                          (string/join "\n" (reverse @messages))))))
+
+;; ws 以外で通信しちゃダメかい。
+(when-let [target-el (.getElementById js/document "reload")]
+  (.addEventListener
+   target-el
+   "click"
+   (fn [ev]
+    (go (let [msgs (<! (http/get "/reload"))]
+          (js/console.log (:body msgs))
+          (->output! (:body msgs)))))))
 
 ;;;; start sente client router
 

@@ -10,8 +10,10 @@
 
 (def version "0.5.0")
 
-(timbre/set-level! :debug)
-;;(reset! sente/debug-mode?_ true)
+(def msgs (atom []))
+
+(timbre/set-level! :info)
+(reset! sente/debug-mode?_ true)
 
 ;;; from sente official example
 
@@ -78,7 +80,10 @@
           {:type "button" :class "btn btn-primary"} "clear"]
           " "
           [:button#resume
-           {:type "button" :class "btn btn-primary"} "resume"]])))
+           {:type "button" :class "btn btn-primary"} "resume"]
+          " "
+          [:button#reload
+           {:type "button" :class "btn btn-primary"} "reload"]])))
 
 (defmethod ig/init-key :mt2.handler.mt2/get-chsk [_ _]
   (fn [req]
@@ -88,10 +93,21 @@
   (fn [req]
     (ring-ajax-post req)))
 
+(defmethod ig/init-key :mt2.handler.mt2/reload [_ _]
+  (fn [req]
+   (let [ret (->> @msgs
+                  reverse
+                  (interpose "\n\n")
+                  (apply str))]
+     (debugf "reload: %s" ret)
+     [::response/ok ret])))
+
+
 ;;;; async push
 
 (defn broadcast!
   [msg]
+
   (doseq [uid (:any @connected-uids)]
     (chsk-send! uid [:mt2/broadcast msg])))
 
@@ -121,8 +137,10 @@
 (defmethod -event-msg-handler :mt2/msg
   [ev-msg]
   (let [{:keys [?data]} ev-msg]
-    (debugf ":mt2/msg: %s" (:?data ev-msg))
-    (broadcast! (:?data ev-msg))))
+    (debugf ":mt2/msg: %s" ?data)
+    (swap! msgs conj ?data)
+    (debugf "@msgs: %s" @msgs)
+    (broadcast! ?data)))
 
 ;;; sente server loop
 

@@ -31,6 +31,8 @@
    [ring               "1.8.1"]
    [ring/ring-defaults "0.3.2"]
 
+   [cljs-http "0.1.46"]
+
    ;; https://stackoverflow.com/questions/30367045/java-lang-noclassdeffounderror-com-fasterxml-jackson-core-jsonfactorylxc l
    [com.fasterxml.jackson.core/jackson-core "2.11.3"]]
 

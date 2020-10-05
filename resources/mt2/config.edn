@@ -6,13 +6,16 @@
   :duct.router/ataraxy
   {:routes {[:get  "/"] ^:auth [:mt2.handler.mt2/index]
             [:get  "/chsk"] [:mt2.handler.mt2/get-chsk]
-            [:post "/chsk"] [:mt2.handler.mt2/post-chsk]}
+            [:post "/chsk"] [:mt2.handler.mt2/post-chsk]
+            [:get  "/reload"]  [:mt2.handler.mt2/reload]}
 
    :middleware {:auth #ig/ref :mt2.middleware/httpbasic}}
 
   :mt2.middleware/httpbasic {}
 
-  :mt2.handler.mt2/index {}
+  :mt2.handler.mt2/index  {}
+  :mt2.handler.mt2/reload {}
+
   :mt2.handler.mt2/get-chsk {}
   :mt2.handler.mt2/post-chsk {}}
 
