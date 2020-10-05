@@ -8,7 +8,7 @@
    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
    [taoensso.timbre  :as timbre :refer [debugf infof]]))
 
-(def version "0.5.0")
+(def version "0.6.0")
 
 (def msgs (atom []))
 
