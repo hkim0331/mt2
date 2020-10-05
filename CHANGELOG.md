@@ -9,6 +9,11 @@
 * エンターで送信。
 * github.
 
+## 0.6.1 - 2020-10-05
+* lein ancient
+  all artifacts are up-to-date.
+* cljstyle fix src
+
 
 ## 0.6.0 - 2020-10-05
 * メッセージに日付をプリペンドする仕事をサーバに寄せる。
