@@ -78,9 +78,9 @@
      [:p [:textarea#output {:style "width:100%; height:400px;"}]]
      [:p [:button#clear
           {:type "button" :class "btn btn-primary"} "clear"]
-          " "
-          [:button#resume
-           {:type "button" :class "btn btn-primary"} "resume"]
+          ; " "
+          ; [:button#resume
+          ;  {:type "button" :class "btn btn-primary"} "resume"]
           " "
           [:button#reload
            {:type "button" :class "btn btn-primary"} "reload"]])))
@@ -97,7 +97,7 @@
   (fn [req]
    (let [ret (->> @msgs
                   reverse
-                  (interpose "\n\n")
+                  (interpose "\n")
                   (apply str))]
      (debugf "reload: %s" ret)
      [::response/ok ret])))
@@ -107,9 +107,11 @@
 
 (defn broadcast!
   [msg]
-
-  (doseq [uid (:any @connected-uids)]
-    (chsk-send! uid [:mt2/broadcast msg])))
+  (let [msg (format "%s\n  %s" (str (java.util.Date.)) msg)]
+    (swap! msgs conj msg)
+    (debugf "@msgs: %s" @msgs)
+    (doseq [uid (:any @connected-uids)]
+      (chsk-send! uid [:mt2/broadcast msg]))))
 
 ;;;; Sente event handlers
 ;;; same with client?
@@ -138,8 +140,6 @@
   [ev-msg]
   (let [{:keys [?data]} ev-msg]
     (debugf ":mt2/msg: %s" ?data)
-    (swap! msgs conj ?data)
-    (debugf "@msgs: %s" @msgs)
     (broadcast! ?data)))
 
 ;;; sente server loop
