@@ -80,8 +80,11 @@
 
 (defmethod ig/init-key :mt2.handler.mt2/login-post [_ options]
   (fn [{:as req [_ {:strs [username password next]}] :ataraxy/result}]
-    (if (and (= username (or (env :mt2-user)     "hkim"))
-             (= password (or (env :mt2-password) "214")))
+    (if (or
+          (and (= username (or (env :mt2-user)      "user"))
+               (= password (or (env :mt2-password)  "pass")))
+          (and (= username (or (env :mt2-admin)     "admin"))
+               (= password (or (env :mt2-admin-password "pass")))))
       (-> (redirect next)
           (assoc-in [:session :identity] (keyword username)))
       [::response/found "/login"])))
@@ -142,11 +145,18 @@
       (debugf "reload: %s" ret)
       [::response/ok ret])))
 
-(defn admin? [req] true)
+
+(defn admin? [req]
+  ;; user is a keyword, admin is a string
+  ;; coerse user into string.
+  (let [user  (name (get-in req [:session :identity]))
+        admin (env :mt2-admin)]
+    (= user admin)))
 
 (defmethod ig/init-key :mt2.handler.mt2/reset [_ _]
   (fn [req]
     (when (admin? req)
+      (debugf "reset")
       (reset! msgs []))
     [::response/found "/"]))
 
