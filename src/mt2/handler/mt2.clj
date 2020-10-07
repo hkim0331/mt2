@@ -17,7 +17,7 @@
 
 (def msgs (atom []))
 
-(timbre/set-level! :debug)
+(timbre/set-level! :info)
 (reset! sente/debug-mode?_ true)
 
 ;;; from sente official example
@@ -64,32 +64,31 @@
       [:div "hkimura, " version "."]
       [:script {:src "/js/main.js"}]]])])
 
-
 ;;; login/logout
 
-(defmethod ig/init-key :mt2.handler.mt2/login [_ options]
+(defmethod ig/init-key :mt2.handler.mt2/login [_ _]
   (fn [{[_] :ataraxy/result}]
     (page
-      [:h2 "Log in"]
-      (form-to [:post "/login"]
-        (anti-forgery-field)
-        (hidden-field "next" "/")
-        (text-field {:placeholder "username"} "username")
-        (password-field {:placeholder "password"} "password")
-        (submit-button {:class "btn btn-primary btn-sm"} "login")))))
+     [:h2 "Log in"]
+     (form-to [:post "/login"]
+              (anti-forgery-field)
+              (hidden-field "next" "/")
+              (text-field {:placeholder "username"} "username")
+              (password-field {:placeholder "password"} "password")
+              (submit-button {:class "btn btn-primary btn-sm"} "login")))))
 
-(defmethod ig/init-key :mt2.handler.mt2/login-post [_ options]
-  (fn [{:as req [_ {:strs [username password next]}] :ataraxy/result}]
+(defmethod ig/init-key :mt2.handler.mt2/login-post [_ _]
+  (fn [{[_ {:strs [username password next]}] :ataraxy/result}]
     (if (or
-          (and (= username (or (env :mt2-user)      "user"))
-               (= password (or (env :mt2-password)  "pass")))
-          (and (= username (or (env :mt2-admin)     "admin"))
-               (= password (or (env :mt2-admin-password "pass")))))
+         (and (= username (or (env :mt2-user)      "user"))
+              (= password (or (env :mt2-password)  "pass")))
+         (and (= username (or (env :mt2-admin)     "admin"))
+              (= password (or (env :mt2-admin-password "pass")))))
       (-> (redirect next)
           (assoc-in [:session :identity] (keyword username)))
       [::response/found "/login"])))
 
-(defmethod ig/init-key :mt2.handler.mt2/logout [_ options]
+(defmethod ig/init-key :mt2.handler.mt2/logout [_ _]
   (fn [req]
     (debugf "logout %s" (get-in req [:session]))
     (-> (redirect "/login")
@@ -140,11 +139,10 @@
        (apply str)))
 
 (defmethod ig/init-key :mt2.handler.mt2/reload [_ _]
-  (fn [req]
+  (fn [_]
     (let [ret (msgs->str)]
       (debugf "reload: %s" ret)
       [::response/ok ret])))
-
 
 (defn admin? [req]
   ;; user is a keyword, admin is a string
@@ -192,12 +190,10 @@
   (-event-msg-handler ev-msg))
 
 (defmethod -event-msg-handler :default
-  [{:as ev-msg :keys [event id ?data ring-req ?reply-fn send-fn]}]
-  (let [session (:session ring-req)
-        uid     (:uid     session)]
-    (debugf "Unhandled event: %s" event)
-    (when ?reply-fn
-      (?reply-fn {:umatched-event-as-echoed-from-server event}))))
+  [{:keys [event id ?data ring-req ?reply-fn send-fn]}]
+  (debugf "Unhandled event: %s" event
+          (when ?reply-fn
+            (?reply-fn {:umatched-event-as-echoed-from-server event}))))
 
 (defmethod -event-msg-handler :mt2/msg
   [ev-msg]

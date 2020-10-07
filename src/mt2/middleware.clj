@@ -5,7 +5,7 @@
    [buddy.auth.accessrules :refer [restrict]]
    [buddy.auth.backends.session :refer [session-backend]]
    [buddy.auth.middleware :refer [wrap-authentication wrap-authorization]]
-;;   [environ.core :refer [env]]
+   #_[environ.core :refer [env]]
    [integrant.core :as ig]))
 
 (defn unauth-handler
@@ -14,12 +14,12 @@
     [::response/found (:uri req)]
     [::response/found "/login?next=/"]))
 
-; (defn authfn [_ {:keys [username password]}]
-;   (and (= username (or (env :mt2-user)     "hkim"))
-;        (= password (or (env :mt2-password) "214"))))
+#_(defn authfn [_ {:keys [username password]}]
+   (and (= username (or (env :mt2-user)     "hkim"))
+        (= password (or (env :mt2-password) "214"))))
 
 (def auth-backend
- (session-backend {:unauthorized-handler unauth-handler}))
+  (session-backend {:unauthorized-handler unauth-handler}))
 
 (defmethod ig/init-key ::auth [_ _]
   (fn [handler]

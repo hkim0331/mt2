@@ -2,7 +2,6 @@
   (:require
    [cljs-http.client :as http]
    [cljs.core.async :refer [<!]]
-   [clojure.string  :as string]
    [taoensso.encore :as encore :refer-macros (have)]
    [taoensso.sente  :as sente]
    [taoensso.timbre :as timbre])
@@ -58,23 +57,23 @@
   (-event-msg-handler ev-msg))
 
 (defmethod -event-msg-handler :default
-  [{:as ev-msg :keys [event]}]
+  [{:keys [event]}]
   (->output! "Unhandled event: %s" event))
 
 (defmethod -event-msg-handler :chsk/state
-  [{:as ev-msg :keys [?data]}]
+  [{:keys [?data]}]
   (let [[old-state-map new-state-map] (have vector? ?data)]
     (when (:first-open? new-state-map)
       #_(->output! "state changed: %s" new-state-map)
       (timbre/debugf "state changed: %s" new-state-map))))
 
 (defmethod -event-msg-handler :chsk/recv
-  [{:as ev-msg :keys [?data]}]
+  [{:keys [?data]}]
   (when-not (= :chsk/ws-ping (first ?data))
     (->output! (second ?data))))
 
 (defmethod -event-msg-handler :chsk/handshake
-  [{:as ev-msg :keys [?data]}]
+  [{:keys [?data]}]
   (let [[?uid ?csrf-token ?handshake-data] ?data]
     (->output! "micro twitter started.")))
 
@@ -82,7 +81,7 @@
 
 (when-let [target-el (.getElementById js/document "send")]
   (.addEventListener target-el "click"
-                     (fn [ev]
+                     (fn [_]
                        (let [msg (str (.-value message-el))]
                          (when (< 0 (count msg) MAX_MSG_LEN)
                            (chsk-send! [:mt2/msg msg])
@@ -90,27 +89,14 @@
 
 (when-let [target-el (.getElementById js/document "clear")]
   (.addEventListener target-el "click"
-                     (fn [ev]
+                     (fn [_]
                        (aset output-el "value" ""))))
 
-;;(when-let [target-el (.getElementById js/document "resume")]
-;;  (.addEventListener target-el "click"
-;;                     (fn [ev]
-;;                       (->output!
-;;                        (string/join "\n" (reverse @messages))))))
-
 (when-let [target-el (.getElementById js/document "reload")]
-  (.addEventListener
-   target-el
-   "click"
-   (fn [ev]
-     (go (let [msgs (<! (http/get "/reload"))]
-           (->output! (:body msgs)))))))
-
-;;(when-let [target-el (.getElementById js/document "logout")]
-;;  (.addEventListener target-el "click"
-;;    (fn [ev]
-;;      (http/get "/logout")))))
+  (.addEventListener target-el "click"
+                     (fn [_]
+                       (go (let [msgs (<! (http/get "/reload"))]
+                             (->output! (:body msgs)))))))
 
 ;;;; start sente client router
 
