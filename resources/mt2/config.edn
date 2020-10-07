@@ -9,14 +9,24 @@
     [:post "/chsk"]    [:mt2.handler.mt2/post-chsk]
 
     [:get  "/"] ^:auth [:mt2.handler.mt2/index]
+
+    [:get  "/login"]   [:mt2.handler.mt2/login]
+    [:get  "/logout"]  [:mt2.handler.mt2/logout]
+    [:post "/login" {params :form-params}]
+    [:mt2.handler.mt2/login-post params]
+
     ;; ^:auth 必要か？
     [:get  "/reload"]  [:mt2.handler.mt2/reload]
     [:get  "/reset"]   [:mt2.handler.mt2/reset]
     [:get  "/save"]    [:mt2.handler.mt2/save]}
 
-   :middleware {:auth #ig/ref :mt2.middleware/httpbasic}}
+   :middleware {:auth #ig/ref :mt2.middleware/auth}}
 
-  :mt2.middleware/httpbasic {}
+  :mt2.middleware/auth    {}
+
+  :mt2.handler.mt2/login  {}
+  :mt2.handler.mt2/login-post  {}
+  :mt2.handler.mt2/logout {}
 
   :mt2.handler.mt2/index  {}
   :mt2.handler.mt2/reload {}

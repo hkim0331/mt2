@@ -2,9 +2,13 @@
   (:require
    [ataraxy.response :as response]
    [clj-time.local   :as l]
+   [environ.core     :refer [env]]
+   [hiccup.form      :refer [form-to text-field password-field hidden-field submit-button]]
    [hiccup.page      :as hiccup]
    [integrant.core   :as ig]
    [ring.middleware.anti-forgery :as anti-forgery]
+   [ring.util.anti-forgery :refer [anti-forgery-field]]
+   [ring.util.response :refer [redirect]]
    [taoensso.sente   :as sente]
    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
    [taoensso.timbre  :as timbre :refer [debugf infof]]))
@@ -13,7 +17,7 @@
 
 (def msgs (atom []))
 
-(timbre/set-level! :info)
+(timbre/set-level! :debug)
 (reset! sente/debug-mode?_ true)
 
 ;;; from sente official example
@@ -60,6 +64,34 @@
       [:div "hkimura, " version "."]
       [:script {:src "/js/main.js"}]]])])
 
+
+;;; login/logout
+
+(defmethod ig/init-key :mt2.handler.mt2/login [_ options]
+  (fn [{[_] :ataraxy/result}]
+    (page
+      [:h2 "Log in"]
+      (form-to [:post "/login"]
+        (anti-forgery-field)
+        (hidden-field "next" "/")
+        (text-field {:placeholder "username"} "username")
+        (password-field {:placeholder "password"} "password")
+        (submit-button {:class "btn btn-primary btn-sm"} "login")))))
+
+(defmethod ig/init-key :mt2.handler.mt2/login-post [_ options]
+  (fn [{:as req [_ {:strs [username password next]}] :ataraxy/result}]
+    (if (and (= username (or (env :mt2-user)     "hkim"))
+             (= password (or (env :mt2-password) "214")))
+      (-> (redirect next)
+          (assoc-in [:session :identity] (keyword username)))
+      [::response/found "/login"])))
+
+(defmethod ig/init-key :mt2.handler.mt2/logout [_ options]
+  (fn [req]
+    (debugf "logout %s" (get-in req [:session]))
+    (-> (redirect "/login")
+        (assoc :session {}))))
+
 ;;; ring event handler
 
 (defmethod ig/init-key :mt2.handler.mt2/get-chsk [_ _]
@@ -88,10 +120,15 @@
       [:textarea#output {:style "width:100%; height:400px;"}]]
      [:p
       [:button#clear
-       {:type "button" :class "btn btn-primary"} "clear"]
+       {:type "button" :class "btn btn-primary btn-sm"} "clear"]
       " "
       [:button#reload
-       {:type "button" :class "btn btn-primary"} "reload"]])))
+       {:type "button" :class "btn btn-primary btn-sm"} "reload"]
+      " "
+      [:button#logout
+       {:type "button" :class "btn btn-warning btn-sm"
+        :onclick "location.href='/login'"}
+       "logout"]])))
 
 (defn msgs->str []
   (->> @msgs
@@ -136,7 +173,6 @@
 (defmulti -event-msg-handler
   "Multimethod to handle Sente `event-msg`s"
   :id) ; Dispatch on event-id
-
 
 (defn event-msg-handler
   "Wraps `-event-msg-handler` with logging, error catching, etc."
