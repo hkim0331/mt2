@@ -5,6 +5,10 @@ Description = micro twitter version 2
 WorkingDirectory=/home/ubuntu/mt2
 ExecStart=/usr/bin/java -jar mt2.jar
 ExecStop=/bin/sh stop.sh
+Environment=MT2_USER=****
+Environment=MT2_PASSWORD=****
+Environment=MT2_ADMIN=****
+Environment=MT2_ADMIN_PASSWORD=****
 #Restart = always
 TimeoutSec = 300
 Type=simple

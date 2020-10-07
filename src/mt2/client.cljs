@@ -99,15 +99,18 @@
 ;;                       (->output!
 ;;                        (string/join "\n" (reverse @messages))))))
 
-;; ws 以外で通信しちゃダメかい。
 (when-let [target-el (.getElementById js/document "reload")]
   (.addEventListener
    target-el
    "click"
    (fn [ev]
      (go (let [msgs (<! (http/get "/reload"))]
-          ;;(js/console.log (:body msgs))
            (->output! (:body msgs)))))))
+
+;;(when-let [target-el (.getElementById js/document "logout")]
+;;  (.addEventListener target-el "click"
+;;    (fn [ev]
+;;      (http/get "/logout")))))
 
 ;;;; start sente client router
 

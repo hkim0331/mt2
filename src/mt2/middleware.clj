@@ -1,19 +1,27 @@
 (ns mt2.middleware
   (:require
+   [ataraxy.response :as response]
    [buddy.auth :refer [authenticated?]]
    [buddy.auth.accessrules :refer [restrict]]
-   [buddy.auth.backends.httpbasic :refer [http-basic-backend]]
+   [buddy.auth.backends.session :refer [session-backend]]
    [buddy.auth.middleware :refer [wrap-authentication wrap-authorization]]
-   [environ.core :refer [env]]
+;;   [environ.core :refer [env]]
    [integrant.core :as ig]))
 
-(defn authfn [_ {:keys [username password]}]
-  (and (= username (or (env :mt2-user)     "hkim"))
-       (= password (or (env :mt2-password) "214"))))
+(defn unauth-handler
+  [req meta]
+  (if (authenticated? req)
+    [::response/found (:uri req)]
+    [::response/found "/login?next=/"]))
 
-(def auth-backend (http-basic-backend {:authfn authfn}))
+; (defn authfn [_ {:keys [username password]}]
+;   (and (= username (or (env :mt2-user)     "hkim"))
+;        (= password (or (env :mt2-password) "214"))))
 
-(defmethod ig/init-key ::httpbasic [_ _]
+(def auth-backend
+ (session-backend {:unauthorized-handler unauth-handler}))
+
+(defmethod ig/init-key ::auth [_ _]
   (fn [handler]
     (-> handler
         (restrict {:handler authenticated?})
