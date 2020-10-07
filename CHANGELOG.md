@@ -9,6 +9,11 @@
 * エンターで送信。
 * github.
 
+
+## 0.6.2 - 2020-10-07
+* reset メッセージをクリアする。
+* save メッセージを logs/ 以下に現在時間でセーブする。
+
 ## 0.6.1 - 2020-10-05
 * lein ancient
   all artifacts are up-to-date.
