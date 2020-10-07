@@ -10,6 +10,11 @@
 * github.
 
 
+## 0.7.0 - 2020-10-07
+* 認証を http-basic から session に変更。
+* admin でログインした時のみ、/reset、/save できる。
+* code polish up.
+
 ## 0.6.2 - 2020-10-07
 * reset メッセージをクリアする。
 * save メッセージを logs/ 以下に現在時間でセーブする。
