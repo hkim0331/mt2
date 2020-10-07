@@ -7,6 +7,8 @@
   [
    [buddy/buddy-auth     "2.2.0"]
 
+   [clj-time             "0.15.2"]
+
    [com.taoensso/sente   "1.16.0"]
    [com.taoensso/timbre  "5.1.0"]
 

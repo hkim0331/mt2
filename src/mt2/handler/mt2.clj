@@ -1,6 +1,7 @@
 (ns mt2.handler.mt2
   (:require
    [ataraxy.response :as response]
+   [clj-time.local   :as l]
    [hiccup.page      :as hiccup]
    [integrant.core   :as ig]
    [ring.middleware.anti-forgery :as anti-forgery]
@@ -61,6 +62,14 @@
 
 ;;; ring event handler
 
+(defmethod ig/init-key :mt2.handler.mt2/get-chsk [_ _]
+  (fn [req]
+    (ring-ajax-get-or-ws-handshake req)))
+
+(defmethod ig/init-key :mt2.handler.mt2/post-chsk [_ _]
+  (fn [req]
+    (ring-ajax-post req)))
+
 (defmethod ig/init-key :mt2.handler.mt2/index [_ _]
   (fn [{[_] :ataraxy/result}]
     (debugf "index")
@@ -84,22 +93,32 @@
       [:button#reload
        {:type "button" :class "btn btn-primary"} "reload"]])))
 
-(defmethod ig/init-key :mt2.handler.mt2/get-chsk [_ _]
-  (fn [req]
-    (ring-ajax-get-or-ws-handshake req)))
-
-(defmethod ig/init-key :mt2.handler.mt2/post-chsk [_ _]
-  (fn [req]
-    (ring-ajax-post req)))
+(defn msgs->str []
+  (->> @msgs
+       reverse
+       (interpose "\n")
+       (apply str)))
 
 (defmethod ig/init-key :mt2.handler.mt2/reload [_ _]
   (fn [req]
-    (let [ret (->> @msgs
-                   reverse
-                   (interpose "\n")
-                   (apply str))]
+    (let [ret (msgs->str)]
       (debugf "reload: %s" ret)
       [::response/ok ret])))
+
+(defn admin? [req] true)
+
+(defmethod ig/init-key :mt2.handler.mt2/reset [_ _]
+  (fn [req]
+    (when (admin? req)
+      (reset! msgs []))
+    [::response/found "/"]))
+
+(defmethod ig/init-key :mt2.handler.mt2/save [_ _]
+  (fn [req]
+    (when (admin? req)
+      (spit (format "logs/msgs-%s.log" (l/local-now))
+            (msgs->str)))
+    [::response/found "/"]))
 
 ;;;; async push
 

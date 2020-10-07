@@ -4,10 +4,15 @@
   :duct.server.http/http-kit {:port 3040}
 
   :duct.router/ataraxy
-  {:routes {[:get  "/"] ^:auth [:mt2.handler.mt2/index]
-            [:get  "/chsk"] [:mt2.handler.mt2/get-chsk]
-            [:post "/chsk"] [:mt2.handler.mt2/post-chsk]
-            [:get  "/reload"]  [:mt2.handler.mt2/reload]}
+  {:routes
+   {[:get  "/chsk"]    [:mt2.handler.mt2/get-chsk]
+    [:post "/chsk"]    [:mt2.handler.mt2/post-chsk]
+
+    [:get  "/"] ^:auth [:mt2.handler.mt2/index]
+    ;; ^:auth 必要か？
+    [:get  "/reload"]  [:mt2.handler.mt2/reload]
+    [:get  "/reset"]   [:mt2.handler.mt2/reset]
+    [:get  "/save"]    [:mt2.handler.mt2/save]}
 
    :middleware {:auth #ig/ref :mt2.middleware/httpbasic}}
 
@@ -15,8 +20,10 @@
 
   :mt2.handler.mt2/index  {}
   :mt2.handler.mt2/reload {}
+  :mt2.handler.mt2/reset  {}
+  :mt2.handler.mt2/save   {}
 
-  :mt2.handler.mt2/get-chsk {}
+  :mt2.handler.mt2/get-chsk  {}
   :mt2.handler.mt2/post-chsk {}}
 
  :duct.profile/dev   #duct/include "dev"
