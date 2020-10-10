@@ -30,7 +30,7 @@
    [org.clojure/core.async    "1.3.610"]
    [org.clojure/java.jdbc     "0.7.11"]
 
-   [ring               "1.8.1"]
+   [ring               "1.8.2"]
    [ring/ring-defaults "0.3.2"]
 
    [cljs-http "0.1.46"]
