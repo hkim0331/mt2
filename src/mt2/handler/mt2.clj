@@ -13,11 +13,11 @@
    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
    [taoensso.timbre  :as timbre :refer [debugf infof]]))
 
-(def version "0.7.0")
+(def version "0.7.1")
 
 (def msgs (atom []))
 
-(timbre/set-level! :info)
+(timbre/set-level! :debug)
 (reset! sente/debug-mode?_ true)
 
 ;;; from sente official example
@@ -58,7 +58,7 @@
      (let [csrf-token (force anti-forgery/*anti-forgery-token*)]
        [:div#sente-csrf-token {:data-csrf-token csrf-token}])
      [:div.container
-      [:h2 "micro Twritter"]
+      [:h2 "micro Twitter"]
       contents
       [:hr]
       [:div "hkimura, " version "."]
@@ -77,13 +77,14 @@
               (password-field {:placeholder "password"} "password")
               (submit-button {:class "btn btn-primary btn-sm"} "login")))))
 
+;; username/password from env vars.
 (defmethod ig/init-key :mt2.handler.mt2/login-post [_ _]
   (fn [{[_ {:strs [username password next]}] :ataraxy/result}]
     (if (or
-         (and (= username (or (env :mt2-user)      "user"))
-              (= password (or (env :mt2-password)  "pass")))
-         (and (= username (or (env :mt2-admin)     "admin"))
-              (= password (or (env :mt2-admin-password "pass")))))
+         (and (= username (env :mt2-user))
+              (= password (env :mt2-password)))
+         (and (= username (env :mt2-admin))
+              (= password (env :mt2-admin-password))))
       (-> (redirect next)
           (assoc-in [:session :identity] (keyword username)))
       [::response/found "/login"])))
@@ -132,6 +133,7 @@
         :onclick "location.href='/login'"}
        "logout"]])))
 
+
 (defn msgs->str []
   (->> @msgs
        reverse
@@ -145,24 +147,33 @@
       [::response/ok ret])))
 
 (defn admin? [req]
-  ;; user is a keyword, admin is a string
-  ;; coerse user into string.
+  ;; user is a keyword, admin is a string.
+  ;; compare them after coersing user into string.
   (let [user  (name (get-in req [:session :identity]))
         admin (env :mt2-admin)]
     (= user admin)))
 
+(defn save
+  "msgs をファイル log/<localtime>.logに書き出す。"
+  [str]
+  (let [dest (format "logs/%s.log" (l/local-now))]
+    (spit dest str)))
+
 (defmethod ig/init-key :mt2.handler.mt2/reset [_ _]
   (fn [req]
     (when (admin? req)
-      (debugf "reset")
+      (debugf "reset called")
+      (save (msgs->str))
       (reset! msgs []))
     [::response/found "/"]))
 
+;; reset に save の機能を持たせる。
+;; endpoint save は廃止してもよい。
+;; 「reset 使え」のメッセージでも出すか？
 (defmethod ig/init-key :mt2.handler.mt2/save [_ _]
   (fn [req]
     (when (admin? req)
-      (spit (format "logs/msgs-%s.log" (l/local-now))
-            (msgs->str)))
+      (save (msgs->str)))
     [::response/found "/"]))
 
 ;;;; async push
