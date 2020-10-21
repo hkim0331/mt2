@@ -77,7 +77,7 @@
               (password-field {:placeholder "password"} "password")
               (submit-button {:class "btn btn-primary btn-sm"} "login")))))
 
-;; username/password from env vars.
+;; pass username/password as environment variables.
 (defmethod ig/init-key :mt2.handler.mt2/login-post [_ _]
   (fn [{[_ {:strs [username password next]}] :ataraxy/result}]
     (if (or
@@ -161,11 +161,16 @@
 
 (defmethod ig/init-key :mt2.handler.mt2/reset [_ _]
   (fn [req]
-    (when (admin? req)
-      (debugf "reset called")
-      (save (msgs->str))
-      (reset! msgs []))
-    [::response/found "/"]))
+    (if (admin? req)
+      (do
+        (debugf "admin called reset")
+        (save (msgs->str))
+        (reset! msgs [])
+        [::response/found "/"])
+      (do
+        (debugf "nomal user called reset")
+        [::response/unauthorized "<h1>Forbidden</h1><p><a href='/'>back</a></p>"]))))
+
 
 ;; reset に save の機能を持たせる。
 ;; endpoint save は廃止してもよい。
