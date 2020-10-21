@@ -45,8 +45,7 @@
 
 (defn page
   [& contents]
-  [::response/ok
-   (hiccup/html5
+  (hiccup/html5
     [:head
      [:meta {:charset "utf-8"}]
      [:meta {:name "viewport"
@@ -62,20 +61,21 @@
       contents
       [:hr]
       [:div "hkimura, " version "."]
-      [:script {:src "/js/main.js"}]]])])
+      [:script {:src "/js/main.js"}]]]))
 
 ;;; login/logout
 
 (defmethod ig/init-key :mt2.handler.mt2/login [_ _]
   (fn [{[_] :ataraxy/result}]
-    (page
-     [:h2 "Log in"]
-     (form-to [:post "/login"]
-              (anti-forgery-field)
-              (hidden-field "next" "/")
-              (text-field {:placeholder "username"} "username")
-              (password-field {:placeholder "password"} "password")
-              (submit-button {:class "btn btn-primary btn-sm"} "login")))))
+    [::response/ok
+     (page
+      [:h2 "Log in"]
+      (form-to [:post "/login"]
+               (anti-forgery-field)
+               (hidden-field "next" "/")
+               (text-field {:placeholder "username"} "username")
+               (password-field {:placeholder "password"} "password")
+               (submit-button {:class "btn btn-primary btn-sm"} "login")))]))
 
 ;; pass username/password as environment variables.
 (defmethod ig/init-key :mt2.handler.mt2/login-post [_ _]
@@ -108,30 +108,31 @@
 (defmethod ig/init-key :mt2.handler.mt2/index [_ _]
   (fn [{[_] :ataraxy/result}]
     (debugf "index")
-    (page
-     [:p
-      [:div.row
-       [:div.col-9
-        [:input#message
-         {:style "width:100%"
-          :placeholder "type your message"}]]
-       [:div.col-2
-        [:button#send
-         {:type "button" :class "btn btn-primary btn-sm"}
-         "send"]]]]
-     [:p
-      [:textarea#output {:style "width:100%; height:400px;"}]]
-     [:p
-      [:button#clear
-       {:type "button" :class "btn btn-primary btn-sm"} "clear"]
-      " "
-      [:button#reload
-       {:type "button" :class "btn btn-primary btn-sm"} "reload"]
-      " "
-      [:button#logout
-       {:type "button" :class "btn btn-warning btn-sm"
-        :onclick "location.href='/login'"}
-       "logout"]])))
+    [::response/ok
+      (page
+        [:p
+         [:div.row
+          [:div.col-9
+           [:input#message
+            {:style "width:100%"
+             :placeholder "type your message"}]]
+          [:div.col-2
+           [:button#send
+            {:type "button" :class "btn btn-primary btn-sm"}
+            "send"]]]]
+        [:p
+         [:textarea#output {:style "width:100%; height:400px;"}]]
+        [:p
+         [:button#clear
+          {:type "button" :class "btn btn-primary btn-sm"} "clear"]
+         " "
+         [:button#reload
+          {:type "button" :class "btn btn-primary btn-sm"} "reload"]
+         " "
+         [:button#logout
+          {:type "button" :class "btn btn-warning btn-sm"
+           :onclick "location.href='/login'"}
+          "logout"]])]))
 
 
 (defn msgs->str []
@@ -169,7 +170,8 @@
         [::response/found "/"])
       (do
         (debugf "nomal user called reset")
-        [::response/unauthorized "<h1>Forbidden</h1><p><a href='/'>back</a></p>"]))))
+        [::response/unauthorized
+          (page "<h1>Forbidden</h1><p><a href='/'>back</a></p>")]))))
 
 
 ;; reset に save の機能を持たせる。
