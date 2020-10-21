@@ -8,6 +8,8 @@
   (:require-macros
    [cljs.core.async.macros :refer [go]]))
 
+(timbre/set-level! :debug)
+
 (def MAX_MSG_LEN 70)
 
 (def messages (atom []))
@@ -53,7 +55,7 @@
 (defn event-msg-handler
   "Wraps `-event-msg-handler` with logging, error catching, etc."
   [{:as ev-msg :keys [id ?data event]}]
-  (timbre/debugf "id: %s, ?data: %s, event: %s" id ?data event)
+  (timbre/infof "client.clj: id %s, ?data %s, event %s" id ?data event)
   (-event-msg-handler ev-msg))
 
 (defmethod -event-msg-handler :default
