@@ -13,7 +13,7 @@
    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
    [taoensso.timbre  :as timbre :refer [debugf infof]]))
 
-(def version "0.7.1")
+(def version "0.7.2")
 
 (def msgs (atom []))
 
