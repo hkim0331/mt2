@@ -1,5 +1,6 @@
 (ns mt2.client
   (:require
+   [cljs-bach.synthesis :as b]
    [cljs-http.client :as http]
    [cljs.core.async :refer [<!]]
    [taoensso.encore :as encore :refer-macros (have)]
@@ -7,6 +8,24 @@
    [taoensso.timbre :as timbre])
   (:require-macros
    [cljs.core.async.macros :refer [go]]))
+
+(defonce context (b/audio-context))
+
+(defn ping [freq]
+  (b/connect->
+    (b/square freq)
+    (b/percussive 0.01 0.4)
+    (b/gain 0.1)))
+
+;; do not work yet. url?
+; (defn play-mp3 [url]
+;   (let [mp3 (b/connect-> (b/sample url)
+;                          (b/gain 0.5)
+;                          b/destination)
+;     (b/run-with mp3
+;                 context
+;                 (b/current-time b/audio-context)
+;                 1.0)))
 
 (timbre/set-level! :debug)
 
@@ -66,13 +85,17 @@
   [{:keys [?data]}]
   (let [[old-state-map new-state-map] (have vector? ?data)]
     (when (:first-open? new-state-map)
-      #_(->output! "state changed: %s" new-state-map)
+      ; (->output! "state changed: %s" new-state-map)
       (timbre/debugf "state changed: %s" new-state-map))))
 
 (defmethod -event-msg-handler :chsk/recv
   [{:keys [?data]}]
   (when-not (= :chsk/ws-ping (first ?data))
-    (->output! (second ?data))))
+    ;(play-mp3 "beep-25.mp3")
+    (->output! (second ?data))
+    (-> (ping 440)
+        (b/connect-> b/destination)
+        (b/run-with context (b/current-time context) 1.0))))
 
 (defmethod -event-msg-handler :chsk/handshake
   [{:keys [?data]}]
