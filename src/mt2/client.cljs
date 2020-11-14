@@ -1,5 +1,6 @@
 (ns mt2.client
   (:require
+   [cljs-bach.synthesis :as b]
    [cljs-http.client :as http]
    [cljs.core.async :refer [<!]]
    [taoensso.encore :as encore :refer-macros (have)]
@@ -7,6 +8,17 @@
    [taoensso.timbre :as timbre])
   (:require-macros
    [cljs.core.async.macros :refer [go]]))
+
+(defonce audio-context (b/audio-context))
+
+(defn play-mp3 [url]
+  (let [mp3 (b/connect-> (b/sample url)
+                         (b/gain 0.5)
+                         b/destination)]
+    (b/run-with mp3
+                audio-context
+                (b/current-time audio-context)
+                1.0)))
 
 (timbre/set-level! :debug)
 
@@ -72,6 +84,7 @@
 (defmethod -event-msg-handler :chsk/recv
   [{:keys [?data]}]
   (when-not (= :chsk/ws-ping (first ?data))
+    (play-mp3 "resources/mt2/sound/beep-25.mp3")
     (->output! (second ?data))))
 
 (defmethod -event-msg-handler :chsk/handshake

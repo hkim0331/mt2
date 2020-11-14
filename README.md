@@ -79,5 +79,3 @@ lein test
 ## Legal
 
 Copyright © 2020 hkimura
-
-
