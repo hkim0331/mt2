@@ -12,10 +12,12 @@ Browser caches `main.js`.
 In that case, must exec `Clear Browsing Data...` to flush old main.js out.
 The menu is Opera's.
 
-## developing
+## Environment
 
-### Environment
+see mt2.handler.mt2/login-post. provide appropriate env-vars
+before starting app.
 
+## start
 To begin developing, start with a REPL.
 
 ```sh
