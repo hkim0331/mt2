@@ -4,15 +4,9 @@ if [ -z "$1" ]; then
   exit
 fi
 
-
-if [ -e /usr/local/bin/gsed ]; then
-  # macOS
-  SED='/usr/local/bin/gsed'
-elif [ -e 'bin/sed' ]; then
-  # linux
-  SED='/bin/sed'
-else
-  echo 'not found sed'
+SED='/bin/sed'
+if [ -e ${HOMEBREW_PREFIX}/bin/gsed ]; then
+  SED=${HOMEBREW_PREFIX}/bin/gsed
 fi
 
 ${SED} -E -i.bak "s/\(defproject mt2.*$/\(defproject mt2 \"$1\"/" project.clj

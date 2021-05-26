@@ -20,6 +20,7 @@
 ## 0.8.2 - 2021-05-26
 * メッセージを正順に表示。
 * input と textarea の上下を反転。
+* bump-version.sh: ${HOMEBREW_PREFIX}
 
 ## 0.8.0 - 2020-11-14
 * メッセージ受信したら ping 鳴らす。
