@@ -27,7 +27,7 @@
 ;                 (b/current-time b/audio-context)
 ;                 1.0)))
 
-(timbre/set-level! :debug)
+;;(timbre/set-level! :debug)
 
 (def MAX_MSG_LEN 70)
 
@@ -35,10 +35,11 @@
 
 (def output-el (.getElementById js/document "output"))
 
+;; changed the order of display messages 0.8.2
 (defn ->output! [fmt & args]
   (let [msg (apply encore/format fmt args)]
-    (aset output-el "value" (str msg "\n" (.-value output-el)))
-    (aset output-el "scrollTop" 0)
+    (aset output-el "value" (str (.-value output-el) "\n" msg))
+    (aset output-el "scrollTop" (.-scrollHeight output-el))
     (swap! messages conj msg)))
 
 (def message-el (.getElementById js/document "message"))
@@ -84,14 +85,14 @@
 (defmethod -event-msg-handler :chsk/state
   [{:keys [?data]}]
   (let [[old-state-map new-state-map] (have vector? ?data)]
+    (timbre/debug old-state-map)
     (when (:first-open? new-state-map)
-      ; (->output! "state changed: %s" new-state-map)
       (timbre/debugf "state changed: %s" new-state-map))))
 
 (defmethod -event-msg-handler :chsk/recv
   [{:keys [?data]}]
   (when-not (= :chsk/ws-ping (first ?data))
-    ;(play-mp3 "beep-25.mp3")
+    ;;(play-mp3 "beep-25.mp3")
     (->output! (second ?data))
     (-> (ping 440)
         (b/connect-> b/destination)
@@ -100,12 +101,14 @@
 (defmethod -event-msg-handler :chsk/handshake
   [{:keys [?data]}]
   (let [[?uid ?csrf-token ?handshake-data] ?data]
-    (->output! "micro twitter started.")))
+    (timbre/debug ?uid " " ?csrf-token ?handshake-data)
+    (->output! "Micro Twitter started.")))
 
 ;;;; UI events
 
 (when-let [target-el (.getElementById js/document "send")]
-  (.addEventListener target-el "click"
+  (.addEventListener target-el
+                     "click"
                      (fn [_]
                        (let [msg (str (.-value message-el))]
                          (when (< 0 (count msg) MAX_MSG_LEN)
@@ -113,12 +116,14 @@
                            (aset message-el "value" ""))))))
 
 (when-let [target-el (.getElementById js/document "clear")]
-  (.addEventListener target-el "click"
+  (.addEventListener target-el
+                     "click"
                      (fn [_]
                        (aset output-el "value" ""))))
 
 (when-let [target-el (.getElementById js/document "reload")]
-  (.addEventListener target-el "click"
+  (.addEventListener target-el
+                     "click"
                      (fn [_]
                        (go (let [msgs (<! (http/get "/reload"))]
                              (->output! (:body msgs)))))))
