@@ -40,6 +40,9 @@ dev=> (go)
 ```
 
 This creates a web server at <http://localhost:3040>.
+Take 10 or 15 seconds before start mt2.
+FIXME: Until server starts, ClojureScript show some warning messages.
+Have not fixed yet.
 
 When you make changes to your source files, use `reset` to reload any
 modified files and reset the server. Changes to CSS or ClojureScript
