@@ -1,4 +1,4 @@
-(defproject mt2 "0.7.2"
+(defproject mt2 "0.8.2"
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
   :min-lein-version "2.0.0"
@@ -30,8 +30,10 @@
    [org.clojure/core.async    "1.3.610"]
    [org.clojure/java.jdbc     "0.7.11"]
 
-   [ring               "1.8.1"]
+   [ring               "1.8.2"]
    [ring/ring-defaults "0.3.2"]
+
+   [cljs-bach "0.3.0"]
 
    [cljs-http "0.1.46"]
 

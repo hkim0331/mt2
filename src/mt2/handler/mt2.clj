@@ -13,7 +13,7 @@
    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
    [taoensso.timbre  :as timbre :refer [debugf infof]]))
 
-(def version "0.7.2")
+(def version "0.8.2")
 
 (def msgs (atom []))
 
@@ -57,7 +57,7 @@
      (let [csrf-token (force anti-forgery/*anti-forgery-token*)]
        [:div#sente-csrf-token {:data-csrf-token csrf-token}])
      [:div.container
-      [:h2 "micro Twitter"]
+      [:h2 "Micro Twitter"]
       contents
       [:hr]
       [:div "hkimura, " version "."]
@@ -110,9 +110,10 @@
     (debugf "index")
     [::response/ok
       (page
+        [:p [:textarea#output {:style "width:100%; height:400px;"}]]
         [:p
          [:div.row
-          [:div.col-9
+          [:div.col-10
            [:input#message
             {:style "width:100%"
              :placeholder "type your message"}]]
@@ -120,8 +121,6 @@
            [:button#send
             {:type "button" :class "btn btn-primary btn-sm"}
             "send"]]]]
-        [:p
-         [:textarea#output {:style "width:100%; height:400px;"}]]
         [:p
          [:button#clear
           {:type "button" :class "btn btn-primary btn-sm"} "clear"]
@@ -137,7 +136,8 @@
 
 (defn msgs->str []
   (->> @msgs
-       reverse
+       ;; normal order
+       ;;reverse
        (interpose "\n")
        (apply str)))
 
@@ -189,7 +189,7 @@
   [msg]
   (let [msg (format "%s\n  %s" (str (java.util.Date.)) msg)]
     (swap! msgs conj msg)
-    (debugf "@msgs: %s" @msgs)
+    ;;(debugf "@msgs: %s" @msgs)
     (doseq [uid (:any @connected-uids)]
       (chsk-send! uid [:mt2/broadcast msg]))))
 

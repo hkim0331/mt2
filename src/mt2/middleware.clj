@@ -14,9 +14,9 @@
     [::response/found (:uri req)]
     [::response/found "/login?next=/"]))
 
-#_(defn authfn [_ {:keys [username password]}]
-   (and (= username (or (env :mt2-user)     "hkim"))
-        (= password (or (env :mt2-password) "214"))))
+; (defn authfn [_ {:keys [username password]}]
+;    (and (= username (or (env :mt2-user)     "hkim"))
+;         (= password (or (env :mt2-password) "214"))))
 
 (def auth-backend
   (session-backend {:unauthorized-handler unauth-handler}))

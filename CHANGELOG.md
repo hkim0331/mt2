@@ -11,11 +11,25 @@
 * ^:private 使ってみるか？
 * resume
 * ユニキャスト
+* 記事を正順に.
+* デフォルトで一番下を見せる。
+
+* BUG reload で逆順
+* FIX return で送信できるように
+
+## 0.8.2 - 2021-05-26
+* メッセージを正順に表示。
+* input と textarea の上下を反転。
+* bump-version.sh: ${HOMEBREW_PREFIX}
+
+## 0.8.0 - 2020-11-14
+* メッセージ受信したら ping 鳴らす。
 
 ## 0.7.2 - 2020-10-21
 * mt2/page から [::response/ok] 等を外に出す。
   認証失敗な時とかに、[::response/unauthorized]を返したかったから。
   これでいいのかな？
+
 
 ## 0.7.1 - 2020-10-21
 * reset に save の機能を含める。
