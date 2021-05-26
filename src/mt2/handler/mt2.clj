@@ -3,7 +3,8 @@
    [ataraxy.response :as response]
    [clj-time.local   :as l]
    [environ.core     :refer [env]]
-   [hiccup.form      :refer [form-to text-field password-field hidden-field submit-button]]
+   [hiccup.form      :refer [form-to text-field password-field hidden-field
+                             submit-button]]
    [hiccup.page      :as hiccup]
    [integrant.core   :as ig]
    [ring.middleware.anti-forgery :as anti-forgery]
@@ -13,11 +14,12 @@
    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
    [taoensso.timbre  :as timbre :refer [debugf infof]]))
 
-(def version "0.8.2")
+(def version "0.8.3")
 
 (def msgs (atom []))
 
-(timbre/set-level! :debug)
+;;(timbre/set-level! :debug)
+
 (reset! sente/debug-mode?_ true)
 
 ;;; from sente official example
@@ -204,14 +206,19 @@
 (defn event-msg-handler
   "Wraps `-event-msg-handler` with logging, error catching, etc."
   [{:as ev-msg :keys [id ?data event]}]
-  (debugf "event-msg-handler: id: %s, ?data: %s, event: %s" id ?data event)
+  (debugf "event-msg-handler: id %s, ?data %s, event %s" id ?data event)
   (-event-msg-handler ev-msg))
 
 (defmethod -event-msg-handler :default
   [{:keys [event id ?data ring-req ?reply-fn send-fn]}]
-  (debugf "Unhandled event: %s" event
+  (debugf "Unhandled event, id %s" id
           (when ?reply-fn
             (?reply-fn {:umatched-event-as-echoed-from-server event}))))
+
+;; 0.8.3
+(defmethod -event-msg-handler :chsk/ws-ping
+  [_]
+  (debugf ":chsk/ws-ping"))
 
 (defmethod -event-msg-handler :mt2/msg
   [ev-msg]
