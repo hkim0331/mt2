@@ -35,11 +35,12 @@
 
 (def output-el (.getElementById js/document "output"))
 
+;; should change
 (defn ->output! [fmt & args]
   (let [msg (apply encore/format fmt args)]
-    (aset output-el "value" (str msg "\n" (.-value output-el)))
-    (aset output-el "scrollTop" 0)
-    (swap! messages conj msg)))
+    (aset output-el "value" (str (.-value output-el) "\n" msg));;
+    (aset output-el "scrollTop" (.-scrollHeight output-el));;
+    (swap! messages conj msg)));;
 
 (def message-el (.getElementById js/document "message"))
 

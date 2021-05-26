@@ -16,7 +16,9 @@
     (let [results (jdbc/insert! db :msgs {:content msg})]
       (-> results ffirst val)))
   (list-msgs [{db :spec}]
-    (let [results (jdbc/query db ["select content, timestamp from msgs order by id desc"])]
+    (let [results (jdbc/query
+                   db
+                   ["select content, timestamp from msgs order by id asc"])]
       results)))
 
 ;; FIXME: anti forgery
