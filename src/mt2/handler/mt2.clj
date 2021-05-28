@@ -12,9 +12,9 @@
    [ring.util.response :refer [redirect]]
    [taoensso.sente   :as sente]
    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
-   [taoensso.timbre  :as timbre :refer [debugf infof]]))
+   [taoensso.timbre  :as timbre :refer [debug debugf]]))
 
-(def version "0.8.5")
+(def version "0.8.6")
 (def version-string (str "hkimura, " version "."))
 
 (def msgs (atom []))
@@ -42,7 +42,7 @@
 (add-watch connected-uids :connected-uids
            (fn [_ _ old new]
              (when (not= old new)
-               (infof "Connected uids change: %s" new))))
+               (debugf "Connected uids change: %s" new))))
 
 (defn page
   [& contents]
@@ -79,6 +79,17 @@
        (password-field {:placeholder "password"} "password")
        (submit-button {:class "btn btn-primary btn-sm"} "login"))
       [:hr]
+      [:ul
+       [:li "5/26 の早朝、macOS を 11.4 にバージョンアップ後、
+             いろいろ動かなくなった。"]
+       [:li "タイミングはそうなんだが、バージョンアップが原因なんだろうか？"]
+       [:li "動かないのは openjdk, zulu, OpenCV java binding,,, など。
+             c++ でもエラー出る。"]
+       [:li "mt.melt のコードを調整して乗り越えようとしてるが、
+             なかなか上手くいかん。"]
+       [:li "そのうち、修正が来るでしょう。"]
+       [:li "もうちょっとがんばってみよ。"]]
+      [:hr]
       [:div "hkimura, " version "."])]))
 
 ;; pass username/password as environment variables.
@@ -89,9 +100,15 @@
               (= password (env :mt2-password)))
          (and (= username (env :mt2-admin))
               (= password (env :mt2-admin-password))))
-      (-> (redirect next)
-          (assoc-in [:session :identity] (keyword username)))
-      [::response/found "/login"])))
+      (do
+        (debug "login success as:" username)
+        (debug "next:" next)
+        (debug "keyword:" (keyword username))
+        (-> (redirect next)
+            (assoc-in [:session :identity] (keyword username))))
+      (do
+        (debug "login failure, username " username ", password " password)
+        [::response/found "/login"]))))
 
 (defmethod ig/init-key :mt2.handler.mt2/logout [_ _]
   (fn [req]
