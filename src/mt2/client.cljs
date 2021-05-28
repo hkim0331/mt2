@@ -33,7 +33,7 @@
 
 (def messages (atom []))
 
-(def output-el (.getElementById js/document "output"))
+(def output-el  (.getElementById js/document "output"))
 (def message-el (.getElementById js/document "message"))
 
 ;; changed the order of display messages 0.8.2
