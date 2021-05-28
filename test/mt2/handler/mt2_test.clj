@@ -1,8 +1,8 @@
 (ns mt2.handler.mt2-test
-  (:require [clojure.test :refer :all]
+  (:require [clojure.test :refer [deftest testing is]]
             [integrant.core :as ig]
-            [ring.mock.request :as mock]
-            [mt2.handler.mt2 :as mt2]))
+            [ring.mock.request :as mock]))
+            ;; [mt2.handler.mt2 :as mt2]))
 
 (deftest smoke-test
   (testing "index page exists"

@@ -14,7 +14,7 @@
    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
    [taoensso.timbre  :as timbre :refer [debugf infof]]))
 
-(def version "0.8.3")
+(def version "0.8.4")
 (def version-string (str "hkimura, " version "."))
 
 (def msgs (atom []))
