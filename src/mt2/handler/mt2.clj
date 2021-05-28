@@ -14,7 +14,7 @@
    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
    [taoensso.timbre  :as timbre :refer [debugf infof]]))
 
-(def version "0.8.4")
+(def version "0.8.5")
 (def version-string (str "hkimura, " version "."))
 
 (def msgs (atom []))
@@ -58,7 +58,7 @@
      (let [csrf-token (force anti-forgery/*anti-forgery-token*)]
        [:div#sente-csrf-token {:data-csrf-token csrf-token}])
      [:div.container
-      [:h2 "micro twitter"]
+      [:h2 "micro twitter "]
       contents
       ;; [:hr]
       ;; [:div "hkimura, " version "."]
@@ -77,7 +77,9 @@
        (hidden-field "next" "/")
        (text-field {:placeholder "username"} "username")
        (password-field {:placeholder "password"} "password")
-       (submit-button {:class "btn btn-primary btn-sm"} "login")))]))
+       (submit-button {:class "btn btn-primary btn-sm"} "login"))
+      [:hr]
+      [:div "hkimura, " version "."])]))
 
 ;; pass username/password as environment variables.
 (defmethod ig/init-key :mt2.handler.mt2/login-post [_ _]
