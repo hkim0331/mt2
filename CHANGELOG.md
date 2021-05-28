@@ -6,12 +6,18 @@
   unresolved symbol mt2
 * 受け取ったメッセージをデータベースへ保存する。
 * 禁止ワード。
-* エンターで送信。
 * github. 現在リモートリポジトリは git.melt.
 * ^:private 使ってみるか？
 * resume
 * 個人あてユニキャスト
 * FIX return で送信できるように
+
+## 0.8.4 - 2021-5-28
+* test/mt2: clj-kondo が warning しないよう、:all を書き換え。
+* bugfix bump-version.sh: version-string を書き換えないように。
+* textarea 高さ調整。iPhone8 で全画面が出るように。
+* version-string を textarea:placeholder で表示。
+* handshake 時にメッセージを出さない。timbre/debug で。
 
 ## 0.8.2 - 2021-05-26
 * メッセージを正順に表示。
