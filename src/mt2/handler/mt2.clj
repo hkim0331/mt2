@@ -75,12 +75,9 @@
        [:post "/login"]
        (anti-forgery-field)
        (hidden-field "next" "/")
-       (text-field {:placeholder "username" :width "30%"}
-                   "username")
-       (password-field {:placeholder "password" :width "30%"}
-                       "password")
-       (submit-button {:class "btn btn-primary btn-sm"}
-                      "login")))]))
+       (text-field {:placeholder "username"} "username")
+       (password-field {:placeholder "password"} "password")
+       (submit-button {:class "btn btn-primary btn-sm"} "login")))]))
 
 ;; pass username/password as environment variables.
 (defmethod ig/init-key :mt2.handler.mt2/login-post [_ _]
@@ -122,11 +119,12 @@
          [:div.row
           [:div.col-10
            [:input#message
-            {:style "width:100%"
-             :placeholder "type your message"}]]
+            {:placeholder "type your message"
+             :style "width: 100%;"}]]
           [:div.col-1
            [:button#send
-            {:type "button" :class "btn btn-primary btn-sm"}
+            {:type "button"
+             :class "btn btn-primary btn-sm"}
             "send"]]]]
         [:p
          [:button#clear

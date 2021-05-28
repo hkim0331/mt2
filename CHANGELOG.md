@@ -1,16 +1,12 @@
 # mt2
 
 ## Unreleased
-* ClojureScript からログを標準出力に書き出す。
-* clj-kondo が deps.edn の mt2 に赤マークをつけるのはなぜ？
-  unresolved symbol mt2
 * 受け取ったメッセージをデータベースへ保存する。
 * 禁止ワード。
-* github. 現在リモートリポジトリは git.melt.
-* ^:private 使ってみるか？
-* resume
 * 個人あてユニキャスト
-* FIX return で送信できるように
+* return で送信できるように(しないほうがいいかも)
+* send ボタンが iPhone ではみ出る。
+* login/password/submit を１行におさめる。
 
 ## 0.8.4 - 2021-5-28
 * test/mt2: clj-kondo が warning しないよう、:all を書き換え。
