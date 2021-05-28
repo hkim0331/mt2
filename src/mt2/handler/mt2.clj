@@ -15,15 +15,14 @@
    [taoensso.timbre  :as timbre :refer [debugf infof]]))
 
 (def version "0.8.3")
+(def version-string (str "hkimura, " version "."))
 
 (def msgs (atom []))
 
 ;;(timbre/set-level! :debug)
-
 (reset! sente/debug-mode?_ true)
 
 ;;; from sente official example
-
 (let [packer :edn ; Default packer, a good choice in most cases
 
       chsk-server
@@ -59,10 +58,10 @@
      (let [csrf-token (force anti-forgery/*anti-forgery-token*)]
        [:div#sente-csrf-token {:data-csrf-token csrf-token}])
      [:div.container
-      [:h2 "Micro Twitter"]
+      [:h2 "micro twitter"]
       contents
-      [:hr]
-      [:div "hkimura, " version "."]
+      ;; [:hr]
+      ;; [:div "hkimura, " version "."]
       [:script {:src "/js/main.js"}]]]))
 
 ;;; login/logout
@@ -112,7 +111,9 @@
     (debugf "index")
     [::response/ok
       (page
-        [:p [:textarea#output {:style "width:100%; height:400px;"}]]
+        [:p
+         [:textarea#output {:style "width:100%; height:380px;"
+                            :placeholder version-string}]]
         [:p
          [:div.row
           [:div.col-10
