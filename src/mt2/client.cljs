@@ -29,11 +29,12 @@
 
 ;;(timbre/set-level! :debug)
 
-(def MAX_MSG_LEN 70)
+(def MAX_MSG_LEN 140)
 
 (def messages (atom []))
 
-(def output-el (.getElementById js/document "output"))
+(def output-el  (.getElementById js/document "output"))
+(def message-el (.getElementById js/document "message"))
 
 ;; changed the order of display messages 0.8.2
 (defn ->output! [fmt & args]
@@ -41,8 +42,6 @@
     (aset output-el "value" (str (.-value output-el) "\n" msg))
     (aset output-el "scrollTop" (.-scrollHeight output-el))
     (swap! messages conj msg)))
-
-(def message-el (.getElementById js/document "message"))
 
 ;;;; Sente channel socket client
 
@@ -102,7 +101,8 @@
   [{:keys [?data]}]
   (let [[?uid ?csrf-token ?handshake-data] ?data]
     (timbre/debug ?uid " " ?csrf-token ?handshake-data)
-    (->output! "Micro Twitter started.")))
+    ;;(->output! "micro twitter started")
+    (timbre/debug "handshake")))
 
 ;;;; UI events
 

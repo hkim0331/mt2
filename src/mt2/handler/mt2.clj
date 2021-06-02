@@ -14,16 +14,15 @@
    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
    [taoensso.timbre  :as timbre :refer [debugf infof]]))
 
-(def version "0.8.3")
+(def version "0.8.5")
+(def version-string (str "hkimura, " version "."))
 
 (def msgs (atom []))
 
 ;;(timbre/set-level! :debug)
-
 (reset! sente/debug-mode?_ true)
 
 ;;; from sente official example
-
 (let [packer :edn ; Default packer, a good choice in most cases
 
       chsk-server
@@ -59,10 +58,10 @@
      (let [csrf-token (force anti-forgery/*anti-forgery-token*)]
        [:div#sente-csrf-token {:data-csrf-token csrf-token}])
      [:div.container
-      [:h2 "Micro Twitter"]
+      [:h2 "micro twitter "]
       contents
-      [:hr]
-      [:div "hkimura, " version "."]
+      ;; [:hr]
+      ;; [:div "hkimura, " version "."]
       [:script {:src "/js/main.js"}]]]))
 
 ;;; login/logout
@@ -72,12 +71,15 @@
     [::response/ok
      (page
       [:h2 "Log in"]
-      (form-to [:post "/login"]
-               (anti-forgery-field)
-               (hidden-field "next" "/")
-               (text-field {:placeholder "username"} "username")
-               (password-field {:placeholder "password"} "password")
-               (submit-button {:class "btn btn-primary btn-sm"} "login")))]))
+      (form-to
+       [:post "/login"]
+       (anti-forgery-field)
+       (hidden-field "next" "/")
+       (text-field {:placeholder "username"} "username")
+       (password-field {:placeholder "password"} "password")
+       (submit-button {:class "btn btn-primary btn-sm"} "login"))
+      [:hr]
+      [:div "hkimura, " version "."])]))
 
 ;; pass username/password as environment variables.
 (defmethod ig/init-key :mt2.handler.mt2/login-post [_ _]
@@ -112,16 +114,19 @@
     (debugf "index")
     [::response/ok
       (page
-        [:p [:textarea#output {:style "width:100%; height:400px;"}]]
+        [:p
+         [:textarea#output {:style "width:100%; height:380px;"
+                            :placeholder version-string}]]
         [:p
          [:div.row
           [:div.col-10
            [:input#message
-            {:style "width:100%"
-             :placeholder "type your message"}]]
-          [:div.col-2
+            {:placeholder "type your message"
+             :style "width: 100%;"}]]
+          [:div.col-1
            [:button#send
-            {:type "button" :class "btn btn-primary btn-sm"}
+            {:type "button"
+             :class "btn btn-primary btn-sm"}
             "send"]]]]
         [:p
          [:button#clear

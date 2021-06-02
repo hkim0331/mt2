@@ -12,7 +12,7 @@
   [req meta]
   (if (authenticated? req)
     [::response/found (:uri req)]
-    [::response/found "/login?next=/"]))
+    [::response/found "/login"]))
 
 ; (defn authfn [_ {:keys [username password]}]
 ;    (and (= username (or (env :mt2-user)     "hkim"))
