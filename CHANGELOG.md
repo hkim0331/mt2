@@ -11,7 +11,7 @@
 ## 0.8.5
 * マックからログインできなくなった。バージョンチェックのため
   バージョンをページに明示する。on-site デバッグしないといけないか？
-  
+
 ## 0.8.4 - 2021-5-28
 * test/mt2: clj-kondo が warning しないよう、:all を書き換え。
 * bugfix bump-version.sh: version-string を書き換えないように。
