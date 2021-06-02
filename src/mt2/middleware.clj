@@ -6,20 +6,24 @@
    [buddy.auth.backends.session :refer [session-backend]]
    [buddy.auth.middleware :refer [wrap-authentication wrap-authorization]]
    #_[environ.core :refer [env]]
-   [integrant.core :as ig]))
+   [integrant.core :as ig]
+   [ring.middleware.session :refer [wrap-session]]
+   [taoensso.timbre  :as timbre]))
 
 (defn unauth-handler
   [req meta]
+  (timbre/debug "unauth-hnandler:req:" (:session req))
   (if (authenticated? req)
     [::response/found (:uri req)]
     [::response/found "/login"]))
 
-; (defn authfn [_ {:keys [username password]}]
-;    (and (= username (or (env :mt2-user)     "hkim"))
-;         (= password (or (env :mt2-password) "214"))))
-
 (def auth-backend
   (session-backend {:unauthorized-handler unauth-handler}))
+
+(defn print-req [handler]
+  (fn [req]
+    (timbre/info "req:" req)
+    (handler req)))
 
 (defmethod ig/init-key ::auth [_ _]
   (fn [handler]
