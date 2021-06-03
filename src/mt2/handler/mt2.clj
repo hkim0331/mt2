@@ -14,7 +14,7 @@
    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
    [taoensso.timbre  :as timbre :refer [debug debugf]]))
 
-(def version "0.8.7.1")
+(def version "0.8.9")
 (def version-string (str "hkimura, " version "."))
 
 (def msgs (atom []))
@@ -82,11 +82,9 @@
       [:ul
        [:li "[2021-06-03] ライブラリを更新。Clojure 1.10.3, ClojureScript 1.10.866.
              世界の先進プログラマたちに感謝だ。"]
-       [:li "家の Brave (バージョン 1.25.68) から家の mt サーバには接続できる。
-             mt.melt へはログイン後、 mt のセッション画面に行かないでログインに戻っちゃう。"]
-       [:li "Safari, Chrome は問題なく、mt.melt とセッションできる。"]
-       [:li "mt.melt と Braveがセッションできないのは（Edgeも？）
-             プログラムとは別の場所に問題あるよ。"]]
+       [:li "ログインに失敗する場合、
+             http://mt.melt.kyutech.ac.jp
+             を試してみて。https じゃなくて http です。"]]
       [:hr
        [:p "hkimura, " version "."]])]))
 

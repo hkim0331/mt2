@@ -24,7 +24,7 @@
 
 (defn probe [handler]
   (fn [req]
-    (timbre/info "probe req:" req)
+    (timbre/info "probe (:session req)" (:session req))
     (handler req)))
 
 (defmethod ig/init-key ::auth [_ _]
