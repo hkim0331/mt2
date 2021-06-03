@@ -8,6 +8,9 @@
 * send ボタンが iPhone ではみ出る。
 * login/password/submit を１行におさめる。
 
+## 0.8.9 - 2021-06-03
+* nginx の https と Brave の組み合わせがバットかな。
+
 ## 0.8.8 - 2021-06-03
 * メッセージを書き換えただけ。
   まだ Brave から mt.melt へセッションを開けない。
