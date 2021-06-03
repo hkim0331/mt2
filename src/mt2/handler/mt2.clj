@@ -83,7 +83,8 @@
        [:li "[2021-06-03] ライブラリを更新。Clojure 1.10.3, ClojureScript 1.10.866.
              世界の先進プログラマたちに感謝だ。"]
        [:li "ログインに失敗する場合、
-             http://mt.melt.kyutech.ac.jp
+             <a href='http://mt.melt.kyutech.ac.jp'>
+             http://mt.melt.kyutech.ac.jp</a>
              を試してみて。https じゃなくて http です。"]]
       [:hr
        [:p "hkimura, " version "."]])]))

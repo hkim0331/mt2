@@ -31,6 +31,7 @@
   (fn [handler]
     (-> handler
         (restrict {:handler authenticated?})
+        ;; これがあると (reset) がきかない？
         probe
         (wrap-authorization  auth-backend)
         (wrap-authentication auth-backend))))
