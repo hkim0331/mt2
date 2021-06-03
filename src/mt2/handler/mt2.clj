@@ -80,9 +80,13 @@
        (submit-button {:class "btn btn-primary btn-sm"} "login"))
       [:hr]
       [:ul
-       [:li "2021-06-03 ライブラリを更新。"]
-       [:li "家の brave から家のサーバには接続できる。"]
-       [:li "大学サーバとつながらないってのはプログラムとは別の場所に問題あるんだろ。"]]
+       [:li "[2021-06-03] ライブラリを更新。Clojure 1.10.3, ClojureScript 1.10.866.
+             世界の先進プログラマたちに感謝だ。"]
+       [:li "家の Brave (バージョン 1.25.68) から家の mt サーバには接続できる。
+             mt.melt へはログイン後、 mt のセッション画面に行かないでログインに戻っちゃう。"]
+       [:li "Safari, Chrome は問題なく、mt.melt とセッションできる。"]
+       [:li "mt.melt と Braveがセッションできないのは（Edgeも？）
+             プログラムとは別の場所に問題あるよ。"]]
       [:hr
        [:p "hkimura, " version "."]])]))
 
@@ -98,6 +102,8 @@
         (debug "login success as:" username)
         (debug "next:" next)
         (debug "keyword:" (keyword username))
+
+        ;; ここ。brave で入っていかない。brave の機能なのか。
         (-> (redirect next)
             (assoc-in [:session :identity] (keyword username))))
       (do
