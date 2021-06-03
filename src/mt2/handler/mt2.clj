@@ -248,6 +248,13 @@
     (debugf ":mt2/msg: %s" ?data)
     (broadcast! ?data)))
 
-;;; sente server loop
+;;
+(defmethod ig/init-key :mt2.handler.mt2/error [_ _]
+  (fn [req]
+    [::response/ok
+     (page
+      [:h2 "ERROR"]
+      [:p "req:" (str req)])]))
 
+;;; sente server loop
 (sente/start-server-chsk-router! ch-chsk event-msg-handler)
