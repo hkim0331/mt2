@@ -14,7 +14,7 @@
    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
    [taoensso.timbre  :as timbre :refer [debug debugf]]))
 
-(def version "0.8.7.1")
+(def version "0.8.8")
 (def version-string (str "hkimura, " version "."))
 
 (def msgs (atom []))
@@ -86,7 +86,7 @@
              mt.melt へはログイン後、 mt のセッション画面に行かないでログインに戻っちゃう。"]
        [:li "Safari, Chrome は問題なく、mt.melt とセッションできる。"]
        [:li "mt.melt と Braveがセッションできないのは（Edgeも？）
-             プログラムとは別の場所に問題あるよ。"]]
+             プログラムとは別の場所に問題あるはず。"]]
       [:hr
        [:p "hkimura, " version "."]])]))
 
