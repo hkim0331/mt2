@@ -80,9 +80,11 @@
        (submit-button {:class "btn btn-primary btn-sm"} "login"))
       [:hr]
       [:ul
-       [:li "2021-06-03 ライブラリを更新。"]
+       [:li "2021-06-03 ライブラリを更新。Clojure 1.10.3, clojureScript 1.10.866.
+             世界の先進プログラマたちに感謝。"]
        [:li "家の brave から家のサーバには接続できる。"]
-       [:li "大学サーバとつながらないってのはプログラムとは別の場所に問題あるんだろ。"]]
+       [:li "大学サーバとつながらないってのはプログラムとは別の場所に問題あるんだろ。"]
+       [:li "問題を発生する箇所は特定できた。が、どうやって回避できるか？"]]
       [:hr
        [:p "hkimura, " version "."]])]))
 
@@ -98,6 +100,8 @@
         (debug "login success as:" username)
         (debug "next:" next)
         (debug "keyword:" (keyword username))
+
+        ;; ここ。brave で入っていかない。brave の機能なのか。
         (-> (redirect next)
             (assoc-in [:session :identity] (keyword username))))
       (do
