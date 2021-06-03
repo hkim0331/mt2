@@ -1,4 +1,4 @@
-(defproject mt2 "0.8.9"
+(defproject mt2 "0.8.10"
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
   :min-lein-version "2.0.0"
@@ -8,6 +8,9 @@
    [buddy/buddy-auth     "2.2.0"]
 
    [clj-time             "0.15.2"]
+
+   ;;really needed?
+   [com.fasterxml.jackson.core/jackson-core "2.12.3"]
 
    [com.taoensso/sente   "1.16.0"]
    [com.taoensso/timbre  "5.1.0"]
@@ -35,10 +38,7 @@
 
    [cljs-bach "0.3.0"]
 
-   [cljs-http "0.1.46"]
-
-   ;; https://stackoverflow.com/questions/30367045/java-lang-noclassdeffounderror-com-fasterxml-jackson-core-jsonfactorylxc l
-   [com.fasterxml.jackson.core/jackson-core "2.11.3"]]
+   [cljs-http "0.1.46"]]
 
   :plugins [[duct/lein-duct   "0.12.1"]]
   :main ^:skip-aot mt2.main
@@ -49,7 +49,8 @@
   {:dev  [:project/dev :profiles/dev]
    :repl {:prep-tasks   ^:replace ["javac" "compile"]
           :dependencies [[cider/piggieback "0.5.1"]]
-          :repl-options {:init-ns user, :nrepl-middleware [cider.piggieback/wrap-cljs-repl]}}
+          :repl-options {:init-ns user,
+                         :nrepl-middleware [cider.piggieback/wrap-cljs-repl]}}
    :uberjar {:aot :all}
    :profiles/dev {}
    :project/dev  {:source-paths   ["dev/src"]

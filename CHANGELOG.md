@@ -5,8 +5,11 @@
 * 禁止ワード。
 * 個人あてユニキャスト
 * return で送信できるように(しないほうがいいかも)
-* send ボタンが iPhone ではみ出る。
-* login/password/submit を１行におさめる。
+* invalid anti-forgery-token を表示しないようにできるか？
+
+## 0.8.10 - 2021-06-03
+* 「ログインに失敗したら http」を login ページに。
+* favicon.ico
 
 ## 0.8.9 - 2021-06-03
 * nginx の https と Brave の組み合わせがバットかな。
