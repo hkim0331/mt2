@@ -14,7 +14,7 @@
    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
    [taoensso.timbre  :as timbre :refer [debug debugf]]))
 
-(def version "0.8.6")
+(def version "0.8.7")
 (def version-string (str "hkimura, " version "."))
 
 (def msgs (atom []))
@@ -80,17 +80,13 @@
        (submit-button {:class "btn btn-primary btn-sm"} "login"))
       [:hr]
       [:ul
-       [:li "5/26 の早朝、macOS を 11.4 にバージョンアップ後、
-             いろいろ動かなくなった。"]
-       [:li "タイミングはそうなんだが、バージョンアップが原因なんだろうか？"]
-       [:li "ただ、動かないのは openjdk, zulu, OpenCV java binding,,, など、
-             たくさん。c++ でもエラー出る。"]
-       [:li "mt.melt のコードを調整して乗り越えようとしてるが、
-             なかなか上手くいかん。"]
-       [:li "そのうち修正が流れて来るかな。"]
-       [:li "もうちょっとがんばってみよ。"]]
-      [:hr]
-      [:div "hkimura, " version "."])]))
+       [:li "2021-06-03 ライブラリを更新した。
+             プログラムコンパイル時の warning が出なくなった。
+             世界中の先進プログラマに感謝だな。
+             brave では接続できた。
+             他は？"]]
+      [:hr
+       [:p "hkimura, " version "."]])]))
 
 ;; pass username/password as environment variables.
 (defmethod ig/init-key :mt2.handler.mt2/login-post [_ _]
@@ -248,6 +244,13 @@
     (debugf ":mt2/msg: %s" ?data)
     (broadcast! ?data)))
 
-;;; sente server loop
+;;
+(defmethod ig/init-key :mt2.handler.mt2/error [_ _]
+  (fn [req]
+    [::response/ok
+     (page
+      [:h2 "ERROR"]
+      [:p "req:" (str req)])]))
 
+;;; sente server loop
 (sente/start-server-chsk-router! ch-chsk event-msg-handler)

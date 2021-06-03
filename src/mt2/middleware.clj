@@ -10,11 +10,12 @@
    [ring.middleware.session :refer [wrap-session]]
    [taoensso.timbre  :as timbre]))
 
+;;
 (defn unauth-handler
   [req meta]
   (timbre/debug "unauth-hnandler:req:" (:session req))
   (if (authenticated? req)
-    [::response/found (:uri req)]
+    [::response/found "/error"]
     [::response/found "/login"]))
 
 (def auth-backend

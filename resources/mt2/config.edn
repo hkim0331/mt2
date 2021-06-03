@@ -18,11 +18,15 @@
     ;; ^:auth 必要か？
     [:get  "/reload"]  [:mt2.handler.mt2/reload]
     [:get  "/reset"]   [:mt2.handler.mt2/reset]
-    [:get  "/save"]    [:mt2.handler.mt2/save]}
+    [:get  "/save"]    [:mt2.handler.mt2/save]
+
+    [:get "/error"] [:mt2.handler.mt2/error]}
 
    :middleware {:auth #ig/ref :mt2.middleware/auth}}
 
   :mt2.middleware/auth    {}
+
+  :mt2.handler.mt2/error {}
 
   :mt2.handler.mt2/login  {}
   :mt2.handler.mt2/login-post  {}

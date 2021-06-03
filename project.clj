@@ -1,4 +1,4 @@
-(defproject mt2 "0.8.6"
+(defproject mt2 "0.8.7"
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
   :min-lein-version "2.0.0"
@@ -25,8 +25,8 @@
    [environ  "1.2.0"]
    [hiccup   "1.0.5"]
 
-   [org.clojure/clojure       "1.10.1"]
-   [org.clojure/clojurescript "1.10.773"]
+   [org.clojure/clojure       "1.10.3"]
+   [org.clojure/clojurescript "1.10.866"] ; was 773
    [org.clojure/core.async    "1.3.610"]
    [org.clojure/java.jdbc     "0.7.11"]
 
