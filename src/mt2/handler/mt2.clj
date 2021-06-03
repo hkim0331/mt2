@@ -14,7 +14,7 @@
    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
    [taoensso.timbre  :as timbre :refer [debug debugf]]))
 
-(def version "0.8.7")
+(def version "0.8.7.1")
 (def version-string (str "hkimura, " version "."))
 
 (def msgs (atom []))
@@ -80,11 +80,9 @@
        (submit-button {:class "btn btn-primary btn-sm"} "login"))
       [:hr]
       [:ul
-       [:li "2021-06-03 ライブラリを更新した。
-             プログラムコンパイル時の warning が出なくなった。
-             世界中の先進プログラマに感謝だな。
-             brave では接続できた。
-             他は？"]]
+       [:li "2021-06-03 ライブラリを更新。"]
+       [:li "家の brave から家のサーバには接続できる。"]
+       [:li "大学サーバとつながらないってのはプログラムとは別の場所に問題あるんだろ。"]]
       [:hr
        [:p "hkimura, " version "."]])]))
 
