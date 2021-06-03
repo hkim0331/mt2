@@ -8,6 +8,11 @@
 * send ボタンが iPhone ではみ出る。
 * login/password/submit を１行におさめる。
 
+## 0.8.7 - 2021-06-03
+* lein clean && lein uberjar してみる。brave から接続できた。
+* clojure 1.10.3
+* clojurescript 1.10.866
+
 ## (DEBUG) 0.8.6
 * バグをレポートするバージョン。ログインできないのはセッションか？
 * マックからログインできなくなった。バージョンチェックのため
