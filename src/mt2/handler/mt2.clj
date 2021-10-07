@@ -19,6 +19,8 @@
 
 (def msgs (atom []))
 
+(def admin? (atom false))
+
 ;;(timbre/set-level! :debug)
 (reset! sente/debug-mode?_ true)
 
@@ -89,7 +91,6 @@
       [:hr
        [:p "hkimura, " version "."]])]))
 
-(def admin? (atom false))
 
 ;; pass username/password as environment variables.
 (defmethod ig/init-key :mt2.handler.mt2/login-post [_ _]
