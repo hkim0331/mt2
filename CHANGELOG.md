@@ -7,8 +7,11 @@
 * return で送信できるように(しないほうがいいかも)
 * invalid anti-forgery-token を表示しないようにできるか？
 * admin のメッセージに hkimura をアペンド。
-* weekly に save/reset
+* weekly に自動 save/reset
 
+
+## 0.9.1 - 2021-10-07
+* admin でログインしたら、メッセージに [hkim] をプリペンド後、送信する。
 
 ## 0.8.10 - 2021-06-03
 * 「ログインに失敗したら http」を login ページに。
