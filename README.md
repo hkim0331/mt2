@@ -2,7 +2,7 @@
 
 micro twitter version 2.
 
-I wrote `micro twitter` in CommonLisp using Hunchentoot/Huncheksocket library.
+I wrote `micro twitter` in COMMONLISP using Hunchentoot/Huncheksocket library.
 `mt2` is a remake of it by using Clojure/Sente.
 I must learn a lot more.
 
