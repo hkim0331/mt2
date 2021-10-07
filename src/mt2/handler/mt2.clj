@@ -101,8 +101,9 @@
          (and (= username (env :mt2-admin))
               (= password (env :mt2-admin-password))))
       (do
-        (when (= username (env :mt2-admin))
-         (reset! admin? true))
+        (debug "login success as:" username)
+        (debug "next:" next)
+        (debug "keyword:" (keyword username))
         (-> (redirect next)
             (assoc-in [:session :identity] (keyword username))))
       (do
@@ -245,10 +246,12 @@
   [_]
   (debugf ":chsk/ws-ping"))
 
+;; 0.9.3 2021-10-07
 (defmethod -event-msg-handler :mt2/msg
-  [ev-msg]
-  (let [{:keys [?data]} ev-msg]
-    (debugf ":mt2/msg: %s" ?data)
+  [{:keys [?data ring-req]}]
+  ;;(debug "?data" ?data "identity" (get-in ring-req [:session :identity]))
+  (if (= :admin (get-in ring-req [:session :identity]))
+    (broadcast! (str "[hkim] " ?data))
     (broadcast! ?data)))
 
 ;;
