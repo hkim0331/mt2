@@ -6,6 +6,9 @@
 * 個人あてユニキャスト
 * return で送信できるように(しないほうがいいかも)
 * invalid anti-forgery-token を表示しないようにできるか？
+* admin のメッセージに hkimura をアペンド。
+* weekly に save/reset
+
 
 ## 0.8.10 - 2021-06-03
 * 「ログインに失敗したら http」を login ページに。

@@ -183,6 +183,7 @@
   (let [dest (format "logs/%s.log" (l/local-now))]
     (spit dest str)))
 
+;; reset = save + reset!
 (defmethod ig/init-key :mt2.handler.mt2/reset [_ _]
   (fn [req]
     (if (admin? req)
