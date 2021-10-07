@@ -14,7 +14,7 @@
    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
    [taoensso.timbre  :as timbre :refer [debug debugf]]))
 
-(def version "0.8.10")
+(def version "0.9.1")
 (def version-string (str "hkimura, " version "."))
 
 (def msgs (atom []))
@@ -89,6 +89,8 @@
       [:hr
        [:p "hkimura, " version "."]])]))
 
+(def admin? (atom false))
+
 ;; pass username/password as environment variables.
 (defmethod ig/init-key :mt2.handler.mt2/login-post [_ _]
   (fn [{[_ {:strs [username password next]}] :ataraxy/result}]
@@ -98,11 +100,8 @@
          (and (= username (env :mt2-admin))
               (= password (env :mt2-admin-password))))
       (do
-        (debug "login success as:" username)
-        (debug "next:" next)
-        (debug "keyword:" (keyword username))
-
-        ;; ここ。brave で入っていかない。brave の機能なのか。
+        (when (= username (env :mt2-admin))
+         (reset! admin? true))
         (-> (redirect next)
             (assoc-in [:session :identity] (keyword username))))
       (do
@@ -111,7 +110,8 @@
 
 (defmethod ig/init-key :mt2.handler.mt2/logout [_ _]
   (fn [req]
-    (debugf "logout %s" (get-in req [:session]))
+    ;(debugf "logout %s" (get-in req [:session]))
+    (reset! admin? false)
     (-> (redirect "/login")
         (assoc :session {}))))
 
@@ -127,7 +127,7 @@
 
 (defmethod ig/init-key :mt2.handler.mt2/index [_ _]
   (fn [{[_] :ataraxy/result}]
-    (debugf "index")
+    ;;(debugf "index")
     [::response/ok
       (page
         [:p
@@ -170,12 +170,12 @@
       (debugf "reload: %s" ret)
       [::response/ok ret])))
 
-(defn admin? [req]
-  ;; user is a keyword, admin is a string.
-  ;; compare them after coersing user into string.
-  (let [user  (name (get-in req [:session :identity]))
-        admin (env :mt2-admin)]
-    (= user admin)))
+;; (defn admin? [req]
+;;   ;; user is a keyword, admin is a string.
+;;   ;; compare them after coersing user into string.
+;;   (let [user  (name (get-in req [:session :identity]))
+;;         admin (env :mt2-admin)]
+;;     (= user admin)))
 
 (defn save
   "msgs をファイル log/<localtime>.logに書き出す。"
@@ -183,9 +183,10 @@
   (let [dest (format "logs/%s.log" (l/local-now))]
     (spit dest str)))
 
+;; reset = save + reset!
 (defmethod ig/init-key :mt2.handler.mt2/reset [_ _]
   (fn [req]
-    (if (admin? req)
+    (if @admin?
       (do
         (debugf "admin called reset")
         (save (msgs->str))
@@ -202,7 +203,7 @@
 ;; 「reset 使え」のメッセージでも出すか？
 (defmethod ig/init-key :mt2.handler.mt2/save [_ _]
   (fn [req]
-    (when (admin? req)
+    (when @admin?
       (save (msgs->str)))
     [::response/found "/"]))
 
@@ -210,7 +211,9 @@
 
 (defn broadcast!
   [msg]
-  (let [msg (format "%s\n  %s" (str (java.util.Date.)) msg)]
+  (let [msg (format "%s\n  %s%s"
+                    (str (java.util.Date.))
+                    (if @admin? "[hkim] " "") msg)]
     (swap! msgs conj msg)
     ;;(debugf "@msgs: %s" @msgs)
     (doseq [uid (:any @connected-uids)]
