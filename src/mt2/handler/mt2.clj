@@ -14,6 +14,9 @@
    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
    [taoensso.timbre  :as timbre :refer [debug debugf]]))
 
+(timbre/set-level! :info)
+(reset! sente/debug-mode?_ false)
+
 (def version "0.9.3")
 (def version-string (str "hkimura, " version "."))
 
@@ -21,8 +24,7 @@
 
 (def admin? (atom false))
 
-;;(timbre/set-level! :debug)
-(reset! sente/debug-mode?_ true)
+
 
 ;;; from sente official example
 (let [packer :edn ; Default packer, a good choice in most cases
@@ -251,7 +253,7 @@
   [{:keys [?data ring-req]}]
   ;;(debug "?data" ?data "identity" (get-in ring-req [:session :identity]))
   (if (= :admin (get-in ring-req [:session :identity]))
-    (broadcast! (str "[hkim] " ?data))
+    (broadcast! (str "🍺 " ?data))
     (broadcast! ?data)))
 
 ;;
