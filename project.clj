@@ -1,4 +1,4 @@
-(defproject mt2 "0.9.3"
+(defproject mt2 "0.9.4"
   :description "micro twitter for hkimura class"
   :url "http://example.com/FIXME"
   :min-lein-version "2.0.0"
