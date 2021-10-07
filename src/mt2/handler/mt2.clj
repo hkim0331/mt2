@@ -14,10 +14,12 @@
    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
    [taoensso.timbre  :as timbre :refer [debug debugf]]))
 
-(def version "0.9.1")
+(def version "0.9.3")
 (def version-string (str "hkimura, " version "."))
 
 (def msgs (atom []))
+
+(def admin? (atom false))
 
 ;;(timbre/set-level! :debug)
 (reset! sente/debug-mode?_ true)
@@ -89,7 +91,6 @@
       [:hr
        [:p "hkimura, " version "."]])]))
 
-(def admin? (atom false))
 
 ;; pass username/password as environment variables.
 (defmethod ig/init-key :mt2.handler.mt2/login-post [_ _]
@@ -100,8 +101,9 @@
          (and (= username (env :mt2-admin))
               (= password (env :mt2-admin-password))))
       (do
-        (when (= username (env :mt2-admin))
-         (reset! admin? true))
+        (debug "login success as:" username)
+        (debug "next:" next)
+        (debug "keyword:" (keyword username))
         (-> (redirect next)
             (assoc-in [:session :identity] (keyword username))))
       (do
@@ -244,10 +246,12 @@
   [_]
   (debugf ":chsk/ws-ping"))
 
+;; 0.9.3 2021-10-07
 (defmethod -event-msg-handler :mt2/msg
-  [ev-msg]
-  (let [{:keys [?data]} ev-msg]
-    (debugf ":mt2/msg: %s" ?data)
+  [{:keys [?data ring-req]}]
+  ;;(debug "?data" ?data "identity" (get-in ring-req [:session :identity]))
+  (if (= :admin (get-in ring-req [:session :identity]))
+    (broadcast! (str "[hkim] " ?data))
     (broadcast! ?data)))
 
 ;;

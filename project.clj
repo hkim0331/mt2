@@ -1,5 +1,5 @@
-(defproject mt2 "0.9.1"
-  :description "FIXME: write description"
+(defproject mt2 "0.9.3"
+  :description "micro twitter for hkimura class"
   :url "http://example.com/FIXME"
   :min-lein-version "2.0.0"
 
@@ -10,7 +10,7 @@
    [clj-time             "0.15.2"]
 
    ;;really needed?
-   ;;[com.fasterxml.jackson.core/jackson-core "2.12.3"]
+   [com.fasterxml.jackson.core/jackson-core "2.12.3"]
 
    [com.taoensso/sente   "1.16.0"]
    [com.taoensso/timbre  "5.1.0"]
