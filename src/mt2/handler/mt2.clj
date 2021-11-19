@@ -17,7 +17,7 @@
 (timbre/set-level! :info)
 (reset! sente/debug-mode?_ false)
 
-(def version "0.9.4")
+(def version "0.9.5")
 (def version-string (str "hkimura, " version "."))
 
 (def msgs (atom []))
@@ -87,6 +87,7 @@
        (submit-button {:class "btn btn-primary btn-sm"} "login"))
       [:hr]
       [:ul
+       [:li "[2021-11-19] hkimura からの返信はメッセージでなく時刻に 🍶 。季節柄。"]
        [:li "[2021-10-08] hkimura からの返信に 🍺 マーク。"]
        [:li "[2021-06-03] ライブラリを更新。Clojure 1.10.3, ClojureScript 1.10.866.
              世界の先進プログラマたちに感謝だ。"]
@@ -211,8 +212,10 @@
 ;;;; async push
 ;;;;
 (defn broadcast!
-  [msg]
-  (let [msg (format "%s\n  %s" (str (java.util.Date.)) msg)]
+  [msg admin?]
+  (let [msg (if admin?
+              (format "%s\n  %s" (str "🍶 " (java.util.Date.)) msg)
+              (format "%s\n  %s" (str (java.util.Date.)) msg))]
     (swap! msgs conj msg)
     (doseq [uid (:any @connected-uids)]
       (chsk-send! uid [:mt2/broadcast msg]))))
@@ -244,9 +247,7 @@
 (defmethod -event-msg-handler :mt2/msg
   [{:keys [?data ring-req]}]
   ;;(debug "?data" ?data "identity" (get-in ring-req [:session :identity]))
-  (if (= :admin (get-in ring-req [:session :identity]))
-    (broadcast! (str "🍺 " ?data))
-    (broadcast! ?data)))
+  (broadcast! ?data (= :admin (get-in ring-req [:session :identity]))))
 
 ;;
 (defmethod ig/init-key :mt2.handler.mt2/error [_ _]
