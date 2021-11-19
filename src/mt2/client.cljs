@@ -27,8 +27,6 @@
 ;                 (b/current-time b/audio-context)
 ;                 1.0)))
 
-;;(timbre/set-level! :debug)
-
 (def MAX_MSG_LEN 140)
 
 (def messages (atom []))
