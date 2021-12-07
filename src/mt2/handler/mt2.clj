@@ -191,7 +191,7 @@
       (do
         (debugf "admin called reset")
         (save (msgs->str))
-        (reset! msgs [])
+        (reset! msgs ["*** mtの新しい一週間の始まり***\n"])
         [::response/found "/"])
       (do
         (debugf "nomal user called reset")
