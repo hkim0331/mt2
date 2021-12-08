@@ -17,7 +17,7 @@
 (timbre/set-level! :info)
 (reset! sente/debug-mode?_ false)
 
-(def version "0.9.5")
+(def version "0.9.6")
 (def version-string (str "hkimura, " version "."))
 
 (def msgs (atom []))
@@ -191,7 +191,7 @@
       (do
         (debugf "admin called reset")
         (save (msgs->str))
-        (reset! msgs [])
+        (reset! msgs ["*** mtの新しい一週間の始まり***\n"])
         [::response/found "/"])
       (do
         (debugf "nomal user called reset")
