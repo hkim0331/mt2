@@ -7,7 +7,10 @@
 * return で送信できるように(しないほうがいいかも)
 * invalid anti-forgery-token を表示しないようにできるか？
 * weekly に自動 save/reset
+* 2022-01-19 error in lein ancient
 
+## 0.10.0 - 2022-02-01
+* lein ancient
 
 ## 0.9.6 - 2021-12-07
 * reset したら msgs を`mt の新しい一週間の始まり` に初期化する。
