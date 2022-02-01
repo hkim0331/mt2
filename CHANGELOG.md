@@ -7,6 +7,7 @@
 * return で送信できるように(しないほうがいいかも)
 * invalid anti-forgery-token を表示しないようにできるか？
 * weekly に自動 save/reset
+* 2022-01-19 error in lein ancient
 
 
 ## 0.9.6 - 2021-12-07
