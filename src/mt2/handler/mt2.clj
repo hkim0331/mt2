@@ -14,15 +14,20 @@
    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
    [taoensso.timbre  :as timbre :refer [debug debugf]]))
 
-(def version "0.9.3")
+(timbre/set-level! :info)
+(reset! sente/debug-mode?_ false)
+
+(def version "0.10.0")
 (def version-string (str "hkimura, " version "."))
 
 (def msgs (atom []))
 
-(def admin? (atom false))
-
-;;(timbre/set-level! :debug)
-(reset! sente/debug-mode?_ true)
+(defn admin? [req]
+  ;; user is a keyword, admin is a string.
+  ;; compare them after coersing user into string.
+  (let [user  (name (get-in req [:session :identity]))
+        admin (env :mt2-admin)]
+    (= user admin)))
 
 ;;; from sente official example
 (let [packer :edn ; Default packer, a good choice in most cases
@@ -82,6 +87,8 @@
        (submit-button {:class "btn btn-primary btn-sm"} "login"))
       [:hr]
       [:ul
+       [:li "[2021-11-19] hkimura からの返信はメッセージでなく時刻に 🍶 。季節柄。"]
+       [:li "[2021-10-08] hkimura からの返信に 🍺 マーク。"]
        [:li "[2021-06-03] ライブラリを更新。Clojure 1.10.3, ClojureScript 1.10.866.
              世界の先進プログラマたちに感謝だ。"]
        [:li "ログインに失敗する場合、
@@ -111,9 +118,7 @@
         [::response/found "/login"]))))
 
 (defmethod ig/init-key :mt2.handler.mt2/logout [_ _]
-  (fn [req]
-    ;(debugf "logout %s" (get-in req [:session]))
-    (reset! admin? false)
+  (fn [_]
     (-> (redirect "/login")
         (assoc :session {}))))
 
@@ -172,12 +177,6 @@
       (debugf "reload: %s" ret)
       [::response/ok ret])))
 
-;; (defn admin? [req]
-;;   ;; user is a keyword, admin is a string.
-;;   ;; compare them after coersing user into string.
-;;   (let [user  (name (get-in req [:session :identity]))
-;;         admin (env :mt2-admin)]
-;;     (= user admin)))
 
 (defn save
   "msgs をファイル log/<localtime>.logに書き出す。"
@@ -188,11 +187,11 @@
 ;; reset = save + reset!
 (defmethod ig/init-key :mt2.handler.mt2/reset [_ _]
   (fn [req]
-    (if @admin?
+    (if (admin? req)
       (do
         (debugf "admin called reset")
         (save (msgs->str))
-        (reset! msgs [])
+        (reset! msgs ["*** mtの新しい一週間の始まり***\n"])
         [::response/found "/"])
       (do
         (debugf "nomal user called reset")
@@ -205,26 +204,24 @@
 ;; 「reset 使え」のメッセージでも出すか？
 (defmethod ig/init-key :mt2.handler.mt2/save [_ _]
   (fn [req]
-    (when @admin?
+    (when (admin? req)
       (save (msgs->str)))
     [::response/found "/"]))
 
+;;;;
 ;;;; async push
-
+;;;;
 (defn broadcast!
-  [msg]
-  (let [msg (format "%s\n  %s%s"
-                    (str (java.util.Date.))
-                    (if @admin? "[hkim] " "") msg)]
+  [msg admin?]
+  (let [msg (if admin?
+              (format "%s\n  %s" (str "🍶 " (java.util.Date.)) msg)
+              (format "%s\n  %s" (str (java.util.Date.)) msg))]
     (swap! msgs conj msg)
-    ;;(debugf "@msgs: %s" @msgs)
     (doseq [uid (:any @connected-uids)]
       (chsk-send! uid [:mt2/broadcast msg]))))
-
-
-;;;; Sente event handlers
-;;; same with client?
-
+;;;
+;;; Sente event handlers
+;;;
 (defmulti -event-msg-handler
   "Multimethod to handle Sente `event-msg`s"
   :id) ; Dispatch on event-id
@@ -250,9 +247,7 @@
 (defmethod -event-msg-handler :mt2/msg
   [{:keys [?data ring-req]}]
   ;;(debug "?data" ?data "identity" (get-in ring-req [:session :identity]))
-  (if (= :admin (get-in ring-req [:session :identity]))
-    (broadcast! (str "[hkim] " ?data))
-    (broadcast! ?data)))
+  (broadcast! ?data (= :admin (get-in ring-req [:session :identity]))))
 
 ;;
 (defmethod ig/init-key :mt2.handler.mt2/error [_ _]
