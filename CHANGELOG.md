@@ -7,6 +7,7 @@
 * return で送信できるように(しないほうがいいかも)
 * invalid anti-forgery-token を表示しないようにできるか？
 * weekly に自動 save/reset
+* admin でログインした時のみ、reset ボタンを表示する
 
 ## 0.9.3 - 2021-10-07
 * admin でログインしたら、メッセージに [hkim] をプリペンド後、送信する。
