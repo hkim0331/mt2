@@ -10,9 +10,9 @@
    [clj-time             "0.15.2"]
 
    ;;really needed?
-   [com.fasterxml.jackson.core/jackson-core "2.13.1"]
+   ;;[com.fasterxml.jackson.core/jackson-core "2.13.1"]
 
-   [com.taoensso/sente   "1.16.2"]
+   [com.taoensso/sente   "1.16.0"];; should not upgrade to 1.16.2
    [com.taoensso/timbre  "5.1.2"]
 
    [duct/core            "0.8.0"]
