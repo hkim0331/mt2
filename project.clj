@@ -1,4 +1,4 @@
-(defproject mt2 "0.9.6"
+(defproject mt2 "0.10.0"
   :description "micro twitter for hkimura class"
   :url "http://example.com/FIXME"
   :min-lein-version "2.0.0"
@@ -37,7 +37,7 @@
   :profiles
   {:dev  [:project/dev :profiles/dev]
    :repl {:prep-tasks   ^:replace ["javac" "compile"]
-          :dependencies [[cider/piggieback "0.5.1"]]
+          :dependencies [[cider/piggieback "0.5.3"]]
           :repl-options {:init-ns user,
                          :nrepl-middleware [cider.piggieback/wrap-cljs-repl]}}
    :uberjar {:aot :all}
