@@ -11,8 +11,9 @@
    [com.fasterxml.jackson.core/jackson-core "2.12.3"]
    ;;
 
-   [com.taoensso/sente   "1.16.0"]
-   [com.taoensso/timbre  "5.1.2"]
+   [com.taoensso/sente   "1.16.2"]
+   [com.taoensso/timbre  "5.2.1"]
+
    [duct/core            "0.8.0"]
    [duct/handler.sql     "0.4.0"]
    [duct/module.ataraxy  "0.3.0"]
@@ -20,16 +21,22 @@
    [duct/module.logging  "0.5.0"]
    [duct/module.web      "0.7.1"]
    [duct/server.http.http-kit "0.1.4"]
+
    [http-kit "2.5.0"]
    [environ "1.2.0"]
    [hiccup "1.0.5"]
+
    [org.clojure/clojure "1.10.3"]
    [org.clojure/clojurescript "1.10.866"] ; was 773
    [org.clojure/core.async "1.3.610"]
+
    [org.clojure/java.jdbc "0.7.11"]
+
    [ring "1.8.2"]
    [ring/ring-defaults "0.3.2"]
+
    [cljs-bach "0.3.0"]
+
    [cljs-http "0.1.46"]]
 
   :plugins [[duct/lein-duct   "0.12.1"]]

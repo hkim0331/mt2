@@ -64,8 +64,6 @@
      [:div.container
       [:h2 "micro twitter "]
       contents
-      ;; [:hr]
-      ;; [:div "hkimura, " version "."]
       [:script {:src "/js/main.js"}]]]))
 
 ;;; login/logout
@@ -83,7 +81,7 @@
        (password-field {:placeholder "password"} "password")
        (submit-button {:class "btn btn-primary btn-sm"} "login"))
       [:hr]
-      [:p "hkimura, " version "."])]))
+      [:p version-string])]))
 
 
 ;; pass username/password as environment variables.
@@ -206,10 +204,10 @@
   [msg sender]
   (let [msg (if (= sender "admin")
               (format "%s\n  %s" (str "🍺 " (java.util.Date.)) msg)
-              (format "%s\n  %s" (str sender " " (java.util.Date.)) msg))]
+              (format "%s\n  %s" (str (java.util.Date.)) msg))]
     (swap! msgs conj msg)
     (doseq [uid (:any @connected-uids)]
-      (chsk-send! uid [:mt2/broadcast msg]))))
+      (chsk-send! uid [:mt2/broadcast {:data msg :sender sender}]))))
 ;;;
 ;;; Sente event handlers
 ;;;
