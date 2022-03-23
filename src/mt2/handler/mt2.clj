@@ -16,7 +16,7 @@
 
 (def version "1.0.0")
 
-(def version-string (str "hkimura, " version "."))
+(def version-string (str "hkimura, " version))
 
 (timbre/set-level! :info)
 
@@ -120,35 +120,41 @@
     (ring-ajax-post req)))
 
 (defmethod ig/init-key :mt2.handler.mt2/index [_ _]
-  (fn [{[_] :ataraxy/result}]
+  (fn [{[_] :ataraxy/result :as req}]
     [::response/ok
-      (page
-        [:p
-         [:textarea#output {:style "width:100%; height:380px;"
-                            :placeholder version-string
-                            :disabled "disabled"}]]
-        [:p
-         [:div.row
-          [:div.col-10
-           [:input#message
-            {:placeholder "type your message"
-             :style "width: 100%;"}]]
-          [:div.col-1
-           [:button#send
-            {:type "button"
-             :class "btn btn-primary btn-sm"}
-            "send"]]]]
-        [:p
-         [:button#clear
-          {:type "button" :class "btn btn-primary btn-sm"} "clear"]
-         " "
-         [:button#reload
-          {:type "button" :class "btn btn-primary btn-sm"} "reload"]
-         " "
-         [:button#logout
-          {:type "button" :class "btn btn-warning btn-sm"
-           :onclick "location.href='/login'"}
-          "logout"]])]))
+     (page
+      [:input
+       {:id "login"
+        :type "hidden"
+        :name "login"
+        :value (name (get-in req [:session :identity]))}]
+      [:p
+       [:textarea#output {:style "width:100%; height:380px;"
+                          :placeholder version-string
+                          :disabled "disabled"}]]
+      [:p
+       [:div.row
+         [:div.col-10
+          [:input#message
+           {:placeholder "type your message"
+            :style "width: 100%;"}]]
+         [:div.col-1
+          [:button#send
+           {:type "button"
+            :class "btn btn-primary btn-sm"}
+           "send"]]]]
+
+      [:p
+       [:button#clear
+        {:type "button" :class "btn btn-primary btn-sm"} "clear"]
+       " "
+       [:button#reload
+        {:type "button" :class "btn btn-primary btn-sm"} "reload"]
+       " "
+       [:button#logout
+        {:type "button" :class "btn btn-warning btn-sm"
+         :onclick "location.href='/login'"}
+        "logout"]])]))
 
 
 (defn msgs->str []
@@ -197,10 +203,10 @@
 ;;;; async push
 ;;;;
 (defn broadcast!
-  [msg admin?]
-  (let [msg (if admin?
+  [msg sender]
+  (let [msg (if (= sender "admin")
               (format "%s\n  %s" (str "🍺 " (java.util.Date.)) msg)
-              (format "%s\n  %s" (str (java.util.Date.)) msg))]
+              (format "%s\n  %s" (str sender " " (java.util.Date.)) msg))]
     (swap! msgs conj msg)
     (doseq [uid (:any @connected-uids)]
       (chsk-send! uid [:mt2/broadcast msg]))))
@@ -230,7 +236,7 @@
 ;; 0.9.3 2021-10-07
 (defmethod -event-msg-handler :mt2/msg
   [{:keys [?data ring-req]}]
-  (broadcast! ?data (= :admin (get-in ring-req [:session :identity]))))
+  (broadcast! ?data (name (get-in ring-req [:session :identity]))))
 
 ;;
 (defmethod ig/init-key :mt2.handler.mt2/error [_ _]

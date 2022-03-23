@@ -3,6 +3,7 @@
    [cljs-bach.synthesis :as b]
    [cljs-http.client :as http]
    [cljs.core.async :refer [<!]]
+   [clojure.string :refer [replace-first]]
    [taoensso.encore :as encore :refer-macros (have)]
    [taoensso.sente  :as sente]
    [taoensso.timbre :as timbre])
@@ -36,10 +37,19 @@
 
 ;; changed the order of display messages 0.8.2
 (defn ->output! [fmt & args]
-  (let [msg (apply encore/format fmt args)]
-    (aset output-el "value" (str (.-value output-el) "\n" msg))
-    (aset output-el "scrollTop" (.-scrollHeight output-el))
-    (swap! messages conj msg)))
+  (let [msg (apply encore/format fmt args)
+        login (.getAttribute
+               (.getElementById js/document "login")
+               "value") ; can not
+        pat (re-pattern (str "^" login))
+        msg2 (replace-first msg pat "(YOU)")]
+    (timbre/info "msg" msg)
+    (timbre/info "login" login)
+    (timbre/info "pat" pat)
+    (timbre/info "msg2" msg2)
+    (aset output-el "value" (str (.-value output-el) "\n" msg2))
+    ;;(aset output-el "scrollTop" (.-scrollHeight output-el))
+    (swap! messages conj msg2)))
 
 ;;;; Sente channel socket client
 
@@ -89,7 +99,6 @@
 (defmethod -event-msg-handler :chsk/recv
   [{:keys [?data]}]
   (when-not (= :chsk/ws-ping (first ?data))
-    ;;(play-mp3 "beep-25.mp3")
     (->output! (second ?data))
     (-> (ping 440)
         (b/connect-> b/destination)
@@ -99,7 +108,6 @@
   [{:keys [?data]}]
   (let [[?uid ?csrf-token ?handshake-data] ?data]
     (timbre/debug ?uid " " ?csrf-token ?handshake-data)
-    ;;(->output! "micro twitter started")
     (timbre/debug "handshake")))
 
 ;;;; UI events
