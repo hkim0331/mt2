@@ -8,6 +8,10 @@
 * invalid anti-forgery-token を表示しないようにできるか？
 * weekly に自動 save/reset
 
+## 0.10.1 BUG
+* 動作しない。キャンセルせねば。チェックアウトした 0.9.6 は動く。
+
+    % git checkout -b 0.9.6 refs/tags/0.9.6
 
 ## 0.9.6 - 2021-12-07
 * reset したら msgs を`mt の新しい一週間の始まり` に初期化する。
