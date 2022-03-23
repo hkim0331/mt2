@@ -8,6 +8,7 @@
 * invalid anti-forgery-token を表示しないようにできるか？
 * weekly に自動 save/reset
 * admin でログインした時だけ、リセットボタンを表示する
+* 2022-01-19 error in lein ancient
 
 ## 1.0.0 - 2022-03-23
 restart for 2022. `1.0.0` does not mean `completed`.
