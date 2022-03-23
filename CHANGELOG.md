@@ -9,6 +9,12 @@
 * weekly に自動 save/reset
 * admin でログインした時だけ、リセットボタンを表示する
 * 2022-01-19 error in lein ancient
+* ライブラリのバージョン
+
+## 1.1.0 - 2022-03-24
+- メッセージの整理
+- textarea#output disabled=disabled
+- 自分のメッセージに --YOU-- のラベルをつける。reload でラベルが消える。
 
 ## 1.0.0 - 2022-03-23
 restart for 2022. `1.0.0` does not mean `completed`.

@@ -3,6 +3,7 @@
    [cljs-bach.synthesis :as b]
    [cljs-http.client :as http]
    [cljs.core.async :refer [<!]]
+   [clojure.string :refer [replace-first]]
    [taoensso.encore :as encore :refer-macros (have)]
    [taoensso.sente  :as sente]
    [taoensso.timbre :as timbre])
@@ -34,12 +35,20 @@
 (def output-el  (.getElementById js/document "output"))
 (def message-el (.getElementById js/document "message"))
 
+(defn login-name []
+  (-> (.getElementById js/document "login")
+      (.getAttribute "value")))
+
 ;; changed the order of display messages 0.8.2
-(defn ->output! [fmt & args]
-  (let [msg (apply encore/format fmt args)]
-    (aset output-el "value" (str (.-value output-el) "\n" msg))
-    (aset output-el "scrollTop" (.-scrollHeight output-el))
-    (swap! messages conj msg)))
+(defn ->output!
+  [msg & [sender]]
+  (timbre/debug "sender" sender "login" (login-name) "msg" msg)
+  (aset output-el
+        "value"
+        (str (.-value output-el) "\n"
+             (when (= sender (login-name)) "---YOU--- ")
+             msg))
+  (swap! messages conj msg))
 
 ;;;; Sente channel socket client
 
@@ -72,12 +81,12 @@
 (defn event-msg-handler
   "Wraps `-event-msg-handler` with logging, error catching, etc."
   [{:as ev-msg :keys [id ?data event]}]
-  (timbre/infof "client.clj: id %s, ?data %s, event %s" id ?data event)
+  (timbre/debug "client.clj: id %s, ?data %s, event %s" id ?data event)
   (-event-msg-handler ev-msg))
 
 (defmethod -event-msg-handler :default
   [{:keys [event]}]
-  (->output! "Unhandled event: %s" event))
+  (->output! (str "Unhandled event: " event)))
 
 (defmethod -event-msg-handler :chsk/state
   [{:keys [?data]}]
@@ -89,17 +98,19 @@
 (defmethod -event-msg-handler :chsk/recv
   [{:keys [?data]}]
   (when-not (= :chsk/ws-ping (first ?data))
-    ;;(play-mp3 "beep-25.mp3")
-    (->output! (second ?data))
-    (-> (ping 440)
-        (b/connect-> b/destination)
-        (b/run-with context (b/current-time context) 1.0))))
+    (let [data (second ?data)
+          msg (:data data)
+          sender (:sender data)]
+      (timbre/debug "msg" msg "sender" sender)
+      (->output! msg sender)
+      (-> (ping 440)
+          (b/connect-> b/destination)
+          (b/run-with context (b/current-time context) 1.0)))))
 
 (defmethod -event-msg-handler :chsk/handshake
   [{:keys [?data]}]
   (let [[?uid ?csrf-token ?handshake-data] ?data]
     (timbre/debug ?uid " " ?csrf-token ?handshake-data)
-    ;;(->output! "micro twitter started")
     (timbre/debug "handshake")))
 
 ;;;; UI events
