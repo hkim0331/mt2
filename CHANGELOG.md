@@ -10,6 +10,14 @@
 * admin でログインした時だけ、リセットボタンを表示する
 * 2022-01-19 error in lein ancient
 
+## 1.0.0 - 2022-03-23
+restart for 2022. `1.0.0` does not mean `completed`.
+
+
+## 0.10.1 BUG
+* 動作しない。キャンセルせねば。チェックアウトした 0.9.6 は動く。
+
+    % git checkout -b 0.9.6 refs/tags/0.9.6
 ## 0.10.0 - 2022-02-01
 * lein ancient
 
