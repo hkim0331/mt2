@@ -9,7 +9,7 @@
    ;;really needed?
    ;;[com.fasterxml.jackson.core/jackson-core "2.12.3"]
    [com.taoensso/sente   "1.16.0"]
-   [com.taoensso/timbre  "5.1.0"]
+   [com.taoensso/timbre  "5.1.2"]
    [duct/core            "0.8.0"]
    [duct/handler.sql     "0.4.0"]
    [duct/module.ataraxy  "0.3.0"]
