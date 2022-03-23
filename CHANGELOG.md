@@ -9,6 +9,10 @@
 * weekly に自動 save/reset
 * admin でログインした時だけ、リセットボタンを表示する
 
+## 1.0.0 - 2022-03-23
+restart for 2022. `1.0.0` does not mean `completed`.
+
+
 ## 0.10.1 BUG
 * 動作しない。キャンセルせねば。チェックアウトした 0.9.6 は動く。
 
