@@ -8,8 +8,11 @@
 * invalid anti-forgery-token を表示しないようにできるか？
 * weekly に自動 save/reset
 * admin でログインした時だけ、リセットボタンを表示する
-* 2022-01-19 error in lein ancient
-* ライブラリのバージョン
+* 2022-01-19 errored in `lein ancient`
+- [server-loop] WARN - unmasked client to server frame
+
+## 1.1.1 - 2022-03-24
+- ライブラリのバージョンアップ
 
 ## 1.1.0 - 2022-03-24
 - メッセージの整理
