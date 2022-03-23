@@ -15,6 +15,7 @@
    [taoensso.timbre  :as timbre :refer [debug]]))
 
 (def version "1.0.0")
+
 (def version-string (str "hkimura, " version "."))
 
 (timbre/set-level! :info)
@@ -32,15 +33,10 @@
 
 ;;; from sente official example
 (let [packer :edn ; Default packer, a good choice in most cases
-
-      chsk-server
-      (sente/make-channel-socket-server!
-       (get-sch-adapter) {:packer packer})
-
+      chsk-server (sente/make-channel-socket-server!
+                   (get-sch-adapter) {:packer packer})
       {:keys [ch-recv send-fn connected-uids
-              ajax-post-fn ajax-get-or-ws-handshake-fn]}
-      chsk-server]
-
+              ajax-post-fn ajax-get-or-ws-handshake-fn]} chsk-server]
   (def ring-ajax-post                ajax-post-fn)
   (def ring-ajax-get-or-ws-handshake ajax-get-or-ws-handshake-fn)
   (def ch-chsk                       ch-recv) ; ChannelSocket's receive channel
