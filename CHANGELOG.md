@@ -11,6 +11,10 @@
 * 2022-01-19 error in lein ancient
 * ライブラリのバージョン
 
+## 1.2.0-SNAPSHOT
+- index ページに
+  [:input {:id "login" :type "hidden"  :name "login" :value "***")}]
+
 ## 1.1.0 - 2022-03-24
 - メッセージの整理
 - textarea#output disabled=disabled

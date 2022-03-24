@@ -46,7 +46,7 @@
   (aset output-el
         "value"
         (str (.-value output-el) "\n"
-             (when (= sender (login-name)) "---YOU--- ")
+             (when (= sender (login-name)) "*** YOU *** ")
              msg))
   (swap! messages conj msg))
 
