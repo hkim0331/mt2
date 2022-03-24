@@ -32,7 +32,7 @@
    [org.clojure/clojurescript "1.11.4"] ; was 773
    [org.clojure/core.async "1.5.648"]
 
-   [org.clojure/java.jdbc "0.7.11"]
+   [org.clojure/java.jdbc "0.7.12"]
    [org.postgresql/postgresql "42.3.3"]
 
    [ring "1.9.5"]

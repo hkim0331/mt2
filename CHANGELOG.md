@@ -11,8 +11,6 @@
 * 2022-01-19 errored in `lein ancient`
 - [server-loop] WARN - unmasked client to server frame
 
-## 1.1.1 - 2022-03-24
-- ライブラリのバージョンアップ
 
 ## 1.2.1 - 2022-03-24
 - index ページに
