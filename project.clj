@@ -1,4 +1,4 @@
-(defproject mt2 "1.1.0"
+(defproject mt2 "1.2.1"
   :description "micro twitter for hkimura class"
   :url "http://example.com/FIXME"
   :min-lein-version "2.0.0"
@@ -8,7 +8,7 @@
    [clj-time             "0.15.2"]
 
    ;; without this, `lein uberjar` fails.
-   [com.fasterxml.jackson.core/jackson-core "2.12.3"]
+   [com.fasterxml.jackson.core/jackson-core "2.13.2"]
    ;;
 
    [com.taoensso/sente   "1.16.2"]
@@ -22,17 +22,17 @@
    [duct/module.web      "0.7.1"]
    [duct/server.http.http-kit "0.1.4"]
 
-   [http-kit "2.5.0"]
+   [http-kit "2.5.3"]
    [environ "1.2.0"]
    [hiccup "1.0.5"]
 
    [org.clojure/clojure "1.10.3"]
-   [org.clojure/clojurescript "1.10.866"] ; was 773
-   [org.clojure/core.async "1.3.610"]
+   [org.clojure/clojurescript "1.11.4"] ; was 773
+   [org.clojure/core.async "1.5.648"]
 
    [org.clojure/java.jdbc "0.7.11"]
 
-   [ring "1.8.2"]
+   [ring "1.9.5"]
    [ring/ring-defaults "0.3.2"]
 
    [cljs-bach "0.3.0"]
