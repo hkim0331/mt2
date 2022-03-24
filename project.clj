@@ -1,10 +1,12 @@
-(defproject mt2 "1.2.1"
+(defproject mt2 "1.2.3"
   :description "micro twitter for hkimura class"
   :url "http://example.com/FIXME"
   :min-lein-version "2.0.0"
 
   :dependencies
   [[buddy/buddy-auth     "2.2.0"]
+   [buddy/buddy-hashers  "1.8.158"]
+
    [clj-time             "0.15.2"]
 
    ;; without this, `lein uberjar` fails.
@@ -30,7 +32,8 @@
    [org.clojure/clojurescript "1.11.4"] ; was 773
    [org.clojure/core.async "1.5.648"]
 
-   [org.clojure/java.jdbc "0.7.11"]
+   [org.clojure/java.jdbc "0.7.12"]
+   [org.postgresql/postgresql "42.3.3"]
 
    [ring "1.9.5"]
    [ring/ring-defaults "0.3.2"]
