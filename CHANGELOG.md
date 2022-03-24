@@ -11,9 +11,12 @@
 * 2022-01-19 errored in `lein ancient`
 - [server-loop] WARN - unmasked client to server frame
 
+<<<<<<< HEAD
 
 ## 1.2.2 - 2022-03-24
 - add buddy-hashers postgresql dependencies
+=======
+>>>>>>> feature/db
 
 ## 1.2.1 - 2022-03-24
 - index ページに
