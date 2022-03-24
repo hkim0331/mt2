@@ -1,12 +1,14 @@
 (ns mt2.handler.mt2
   (:require
    [ataraxy.response :as response]
+   [buddy.hashers :as hashers]
    [clj-time.local :as l]
    [environ.core :refer [env]]
    [hiccup.form :refer [form-to text-field password-field hidden-field
                         submit-button]]
    [hiccup.page :as hiccup]
    [integrant.core :as ig]
+   [mt2.users :as users]
    [ring.middleware.anti-forgery :as anti-forgery]
    [ring.util.anti-forgery :refer [anti-forgery-field]]
    [ring.util.response :refer [redirect]]
@@ -85,22 +87,18 @@
 
 
 ;; pass username/password as environment variables.
-(defmethod ig/init-key :mt2.handler.mt2/login-post [_ _]
+(defmethod ig/init-key :mt2.handler.mt2/login-post [_ {:keys [db]}]
   (fn [{[_ {:strs [username password next]}] :ataraxy/result}]
-    (if (or
-         (and (= username (env :mt2-user))
-              (= password (env :mt2-password)))
-         (and (= username (env :mt2-admin))
-              (= password (env :mt2-admin-password))))
-      (do
-        (debug "login success as:" username)
-        (debug "next:" next)
-        (debug "keyword:" (keyword username))
-        (-> (redirect next)
-            (assoc-in [:session :identity] (keyword username))))
-      (do
-        (debug "login failure, username " username ", password " password)
-        [::response/found "/login"]))))
+    (let [user (users/find-user db username)]
+      (if (and (seq user)
+               (hashers/check password (:password user)))
+        (do
+          (debug "login success as:" username)
+          (-> (redirect next)
+              (assoc-in [:session :identity] (keyword username))))
+        (do
+          (debug "login failure, username " username ", password " password)
+          [::response/found "/login"])))))
 
 (defmethod ig/init-key :mt2.handler.mt2/logout [_ _]
   (fn [_]

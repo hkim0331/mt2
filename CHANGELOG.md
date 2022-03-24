@@ -10,6 +10,7 @@
 * admin でログインした時だけ、リセットボタンを表示する
 * 2022-01-19 errored in `lein ancient`
 - [server-loop] WARN - unmasked client to server frame
+- jdbc と接続すると websocket がクローズしてしまう。
 
 ## 1.1.1 - 2022-03-24
 - ライブラリのバージョンアップ
