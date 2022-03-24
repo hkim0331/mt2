@@ -14,6 +14,10 @@
 ## 1.1.1 - 2022-03-24
 - ライブラリのバージョンアップ
 
+## 1.2.1 - 2022-03-24
+- index ページに
+  [:input {:id "login" :type "hidden"  :name "login" :value "***")}]
+
 ## 1.1.0 - 2022-03-24
 - メッセージの整理
 - textarea#output disabled=disabled
