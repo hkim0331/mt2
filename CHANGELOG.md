@@ -11,6 +11,9 @@
 * 2022-01-19 errored in `lein ancient`
 - [server-loop] WARN - unmasked client to server frame
 
+## 1.2.3 - 2022-03-24
+- resume
+  (aset output-el "scrollTop" (.-scrollHeight output-el))
 
 ## 1.2.2 - 2022-03-24
 - auth against db

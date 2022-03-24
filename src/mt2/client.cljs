@@ -48,6 +48,7 @@
         (str (.-value output-el) "\n"
              (when (= sender (login-name)) "*** YOU *** ")
              msg))
+  (aset output-el "scrollTop" (.-scrollHeight output-el))
   (swap! messages conj msg))
 
 ;;;; Sente channel socket client

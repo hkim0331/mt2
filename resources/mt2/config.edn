@@ -1,5 +1,9 @@
 {:duct.profile/base
  {:duct.core/project-ns mt2
+
+  :duct.database/sql {:connection-uri "jdbc:postgresql://db/l22?user=postgres&password=password"}
+  :duct.server.http/http-kit {:port 3040}
+
   :duct.router/ataraxy
   {:routes
    {[:get  "/chsk"]    [:mt2.handler.mt2/get-chsk]
