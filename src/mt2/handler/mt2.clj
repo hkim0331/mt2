@@ -19,7 +19,7 @@
 (timbre/set-level! :debug)
 (reset! sente/debug-mode?_ false)
 
-(def version "1.2.2")
+(def version "1.2.3")
 (def version-string (str "hkimura, " version))
 
 (def msgs (atom []))
