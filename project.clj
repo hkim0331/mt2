@@ -5,6 +5,8 @@
 
   :dependencies
   [[buddy/buddy-auth     "2.2.0"]
+   [buddy/buddy-hashers  "1.8.158"]
+
    [clj-time             "0.15.2"]
 
    ;; without this, `lein uberjar` fails.
@@ -31,6 +33,7 @@
    [org.clojure/core.async "1.5.648"]
 
    [org.clojure/java.jdbc "0.7.11"]
+   [org.postgresql/postgresql "42.3.3"]
 
    [ring "1.9.5"]
    [ring/ring-defaults "0.3.2"]
