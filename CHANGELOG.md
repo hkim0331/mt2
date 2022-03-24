@@ -11,7 +11,7 @@
 * 2022-01-19 error in lein ancient
 * ライブラリのバージョン
 
-## 1.2.0-SNAPSHOT
+## 1.2.1 - 2022-03-24
 - index ページに
   [:input {:id "login" :type "hidden"  :name "login" :value "***")}]
 
