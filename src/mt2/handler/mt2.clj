@@ -19,7 +19,7 @@
 (timbre/set-level! :debug)
 (reset! sente/debug-mode?_ false)
 
-(def version "1.2.3")
+(def version "1.2.4")
 (def version-string (str "hkimura, " version))
 
 (def msgs (atom []))
@@ -86,12 +86,23 @@
 
 ;; pass username/password as environment variables.
 (defmethod ig/init-key :mt2.handler.mt2/login-post [_ {:keys [db]}]
+<<<<<<< HEAD
   (fn [{[_ {:strs [username password]}] :ataraxy/result}]
     (let [u (users/find-user db username)
           _ (timbre/debug "u" u)]
       (if (hashers/check password (:password u))
         (-> (redirect "/")
             (assoc-in [:session :identity] (keyword username)))
+=======
+  (fn [{[_ {:strs [username password next]}] :ataraxy/result}]
+    (let [user (users/find-user db username)]
+      (if (and (seq user)
+               (hashers/check password (:password user)))
+        (do
+          (debug "login success as:" username)
+          (-> (redirect next)
+              (assoc-in [:session :identity] (keyword username))))
+>>>>>>> release/1.2.4
         (do
           (debug "login failure, username " username ", password " password)
           [::response/found "/login"])))))

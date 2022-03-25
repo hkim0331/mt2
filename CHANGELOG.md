@@ -10,6 +10,9 @@
 * admin でログインした時だけ、リセットボタンを表示する
 * 2022-01-19 errored in `lein ancient`
 - [server-loop] WARN - unmasked client to server frame
+- jdbc と接続すると websocket がクローズしてしまう。
+
+## 1.2.4 - 2022-03-25
 
 ## 1.2.3 - 2022-03-24
 - resume
@@ -18,10 +21,14 @@
 ## 1.2.2 - 2022-03-24
 - auth against db
 - add buddy-hashers postgresql dependencies
+## 1.2.4 - 2022-03-25
 
 ## 1.2.1 - 2022-03-24
 - index ページに
   [:input {:id "login" :type "hidden"  :name "login" :value "***")}]
+
+## 1.1.1 - 2022-03-24
+- ライブラリのバージョンアップ
 
 ## 1.1.0 - 2022-03-24
 - メッセージの整理

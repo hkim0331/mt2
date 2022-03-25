@@ -1,4 +1,4 @@
-(defproject mt2 "1.2.3"
+(defproject mt2 "1.2.4"
   :description "micro twitter for hkimura class"
   :url "http://example.com/FIXME"
   :min-lein-version "2.0.0"
@@ -13,8 +13,8 @@
    [com.fasterxml.jackson.core/jackson-core "2.13.2"]
    ;;
 
-   [com.taoensso/sente   "1.16.2"]
-   [com.taoensso/timbre  "5.2.1"]
+   [com.taoensso/sente   "1.16.0"]
+   [com.taoensso/timbre  "5.1.2"]
 
    [duct/core            "0.8.0"]
    [duct/handler.sql     "0.4.0"]
@@ -24,18 +24,18 @@
    [duct/module.web      "0.7.1"]
    [duct/server.http.http-kit "0.1.4"]
 
-   [http-kit "2.5.3"]
+   [http-kit "2.5.0"] ;2.5.3
    [environ "1.2.0"]
    [hiccup "1.0.5"]
 
    [org.clojure/clojure "1.10.3"]
-   [org.clojure/clojurescript "1.11.4"] ; was 773
-   [org.clojure/core.async "1.5.648"]
+   [org.clojure/clojurescript "1.10.866"] ; 1.11.4
+   [org.clojure/core.async "1.3.610"] ; 1.5.648
 
    [org.clojure/java.jdbc "0.7.12"]
    [org.postgresql/postgresql "42.3.3"]
 
-   [ring "1.9.5"]
+   [ring "1.8.2"]
    [ring/ring-defaults "0.3.2"]
 
    [cljs-bach "0.3.0"]
