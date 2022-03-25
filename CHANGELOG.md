@@ -14,6 +14,15 @@
 
 ## 1.2.4 - 2022-03-25
 
+## 1.2.3 - 2022-03-24
+- resume
+  (aset output-el "scrollTop" (.-scrollHeight output-el))
+
+## 1.2.2 - 2022-03-24
+- auth against db
+- add buddy-hashers postgresql dependencies
+## 1.2.4 - 2022-03-25
+
 ## 1.2.1 - 2022-03-24
 - index ページに
   [:input {:id "login" :type "hidden"  :name "login" :value "***")}]
