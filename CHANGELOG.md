@@ -11,6 +11,7 @@
 * 2022-01-19 errored in `lein ancient`
 - [server-loop] WARN - unmasked client to server frame
 - 2022-03-27 reset でinternal server error
+- [BUG] admin ジョブができなくなった
 
 ## 1.2.5 - 2022-03-29
 - textarea#output のフォントカラーを CSS で black に。
