@@ -4,19 +4,21 @@
 * 受け取ったメッセージをデータベースへ保存する。
 * 禁止ワード。
 * 個人あてユニキャスト
-* return で送信できるように(しないほうがいいかも)
 * invalid anti-forgery-token を表示しないようにできるか？
 * weekly に自動 save/reset
 * admin でログインした時だけ、リセットボタンを表示する
 * 2022-01-19 errored in `lein ancient`
 - [server-loop] WARN - unmasked client to server frame
-- 2022-03-27 reset でinternal server error
 - [BUG] フォントも黒にならないぞ。disabled=disabled が強いか。
 - :duct.database.sql と :duct.server.http/http-kit {:port 3040} を
   config.edn で定義している。これは本当でなない。
+- textarea を div で置き換えできないか？width, height が設定できるか？
+- [BUG] /reset で internal server error
+
 
 ## 1.2.6-SNAPSHOT
 - export MT2_ADMIN=hkimura
+- textarea#output のフォントカラーを CSS で red に。
 
 ## 1.2.5 - 2022-03-29
 ### Changed
