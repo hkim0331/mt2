@@ -15,7 +15,6 @@
 - :duct.database.sql と :duct.server.http/http-kit {:port 3040} を
   config.edn で定義している。これは本当でなない。
 
-
 ## 1.2.6-SNAPSHOT
 - export MT2_ADMIN=hkimura
 

@@ -18,7 +18,7 @@
 
 (reset! sente/debug-mode?_ false)
 
-(def version "1.2.5")
+(def version "1.2.6-SNAPSHOT")
 (def version-string (str "hkimura, " version))
 
 (def msgs (atom []))
