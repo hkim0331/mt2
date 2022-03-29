@@ -10,13 +10,14 @@
 * admin でログインした時だけ、リセットボタンを表示する
 * 2022-01-19 errored in `lein ancient`
 - [server-loop] WARN - unmasked client to server frame
-- jdbc と接続すると websocket がクローズしてしまう。
+- 2022-03-27 reset でinternal server error
+
 
 ## 1.2.4 - 2022-03-25
+- textarea#output のフォントカラーを CSS で black に。
 
 ## 1.2.3 - 2022-03-24
-- resume
-  (aset output-el "scrollTop" (.-scrollHeight output-el))
+- resume (aset output-el "scrollTop" (.-scrollHeight output-el))
 
 ## 1.2.2 - 2022-03-24
 - auth against db
