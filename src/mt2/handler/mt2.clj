@@ -121,7 +121,7 @@
         :name "login"
         :value (name (get-in req [:session :identity]))}]
       [:p
-       [:textarea#output {:style "width:100%; height:380px; color:black;"
+       [:textarea#output {:style "width:100%; height:380px; color:red;"
                             :placeholder version-string
                             :disabled "disabled"}]]
       [:p

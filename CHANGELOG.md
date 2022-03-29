@@ -12,9 +12,14 @@
 - [server-loop] WARN - unmasked client to server frame
 - 2022-03-27 reset でinternal server error
 - [BUG] admin ジョブができなくなった
+- [BUG] フォントも黒にならないぞ。disabled=disabled が強いか。
+
 
 ## 1.2.5 - 2022-03-29
+### Changed
 - textarea#output のフォントカラーを CSS で black に。
+### Added
+- deploy.sh
 
 ## 1.2.4 - 2022-03-25
 
