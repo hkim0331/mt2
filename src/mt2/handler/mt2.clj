@@ -14,12 +14,12 @@
    [ring.util.response :refer [redirect]]
    [taoensso.sente :as sente]
    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
-   [taoensso.timbre  :as timbre :refer [debug]]))
+   [taoensso.timbre  :as timbre :refer [debug info]]))
 
 (timbre/set-level! :debug)
 (reset! sente/debug-mode?_ false)
 
-(def version "1.2.4")
+(def version "1.2.5")
 (def version-string (str "hkimura, " version))
 
 (def msgs (atom []))
@@ -83,29 +83,18 @@
       [:hr]
       [:p version-string])]))
 
-
-;; pass username/password as environment variables.
 (defmethod ig/init-key :mt2.handler.mt2/login-post [_ {:keys [db]}]
-<<<<<<< HEAD
   (fn [{[_ {:strs [username password]}] :ataraxy/result}]
-    (let [u (users/find-user db username)
-          _ (timbre/debug "u" u)]
+    (let [u (users/find-user db username)]
       (if (hashers/check password (:password u))
-        (-> (redirect "/")
-            (assoc-in [:session :identity] (keyword username)))
-=======
-  (fn [{[_ {:strs [username password next]}] :ataraxy/result}]
-    (let [user (users/find-user db username)]
-      (if (and (seq user)
-               (hashers/check password (:password user)))
         (do
-          (debug "login success as:" username)
-          (-> (redirect next)
+          (info "login" username)
+          (-> (redirect "/")
               (assoc-in [:session :identity] (keyword username))))
->>>>>>> release/1.2.4
         (do
-          (debug "login failure, username " username ", password " password)
-          [::response/found "/login"])))))
+          (info "login failure" username password)
+          (-> (redirect "/")
+              (assoc :flash "login failure")))))))
 
 (defmethod ig/init-key :mt2.handler.mt2/logout [_ _]
   (fn [_]
@@ -132,9 +121,9 @@
         :name "login"
         :value (name (get-in req [:session :identity]))}]
       [:p
-       [:textarea#output {:style "width:100%; height:380px;"
-                          :placeholder version-string
-                          :disabled "disabled"}]]
+       [:textarea#output {:style "width:100%; height:380px; color:black;"
+                            :placeholder version-string
+                            :disabled "disabled"}]]
       [:p
        [:div.row
          [:div.col-10
