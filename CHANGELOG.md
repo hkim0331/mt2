@@ -13,12 +13,17 @@
 - :duct.database.sql と :duct.server.http/http-kit {:port 3040} を
   config.edn で定義している。これは本当でなない。
 - textarea を div で置き換えできないか？width, height が設定できるか？
-- [BUG] /reset で internal server error
-
+  自動でボトムまでスクロールも面倒かな。
 
 ## 1.2.6-SNAPSHOT
 - export MT2_ADMIN=hkimura
 - textarea#output のフォントカラーを CSS で red に。
+- [BUG] /reset で internal server error
+  ログのセーブ先のフォルダ名が log と logs で違っていた。
+  macOS では新たにフォルダを作成してエラーにならない。
+  ubuntu だとエラーなのか？
+### Changed
+- production: systemd から shell script の呼び出しに変更。
 
 ## 1.2.5 - 2022-03-29
 ### Changed

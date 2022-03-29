@@ -16,10 +16,10 @@
    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
    [taoensso.timbre  :as timbre :refer [debug info]]))
 
-(reset! sente/debug-mode?_ false)
-
 (def version "1.2.6-SNAPSHOT")
 (def version-string (str "hkimura, " version))
+
+(reset! sente/debug-mode?_ false)
 
 (def msgs (atom []))
 
@@ -165,7 +165,10 @@
   "msgs をファイル log/<localtime>.logに書き出す。"
   [str]
   (let [dest (format "logs/%s.log" (l/local-now))]
-    (spit dest str)))
+    (try
+      (spit dest str)
+      (catch Exception e
+       (page (str "<h1>error</h1><p>" (.getMessage e)))))))
 
 ;; reset = save + reset!
 (defmethod ig/init-key :mt2.handler.mt2/reset [_ _]
