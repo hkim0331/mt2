@@ -12,9 +12,10 @@
 - [server-loop] WARN - unmasked client to server frame
 - 2022-03-27 reset でinternal server error
 
+## 1.2.5 - 2022-03-29
+- textarea#output のフォントカラーを CSS で black に。
 
 ## 1.2.4 - 2022-03-25
-- textarea#output のフォントカラーを CSS で black に。
 
 ## 1.2.3 - 2022-03-24
 - resume (aset output-el "scrollTop" (.-scrollHeight output-el))
