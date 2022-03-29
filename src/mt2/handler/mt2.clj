@@ -16,7 +16,6 @@
    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
    [taoensso.timbre  :as timbre :refer [debug info]]))
 
-(timbre/set-level! :debug)
 (reset! sente/debug-mode?_ false)
 
 (def version "1.2.5")
@@ -27,6 +26,7 @@
 (defn admin? [req]
   ;; user is a keyword, admin is a string.
   ;; compare them after coersing user into string.
+  ;; (find-user db login)の db を渡すのが めんどくさい。
   (let [user  (name (get-in req [:session :identity]))
         admin (env :mt2-admin)]
     (= user admin)))
@@ -196,7 +196,8 @@
 ;;;;
 (defn broadcast!
   [msg sender]
-  (let [msg (if (= sender "admin")
+  (debug "broadcast! sender" sender)
+  (let [msg (if (or (= sender "hkimura"))
               (format "%s\n  %s" (str "🍺 " (java.util.Date.)) msg)
               (format "%s\n  %s" (str (java.util.Date.)) msg))]
     (swap! msgs conj msg)

@@ -11,9 +11,13 @@
 * 2022-01-19 errored in `lein ancient`
 - [server-loop] WARN - unmasked client to server frame
 - 2022-03-27 reset でinternal server error
-- [BUG] admin ジョブができなくなった
 - [BUG] フォントも黒にならないぞ。disabled=disabled が強いか。
+- :duct.database.sql と :duct.server.http/http-kit {:port 3040} を
+  config.edn で定義している。これは本当でなない。
 
+
+## 1.2.6-SNAPSHOT
+- export MT2_ADMIN=hkimura
 
 ## 1.2.5 - 2022-03-29
 ### Changed
