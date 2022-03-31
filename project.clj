@@ -33,6 +33,7 @@
    [org.clojure/java.jdbc "0.7.11"]
 
    [ring "1.9.5"]
+
    [ring/ring-defaults "0.3.2"]
 
    [cljs-bach "0.3.0"]
