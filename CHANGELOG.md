@@ -6,7 +6,6 @@
 * 個人あてユニキャスト
 * invalid anti-forgery-token を表示しないようにできるか？
 * weekly に自動 save/reset
-* admin でログインした時だけ、リセットボタンを表示する
 * 2022-01-19 errored in `lein ancient`
 - [server-loop] WARN - unmasked client to server frame
 - [BUG] フォントも黒にならないぞ。disabled=disabled が強いか。
@@ -14,6 +13,15 @@
   config.edn で定義している。これは本当でなない。
 - textarea を div で置き換えできないか？width, height が設定できるか？
   自動でボトムまでスクロールも面倒かな。
+
+
+## 1.2.7 - 2022-03-31
+### Fixed
+- [BUG] logout しても logout できてない。
+- [BUG] flash を表示できない。
+理由は redirect 先を flash を表示しようと待ち構えている `/login` じゃなく、
+`/` に向けていたから。リダイレクト先からリダイレクトされることで、
+flash の運命に従い、リクエストマップから消えていた。
 
 ## 1.2.6 - 2022-03-31
 ### Added

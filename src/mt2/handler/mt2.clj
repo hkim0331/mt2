@@ -16,7 +16,7 @@
    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
    [taoensso.timbre  :as timbre :refer [debug info]]))
 
-(def version "1.2.6")
+(def version "1.2.7")
 (def version-string (str "hkimura, " version))
 
 (reset! sente/debug-mode?_ false)
@@ -67,12 +67,13 @@
       [:script {:src "/js/main.js"}]]]))
 
 ;;; login/logout
-
 (defmethod ig/init-key :mt2.handler.mt2/login [_ _]
-  (fn [{[_] :ataraxy/result}]
+  (fn [{[_] :ataraxy/result :as req}]
+    (timbre/debug "req:flash" (:flash req))
     [::response/ok
      (page
       [:h2 "Log in"]
+      [:div {:style "color:red;"} (:flash req)]
       (form-to
        [:post "/login"]
        (anti-forgery-field)
@@ -93,7 +94,7 @@
               (assoc-in [:session :identity] (keyword username))))
         (do
           (info "login failure" username password)
-          (-> (redirect "/")
+          (-> (redirect "/login")
               (assoc :flash "login failure")))))))
 
 (defmethod ig/init-key :mt2.handler.mt2/logout [_ _]

@@ -8,13 +8,13 @@
    #_[environ.core :refer [env]]
    [integrant.core :as ig]
    #_[ring.middleware.session :refer [wrap-session]]
-   [taoensso.timbre  :as timbre]))
+   #_[taoensso.timbre  :as timbre]))
 
 ;;
 (defn unauth-handler
-  [req meta]
+  [req _]
   ;; ここで (:session req) = {} がおかしい。
-  (timbre/debug "unauth-hnandler (:session req)" (:session req))
+  ;;(timbre/debug "unauth-hnandler (:session req)" (:session req))
   (if (authenticated? req)
     [::response/found "/error"]
     [::response/found "/login"]))
@@ -22,12 +22,11 @@
 (def auth-backend
   (session-backend {:unauthorized-handler unauth-handler}))
 
-(defn probe [handler]
-  (fn [req]
-    (timbre/info "probe (:session req)" (:session req))
-    (handler req)))
+;; (defn probe [handler]
+;;   (fn [req]
+;;     (handler req)))
 
-(defmethod ig/init-key ::auth [_ _]
+(defmethod ig/init-key :mt2.middleware/auth [_ _]
   (fn [handler]
     (-> handler
         (restrict {:handler authenticated?})

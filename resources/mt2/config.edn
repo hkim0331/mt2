@@ -13,9 +13,9 @@
     [:get  "/"] ^:auth [:mt2.handler.mt2/index]
 
     [:get  "/login"]   [:mt2.handler.mt2/login]
-    [:get  "/logout"]  [:mt2.handler.mt2/logout]
     [:post "/login" {params :form-params}]
     [:mt2.handler.mt2/login-post params]
+    [:get  "/logout"]  [:mt2.handler.mt2/logout]
 
     ;; ^:auth 必要か？
     [:get  "/reload"]  [:mt2.handler.mt2/reload]
