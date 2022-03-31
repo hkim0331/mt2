@@ -16,7 +16,7 @@
    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
    [taoensso.timbre  :as timbre :refer [debug info]]))
 
-(def version "1.2.6-SNAPSHOT")
+(def version "1.2.6")
 (def version-string (str "hkimura, " version))
 
 (reset! sente/debug-mode?_ false)
