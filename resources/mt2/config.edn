@@ -1,6 +1,8 @@
 {:duct.profile/base
  {:duct.core/project-ns mt2
 
+  ;; ここで定義するのは本当ではない。
+  :duct.database/sql {:connection-uri "jdbc:postgresql://db/l22?user=postgres&password=password"}
   :duct.server.http/http-kit {:port 3040}
 
   :duct.router/ataraxy
@@ -29,7 +31,7 @@
   :mt2.handler.mt2/error {}
 
   :mt2.handler.mt2/login  {}
-  :mt2.handler.mt2/login-post  {}
+  :mt2.handler.mt2/login-post  {:db #ig/ref :duct.database/sql}
   :mt2.handler.mt2/logout {}
 
   :mt2.handler.mt2/index  {}

@@ -1,24 +1,23 @@
 (ns mt2.handler.mt2
   (:require
    [ataraxy.response :as response]
+   [buddy.hashers :as hashers]
    [clj-time.local :as l]
    [environ.core :refer [env]]
    [hiccup.form :refer [form-to text-field password-field hidden-field
                         submit-button]]
    [hiccup.page :as hiccup]
    [integrant.core :as ig]
+   [mt2.users :as users]
    [ring.middleware.anti-forgery :as anti-forgery]
    [ring.util.anti-forgery :refer [anti-forgery-field]]
    [ring.util.response :refer [redirect]]
    [taoensso.sente :as sente]
    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
-   [taoensso.timbre  :as timbre :refer [debug]]))
+   [taoensso.timbre  :as timbre :refer [debug info]]))
 
-(def version "1.1.1")
-
+(def version "1.2.6")
 (def version-string (str "hkimura, " version))
-
-(timbre/set-level! :info)
 
 (reset! sente/debug-mode?_ false)
 
@@ -27,6 +26,7 @@
 (defn admin? [req]
   ;; user is a keyword, admin is a string.
   ;; compare them after coersing user into string.
+  ;; (find-user db login)の db を渡すのが めんどくさい。
   (let [user  (name (get-in req [:session :identity]))
         admin (env :mt2-admin)]
     (= user admin)))
@@ -83,24 +83,18 @@
       [:hr]
       [:p version-string])]))
 
-
-;; pass username/password as environment variables.
-(defmethod ig/init-key :mt2.handler.mt2/login-post [_ _]
-  (fn [{[_ {:strs [username password next]}] :ataraxy/result}]
-    (if (or
-         (and (= username (env :mt2-user))
-              (= password (env :mt2-password)))
-         (and (= username (env :mt2-admin))
-              (= password (env :mt2-admin-password))))
-      (do
-        (debug "login success as:" username)
-        (debug "next:" next)
-        (debug "keyword:" (keyword username))
-        (-> (redirect next)
-            (assoc-in [:session :identity] (keyword username))))
-      (do
-        (debug "login failure, username " username ", password " password)
-        [::response/found "/login"]))))
+(defmethod ig/init-key :mt2.handler.mt2/login-post [_ {:keys [db]}]
+  (fn [{[_ {:strs [username password]}] :ataraxy/result}]
+    (let [u (users/find-user db username)]
+      (if (hashers/check password (:password u))
+        (do
+          (info "login" username)
+          (-> (redirect "/")
+              (assoc-in [:session :identity] (keyword username))))
+        (do
+          (info "login failure" username password)
+          (-> (redirect "/")
+              (assoc :flash "login failure")))))))
 
 (defmethod ig/init-key :mt2.handler.mt2/logout [_ _]
   (fn [_]
@@ -127,7 +121,7 @@
         :name "login"
         :value (name (get-in req [:session :identity]))}]
       [:p
-       [:textarea#output {:style "width:100%; height:380px;"
+       [:textarea#output {:style "width:100%; height:380px; color:red;"
                           :placeholder version-string
                           :disabled "disabled"}]]
       [:p
@@ -141,13 +135,18 @@
            {:type "button"
             :class "btn btn-primary btn-sm"}
            "send"]]]]
-
       [:p
        [:button#clear
         {:type "button" :class "btn btn-primary btn-sm"} "clear"]
        " "
        [:button#reload
         {:type "button" :class "btn btn-primary btn-sm"} "reload"]
+       " "
+       (when (admin? req)
+        [:button#reset
+         {:type "button" :class "btn btn-danger btn-sm"
+          :onclick "location.href='/reset'"}
+         "reset"])
        " "
        [:button#logout
         {:type "button" :class "btn btn-warning btn-sm"
@@ -171,7 +170,10 @@
   "msgs をファイル log/<localtime>.logに書き出す。"
   [str]
   (let [dest (format "logs/%s.log" (l/local-now))]
-    (spit dest str)))
+    (try
+      (spit dest str)
+      (catch Exception e
+       (page (str "<h1>error</h1><p>" (.getMessage e)))))))
 
 ;; reset = save + reset!
 (defmethod ig/init-key :mt2.handler.mt2/reset [_ _]
@@ -202,7 +204,8 @@
 ;;;;
 (defn broadcast!
   [msg sender]
-  (let [msg (if (= sender "admin")
+  (debug "broadcast! sender" sender)
+  (let [msg (if (or (= sender "hkimura"))
               (format "%s\n  %s" (str "🍺 " (java.util.Date.)) msg)
               (format "%s\n  %s" (str (java.util.Date.)) msg))]
     (swap! msgs conj msg)

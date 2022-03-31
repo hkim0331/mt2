@@ -3,7 +3,7 @@
    [cljs-bach.synthesis :as b]
    [cljs-http.client :as http]
    [cljs.core.async :refer [<!]]
-   [clojure.string :refer [replace-first]]
+   ;;[clojure.string :refer [replace-first]]
    [taoensso.encore :as encore :refer-macros (have)]
    [taoensso.sente  :as sente]
    [taoensso.timbre :as timbre])
@@ -12,11 +12,13 @@
 
 (defonce context (b/audio-context))
 
-(defn ping [freq]
+(defn ping
+  "着信音を鳴らす"
+  [freq]
   (b/connect->
-    (b/square freq)
-    (b/percussive 0.01 0.4)
-    (b/gain 0.1)))
+   (b/square freq)
+   (b/percussive 0.01 0.4)
+   (b/gain 0.1)))
 
 ;; do not work yet. url?
 ; (defn play-mp3 [url]
@@ -28,14 +30,15 @@
 ;                 (b/current-time b/audio-context)
 ;                 1.0)))
 
-(def MAX_MSG_LEN 140)
-
 (def messages (atom []))
+
+(def MAX_MSG_LEN 140)
 
 (def output-el  (.getElementById js/document "output"))
 (def message-el (.getElementById js/document "message"))
 
-(defn login-name []
+(defn login-name
+  []
   (-> (.getElementById js/document "login")
       (.getAttribute "value")))
 
@@ -46,8 +49,9 @@
   (aset output-el
         "value"
         (str (.-value output-el) "\n"
-             (when (= sender (login-name)) "---YOU--- ")
+             (when (= sender (login-name)) "*** YOU *** ")
              msg))
+  (aset output-el "scrollTop" (.-scrollHeight output-el))
   (swap! messages conj msg))
 
 ;;;; Sente channel socket client

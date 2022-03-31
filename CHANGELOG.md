@@ -4,12 +4,52 @@
 * 受け取ったメッセージをデータベースへ保存する。
 * 禁止ワード。
 * 個人あてユニキャスト
-* return で送信できるように(しないほうがいいかも)
 * invalid anti-forgery-token を表示しないようにできるか？
 * weekly に自動 save/reset
 * admin でログインした時だけ、リセットボタンを表示する
 * 2022-01-19 errored in `lein ancient`
 - [server-loop] WARN - unmasked client to server frame
+- [BUG] フォントも黒にならないぞ。disabled=disabled が強いか。
+- :duct.database.sql と :duct.server.http/http-kit {:port 3040} を
+  config.edn で定義している。これは本当でなない。
+- textarea を div で置き換えできないか？width, height が設定できるか？
+  自動でボトムまでスクロールも面倒かな。
+
+## 1.2.6 - 2022-03-31
+### Added
+- admin でログインしたら reset ボタンを表示する。
+### Changed
+- textarea#output のフォントカラーを CSS で red に。
+### Fixed
+- [BUG] admin で reset できない。
+  don't forget export MT2_ADMIN=admin
+- [BUG] /reset で internal server error
+  ログのセーブ先のフォルダ名が log と logs で違っていた。
+  macOS では新たにフォルダを作成してエラーにならない。
+  ubuntu だとエラーなのか？
+
+### Changed
+- production: systemd から shell script の呼び出しに変更。
+
+## 1.2.5 - 2022-03-29
+### Changed
+- textarea#output のフォントカラーを CSS で black に。
+### Added
+- deploy.sh
+
+## 1.2.4 - 2022-03-25
+
+## 1.2.3 - 2022-03-24
+- resume (aset output-el "scrollTop" (.-scrollHeight output-el))
+
+## 1.2.2 - 2022-03-24
+- auth against db
+- add buddy-hashers postgresql dependencies
+## 1.2.4 - 2022-03-25
+
+## 1.2.1 - 2022-03-24
+- index ページに
+  [:input {:id "login" :type "hidden"  :name "login" :value "***")}]
 
 ## 1.1.1 - 2022-03-24
 - ライブラリのバージョンアップ
