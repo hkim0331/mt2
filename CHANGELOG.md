@@ -15,13 +15,19 @@
 - textarea を div で置き換えできないか？width, height が設定できるか？
   自動でボトムまでスクロールも面倒かな。
 
-## 1.2.6-SNAPSHOT
-- export MT2_ADMIN=hkimura
+## 1.2.6 - 2022-03-31
+### Added
+- admin でログインしたら reset ボタンを表示する。
+### Changed
 - textarea#output のフォントカラーを CSS で red に。
+### Fixed
+- [BUG] admin で reset できない。
+  don't forget export MT2_ADMIN=admin
 - [BUG] /reset で internal server error
   ログのセーブ先のフォルダ名が log と logs で違っていた。
   macOS では新たにフォルダを作成してエラーにならない。
   ubuntu だとエラーなのか？
+
 ### Changed
 - production: systemd から shell script の呼び出しに変更。
 

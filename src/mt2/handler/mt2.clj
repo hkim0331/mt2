@@ -135,13 +135,18 @@
            {:type "button"
             :class "btn btn-primary btn-sm"}
            "send"]]]]
-
       [:p
        [:button#clear
         {:type "button" :class "btn btn-primary btn-sm"} "clear"]
        " "
        [:button#reload
         {:type "button" :class "btn btn-primary btn-sm"} "reload"]
+       " "
+       (when (admin? req)
+        [:button#reset
+         {:type "button" :class "btn btn-danger btn-sm"
+          :onclick "location.href='/reset'"}
+         "reset"])
        " "
        [:button#logout
         {:type "button" :class "btn btn-warning btn-sm"
