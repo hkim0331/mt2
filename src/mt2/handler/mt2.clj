@@ -16,17 +16,17 @@
    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
    [taoensso.timbre  :as timbre :refer [debug info]]))
 
-(timbre/set-level! :debug)
-(reset! sente/debug-mode?_ false)
-
-(def version "1.2.5")
+(def version "1.2.6")
 (def version-string (str "hkimura, " version))
+
+(reset! sente/debug-mode?_ false)
 
 (def msgs (atom []))
 
 (defn admin? [req]
   ;; user is a keyword, admin is a string.
   ;; compare them after coersing user into string.
+  ;; (find-user db login)の db を渡すのが めんどくさい。
   (let [user  (name (get-in req [:session :identity]))
         admin (env :mt2-admin)]
     (= user admin)))
@@ -121,9 +121,9 @@
         :name "login"
         :value (name (get-in req [:session :identity]))}]
       [:p
-       [:textarea#output {:style "width:100%; height:380px; color:black;"
-                            :placeholder version-string
-                            :disabled "disabled"}]]
+       [:textarea#output {:style "width:100%; height:380px; color:red;"
+                          :placeholder version-string
+                          :disabled "disabled"}]]
       [:p
        [:div.row
          [:div.col-10
@@ -135,13 +135,18 @@
            {:type "button"
             :class "btn btn-primary btn-sm"}
            "send"]]]]
-
       [:p
        [:button#clear
         {:type "button" :class "btn btn-primary btn-sm"} "clear"]
        " "
        [:button#reload
         {:type "button" :class "btn btn-primary btn-sm"} "reload"]
+       " "
+       (when (admin? req)
+        [:button#reset
+         {:type "button" :class "btn btn-danger btn-sm"
+          :onclick "location.href='/reset'"}
+         "reset"])
        " "
        [:button#logout
         {:type "button" :class "btn btn-warning btn-sm"
@@ -165,7 +170,10 @@
   "msgs をファイル log/<localtime>.logに書き出す。"
   [str]
   (let [dest (format "logs/%s.log" (l/local-now))]
-    (spit dest str)))
+    (try
+      (spit dest str)
+      (catch Exception e
+       (page (str "<h1>error</h1><p>" (.getMessage e)))))))
 
 ;; reset = save + reset!
 (defmethod ig/init-key :mt2.handler.mt2/reset [_ _]
@@ -196,7 +204,8 @@
 ;;;;
 (defn broadcast!
   [msg sender]
-  (let [msg (if (= sender "admin")
+  (debug "broadcast! sender" sender)
+  (let [msg (if (or (= sender "hkimura"))
               (format "%s\n  %s" (str "🍺 " (java.util.Date.)) msg)
               (format "%s\n  %s" (str (java.util.Date.)) msg))]
     (swap! msgs conj msg)
