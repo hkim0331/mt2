@@ -35,7 +35,7 @@
    [org.clojure/java.jdbc "0.7.12"]
    [org.postgresql/postgresql "42.3.3"]
 
-   [ring "1.8.2"]
+   [ring "1.9.5"]
    [ring/ring-defaults "0.3.2"]
 
    [cljs-bach "0.3.0"]
