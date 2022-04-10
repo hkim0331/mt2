@@ -13,6 +13,8 @@
   config.edn で定義している。これは本当でなない。
 - textarea を div で置き換えできないか？width, height が設定できるか？
   自動でボトムまでスクロールも面倒かな。
+- 1.2.7 しか動かない。
+
 
 ## 1.2.8 - 2022-04-10
 - env.sh は必要なくなった。app.melt/mt2/start.sh に MT2_ADMIN を埋め込んでいる。
