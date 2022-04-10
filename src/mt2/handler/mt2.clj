@@ -129,15 +129,15 @@
                           :disabled "disabled"}]]
       [:p
        [:div.row
-         [:div.col-10
+         [:div.col-12
           [:input#message
-           {:placeholder "type your message"
+           {:placeholder "type your message, enter-key to submit."
             :style "width: 100%;"}]]
-         [:div.col-1
-          [:button#send
-           {:type "button"
-            :class "btn btn-primary btn-sm"}
-           "send"]]]]
+         #_[:div.col-1
+            [:button#send
+             {:type "button"
+              :class "btn btn-primary btn-sm"}
+             "send"]]]]
       [:p
        [:button#clear
         {:type "button" :class "btn btn-primary btn-sm"} "clear"]
