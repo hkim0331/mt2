@@ -1,4 +1,4 @@
-(defproject mt2 "1.2.8"
+(defproject mt2 "1.2.9"
   :description "micro twitter for hkimura class"
   :url "http://example.com/FIXME"
   :min-lein-version "2.0.0"
@@ -17,12 +17,12 @@
    [com.taoensso/timbre  "5.1.2"]
 
    [duct/core            "0.8.0"]
-   ;;[duct/handler.sql     "0.4.0"];; off 2022-04-10
+   [duct/handler.sql     "0.4.0"] ;; resumed 1.2.9
    [duct/module.ataraxy  "0.3.0"]
    [duct/module.cljs     "0.4.1"]
    [duct/module.logging  "0.5.0"]
    [duct/module.sql      "0.6.1"] ;; 2022-04-10, no effect.
-   [duct/module.web      "0.7.3"]
+   [duct/module.web      "0.7.3"] ;; was 0.7.1
 
    [duct/server.http.http-kit "0.1.4"]
 
