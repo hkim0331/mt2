@@ -14,6 +14,10 @@
 - textarea を div で置き換えできないか？width, height が設定できるか？
   自動でボトムまでスクロールも面倒かな。
 
+## 1.2.8-SNAPSHOT
+- env.sh は必要なくなったはず。
+- DATABASE_URL の代わりに JDBC_DATABAE_URL を試す。
+
 
 ## 1.2.7 - 2022-03-31
 ### Fixed
