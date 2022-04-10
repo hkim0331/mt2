@@ -16,8 +16,16 @@
 
 ## 1.2.8-SNAPSHOT
 - env.sh は必要なくなったはず。
-- DATABASE_URL の代わりに JDBC_DATABAE_URL を試す。
+  => No. DB を引数に渡すのが面倒くさいので、(env :mt2-admin) を使っている。
+  スタート時にadmin ユーザだけをどっかに保存しおくのはどうか？
+  => app.melt/mt2/start.sh に MT2_ADMIN を埋め込んでいる。
 
+- DATABASE_URL の代わりに JDBC_DATABAE_URL を試す。
+  これか？config.edn に
+
+    :duct.module.sql {}
+
+  が抜けていた。
 
 ## 1.2.7 - 2022-03-31
 ### Fixed
