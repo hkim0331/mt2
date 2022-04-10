@@ -16,7 +16,7 @@
    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
    [taoensso.timbre  :as timbre :refer [debug info]]))
 
-(def version "1.2.8-SNAPSHOT")
+(def version "1.2.9")
 (def version-string (str "hkimura, " version))
 
 (reset! sente/debug-mode?_ false)
@@ -43,10 +43,12 @@
   (def chsk-send!                    send-fn) ; ChannelSocket's send API fn
   (def connected-uids                connected-uids)) ; Watchable, read-only atom
 
-(add-watch connected-uids :connected-uids
-           (fn [_ _ old new]
-             (when (not= old new)
-               (debug "Connected uids change: " new))))
+(add-watch
+ connected-uids
+ :connected-uids
+ (fn [_ _ old new]
+   (when (not= old new)
+     (debug "Connected uids change: " new))))
 
 (defn page
   [& contents]
