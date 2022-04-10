@@ -18,6 +18,7 @@
 - env.sh は必要なくなったはず。
   => No. DB を引数に渡すのが面倒くさいので、(env :mt2-admin) を使っている。
   スタート時にadmin ユーザだけをどっかに保存しおくのはどうか？
+  => app.melt/mt2/start.sh に MT2_ADMIN を埋め込んでいる。
 
 - DATABASE_URL の代わりに JDBC_DATABAE_URL を試す。
 

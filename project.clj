@@ -22,6 +22,8 @@
    [duct/module.cljs     "0.4.1"]
    [duct/module.logging  "0.5.0"]
    [duct/module.web      "0.7.1"]
+   [duct/module.sql      "0.6.1"] ;; 2022-04-10
+
    [duct/server.http.http-kit "0.1.4"]
 
    [http-kit "2.5.0"] ;2.5.3
