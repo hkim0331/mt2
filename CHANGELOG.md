@@ -19,8 +19,8 @@
 ### Fixed
 - DATABASE_URL, JDBC_DATABAE_URL を定義しても、反映されない。
   => config.edn に
-    :duct.module.sql {}
-  が抜けていた。
+    :duct.module/sql {}
+  が抜けていた。これか？
 
 ## 1.2.7 - 2022-03-31
 ### Fixed
