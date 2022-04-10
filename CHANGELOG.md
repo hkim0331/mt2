@@ -13,7 +13,23 @@
   config.edn で定義している。これは本当でなない。
 - textarea を div で置き換えできないか？width, height が設定できるか？
   自動でボトムまでスクロールも面倒かな。
-- 1.2.7 しか動かない。
+- abs already reffers
+```
+Compiling mt2.handler.mt2
+WARNING: abs already refers to: #'clojure.core/abs in namespace: taoensso.encore, being replaced by: #'taoensso.encore/abs
+Compiling mt2.main
+WARNING: abs already refers to: #'clojure.core/abs in namespace: medley.core, being replaced by: #'medley.core/abs
+Compiling mt2.middleware
+Compiling mt2.users
+WARNING: abs already refers to: #'clojure.core/abs in namespace: medley.core, being replaced by: #'medley.core/abs
+WARNING: abs already refers to: #'clojure.core/abs in namespace: taoensso.encore, being replaced by: #'taoensso.encore/abs
+```
+
+## 1.3.0 - 2022-04-10
+### Fixed
+- 1.2.7 しか動かないと思っていたのは、Duct の環境変数の扱い方か。
+  http-kit を使うので、それを config.edn に書かないといけないってのは自然だ。
+- 「keydown でイベントが発生しない」それはブラウザが *.js をキャッシュしてたからじゃないか？
 
 
 ## 1.2.8 - 2022-04-10

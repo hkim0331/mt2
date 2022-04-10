@@ -16,7 +16,7 @@
    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
    [taoensso.timbre  :as timbre :refer [debug info]]))
 
-(def version "1.2.9")
+(def version "1.3.0")
 (def version-string (str "hkimura, " version))
 
 (reset! sente/debug-mode?_ false)
@@ -129,15 +129,15 @@
                           :disabled "disabled"}]]
       [:p
        [:div.row
-         [:div.col-10
+         [:div.col-12
           [:input#message
-           {:placeholder "type your message"
+           {:placeholder "type your message, enter-key to submit."
             :style "width: 100%;"}]]
-         [:div.col-1
-          [:button#send
-           {:type "button"
-            :class "btn btn-primary btn-sm"}
-           "send"]]]]
+         #_[:div.col-1
+            [:button#send
+             {:type "button"
+              :class "btn btn-primary btn-sm"}
+             "send"]]]]
       [:p
        [:button#clear
         {:type "button" :class "btn btn-primary btn-sm"} "clear"]

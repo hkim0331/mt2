@@ -117,7 +117,18 @@
     (timbre/debug ?uid " " ?csrf-token ?handshake-data)
     (timbre/debug "handshake")))
 
-;;;; UI events
+;;;
+;;; UI events
+;;;
+
+(.addEventListener message-el
+                   "keydown"
+                   (fn [ev]
+                     (when (= (.-keyCode ev) 13)
+                       (let [msg (str (.-value message-el))]
+                         (when (< 0 (count msg) MAX_MSG_LEN)
+                           (chsk-send! [:mt2/msg msg])
+                           (aset message-el "value" ""))))))
 
 (when-let [target-el (.getElementById js/document "send")]
   (.addEventListener target-el
