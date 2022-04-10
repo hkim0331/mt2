@@ -16,6 +16,9 @@
 
 ## 1.2.8-SNAPSHOT
 - env.sh は必要なくなったはず。
+  => No. DB を引数に渡すのが面倒くさいので、(env :mt2-admin) を使っている。
+  スタート時にadmin ユーザだけをどっかに保存しおくのはどうか？
+
 - DATABASE_URL の代わりに JDBC_DATABAE_URL を試す。
 
 
