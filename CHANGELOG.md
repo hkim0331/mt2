@@ -14,17 +14,12 @@
 - textarea を div で置き換えできないか？width, height が設定できるか？
   自動でボトムまでスクロールも面倒かな。
 
-## 1.2.8-SNAPSHOT
-- env.sh は必要なくなったはず。
-  => No. DB を引数に渡すのが面倒くさいので、(env :mt2-admin) を使っている。
-  スタート時にadmin ユーザだけをどっかに保存しおくのはどうか？
-  => app.melt/mt2/start.sh に MT2_ADMIN を埋め込んでいる。
-
-- DATABASE_URL の代わりに JDBC_DATABAE_URL を試す。
-  これか？config.edn に
-
+## 1.2.8 - 2022-04-10
+- env.sh は必要なくなった。app.melt/mt2/start.sh に MT2_ADMIN を埋め込んでいる。
+### Fixed
+- DATABASE_URL, JDBC_DATABAE_URL を定義しても、反映されない。
+  => config.edn に
     :duct.module.sql {}
-
   が抜けていた。
 
 ## 1.2.7 - 2022-03-31
