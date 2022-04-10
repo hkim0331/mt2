@@ -21,7 +21,11 @@
   => app.melt/mt2/start.sh に MT2_ADMIN を埋め込んでいる。
 
 - DATABASE_URL の代わりに JDBC_DATABAE_URL を試す。
+  これか？config.edn に
 
+    :duct.module.sql {}
+
+  が抜けていた。
 
 ## 1.2.7 - 2022-03-31
 ### Fixed
