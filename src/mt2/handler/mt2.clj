@@ -43,10 +43,12 @@
   (def chsk-send!                    send-fn) ; ChannelSocket's send API fn
   (def connected-uids                connected-uids)) ; Watchable, read-only atom
 
-(add-watch connected-uids :connected-uids
-           (fn [_ _ old new]
-             (when (not= old new)
-               (debug "Connected uids change: " new))))
+(add-watch
+ connected-uids
+ :connected-uids
+ (fn [_ _ old new]
+   (when (not= old new)
+     (debug "Connected uids change: " new))))
 
 (defn page
   [& contents]
