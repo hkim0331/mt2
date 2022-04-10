@@ -27,14 +27,17 @@
 
    [duct/server.http.http-kit "0.1.4"]
 
-   [http-kit "2.5.0"] ;2.5.3
+   ;; without this, compile error
+   ;; Syntax error compiling at (taoensso/sente/server_adapters/http_kit.clj:25:7).
+   ;; No such var: hk/as-channel
+   [http-kit "2.5.3"] ;2.5.0
 
    [environ "1.2.0"]
    [hiccup "1.0.5"]
 
-   [org.clojure/clojure "1.10.3"]
-   [org.clojure/clojurescript "1.10.866"] ; 1.11.4
-   [org.clojure/core.async "1.3.610"] ; 1.5.648
+   [org.clojure/clojure "1.11.1"]
+   [org.clojure/clojurescript "1.11.4"] ; 1.11.4
+   [org.clojure/core.async "1.5.648"] ; 1.5.648
 
    [org.clojure/java.jdbc "0.7.12"]
    [org.postgresql/postgresql "42.3.3"]
