@@ -14,6 +14,13 @@
 - textarea を div で置き換えできないか？width, height が設定できるか？
   自動でボトムまでスクロールも面倒かな。
 
+## 1.2.8 - 2022-04-10
+- env.sh は必要なくなった。app.melt/mt2/start.sh に MT2_ADMIN を埋め込んでいる。
+### Fixed
+- DATABASE_URL, JDBC_DATABAE_URL を定義しても、反映されない。
+  => config.edn に
+    :duct.module.sql {}
+  が抜けていた。
 
 ## 1.2.7 - 2022-03-31
 ### Fixed
