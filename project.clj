@@ -4,7 +4,7 @@
   :min-lein-version "2.0.0"
 
   :dependencies
-  [[buddy/buddy-auth     "2.2.0"]
+  [[buddy/buddy-auth     "3.0.323"]
    [buddy/buddy-hashers  "1.8.158"]
 
    [clj-time             "0.15.2"]
@@ -14,7 +14,8 @@
    ;;
 
    [com.taoensso/sente   "1.16.0"]
-   [com.taoensso/timbre  "5.1.2"]
+
+   [com.taoensso/timbre  "5.2.1"]
 
    [duct/core            "0.8.0"]
    [duct/handler.sql     "0.4.0"] ;; resumed 1.2.9
@@ -27,6 +28,7 @@
    [duct/server.http.http-kit "0.1.4"]
 
    [http-kit "2.5.0"] ;2.5.3
+
    [environ "1.2.0"]
    [hiccup "1.0.5"]
 

@@ -1,6 +1,8 @@
 {:duct.profile/base
  {:duct.core/project-ns mt2
 
+  :duct.server.http/http-kit {:port 3000}
+
   :duct.router/ataraxy
   {:routes
    {[:get  "/chsk"]    [:mt2.handler.mt2/get-chsk]
@@ -24,7 +26,7 @@
 
   :mt2.middleware/auth    {}
 
-  :mt2.handler.mt2/error {}
+  :mt2.handler.mt2/error  {}
 
   :mt2.handler.mt2/login  {}
   :mt2.handler.mt2/login-post  {:db #ig/ref :duct.database/sql}
