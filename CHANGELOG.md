@@ -25,6 +25,10 @@ WARNING: abs already refers to: #'clojure.core/abs in namespace: medley.core, be
 WARNING: abs already refers to: #'clojure.core/abs in namespace: taoensso.encore, being replaced by: #'taoensso.encore/abs
 ```
 
+## 1.3.1 - 2022-04-11
+### Changed
+- off disabled, color black.
+
 ## 1.3.0 - 2022-04-10
 ### Fixed
 - 1.2.7 しか動かないと思っていたのは、Duct の環境変数の扱い方か。
