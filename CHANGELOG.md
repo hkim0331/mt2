@@ -13,7 +13,7 @@
   config.edn で定義している。これは本当でなない。
 - textarea を div で置き換えできないか？width, height が設定できるか？
   自動でボトムまでスクロールも面倒かな。
-- abs already reffers
+- abs already refers
 ```
 Compiling mt2.handler.mt2
 WARNING: abs already refers to: #'clojure.core/abs in namespace: taoensso.encore, being replaced by: #'taoensso.encore/abs
