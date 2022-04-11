@@ -16,7 +16,7 @@
    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
    [taoensso.timbre  :as timbre :refer [debug info]]))
 
-(def version "1.3.0")
+(def version "1.3.1")
 (def version-string (str "hkimura, " version))
 
 (reset! sente/debug-mode?_ false)
@@ -124,9 +124,8 @@
         :name "login"
         :value (name (get-in req [:session :identity]))}]
       [:p
-       [:textarea#output {:style "width:100%; height:380px; color:red;"
-                          :placeholder version-string
-                          :disabled "disabled"}]]
+       [:textarea#output {:style "width:100%; height:380px; color:black;"
+                          :placeholder version-string}]]
       [:p
        [:div.row
          [:div.col-12
