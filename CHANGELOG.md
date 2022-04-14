@@ -25,6 +25,9 @@ WARNING: abs already refers to: #'clojure.core/abs in namespace: medley.core, be
 WARNING: abs already refers to: #'clojure.core/abs in namespace: taoensso.encore, being replaced by: #'taoensso.encore/abs
 ```
 
+## 1.3.2-SNAPSHOT
+YOU は味気ないか。
+
 ## 1.3.1 - 2022-04-11
 ### Changed
 - off disabled, color black.
