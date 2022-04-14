@@ -49,7 +49,7 @@
   (aset output-el
         "value"
         (str (.-value output-el) "\n"
-             (when (= sender (login-name)) "*** YOU *** ")
+             (when (= sender (login-name)) " 🙋‍♀️ ")
              msg))
   (aset output-el "scrollTop" (.-scrollHeight output-el))
   (swap! messages conj msg))
