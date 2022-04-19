@@ -24,6 +24,9 @@ Compiling mt2.users
 WARNING: abs already refers to: #'clojure.core/abs in namespace: medley.core, being replaced by: #'medley.core/abs
 WARNING: abs already refers to: #'clojure.core/abs in namespace: taoensso.encore, being replaced by: #'taoensso.encore/abs
 ```
+- びっくりモード: 自分の名前が表示される
+- もっとビックリモード: 投稿者の名前が表示される
+
 
 ## 1.3.2 - 2022-04-14
 - YOU は味気ない。🙋‍♀️ に変更。
