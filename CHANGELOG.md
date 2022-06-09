@@ -27,6 +27,10 @@ WARNING: abs already refers to: #'clojure.core/abs in namespace: taoensso.encore
 - びっくりモード: 自分の名前が表示される
 - もっとビックリモード: 投稿者の名前が表示される
 
+## 1.4.0 - 2022-06-09
+### Fixme
+- (defn- validate? [s])
+  英語、日本語はバリデートできるが、絵文字ができない。
 
 ## 1.3.2 - 2022-04-14
 - YOU は味気ない。🙋‍♀️ に変更。
