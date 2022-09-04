@@ -83,4 +83,4 @@ lein test
 
 ## Legal
 
-Copyright © 2020 hkimura
+Copyright © 2020-2022 hkimura

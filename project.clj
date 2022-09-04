@@ -1,6 +1,6 @@
-(defproject mt2 "1.3.2"
+(defproject mt2 "1.3.3"
   :description "micro twitter for hkimura class"
-  :url "http://example.com/FIXME"
+  :url "https://mt.melt.kyutech.ac.jp"
   :min-lein-version "2.0.0"
 
   :dependencies

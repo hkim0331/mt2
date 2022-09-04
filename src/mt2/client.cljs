@@ -121,12 +121,23 @@
 ;;; UI events
 ;;;
 
+;; FIXME .{4,} は any の4以上の繰り返し。
+(defn- validate? [s]
+  (and
+   ;; 長さが MAX_MSG_LEN 未満
+   (< 0 (count s) MAX_MSG_LEN)
+   ;; 繰り返しが 4 未満
+   (< (->> s
+           (partition-by identity)
+           (map count)
+           (apply max)) 4)))
+
 (.addEventListener message-el
                    "keydown"
                    (fn [ev]
                      (when (= (.-keyCode ev) 13)
                        (let [msg (str (.-value message-el))]
-                         (when (< 0 (count msg) MAX_MSG_LEN)
+                         (when (validate? msg)
                            (chsk-send! [:mt2/msg msg])
                            (aset message-el "value" ""))))))
 
