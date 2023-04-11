@@ -26,6 +26,7 @@ WARNING: abs already refers to: #'clojure.core/abs in namespace: taoensso.encore
 ```
 - びっくりモード: 自分の名前が表示される
 - もっとビックリモード: 投稿者の名前が表示される
+- バリデーションに引っ掛かったらダイアログを出す。
 
 ## 1.4.0 - 2022-06-09
 ### Fixme

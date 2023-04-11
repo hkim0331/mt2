@@ -208,7 +208,7 @@
   [msg sender]
   (debug "broadcast! sender" sender)
   (let [msg (if (or (= sender "hkimura"))
-              (format "%s\n  %s" (str "🍺 " (java.util.Date.)) msg)
+              (format "%s\n  %s" (str "🍺 " (java.util.Date.) " 🍺") msg)
               (format "%s\n  %s" (str (java.util.Date.)) msg))]
     (swap! msgs conj msg)
     (doseq [uid (:any @connected-uids)]
