@@ -16,7 +16,7 @@
    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
    [taoensso.timbre  :as timbre :refer [debug info]]))
 
-(def version "1.4.0")
+(def version "1.4.1")
 (def version-string (str "hkimura, " version))
 
 (reset! sente/debug-mode?_ false)
@@ -89,6 +89,7 @@
 (defmethod ig/init-key :mt2.handler.mt2/login-post [_ {:keys [db]}]
   (fn [{[_ {:strs [username password]}] :ataraxy/result}]
     (let [u (users/find-user db username)]
+      (timbre/debug "u" (str u))
       (if (hashers/check password (:password u))
         (do
           (info "login" username)
@@ -207,7 +208,7 @@
 (defn broadcast!
   [msg sender]
   (debug "broadcast! sender" sender)
-  (let [msg (if (or (= sender "hkimura"))
+  (let [msg (if (= sender "hkimura")
               (format "%s\n  %s" (str "🍺 " (java.util.Date.) " 🍺") msg)
               (format "%s\n  %s" (str (java.util.Date.)) msg))]
     (swap! msgs conj msg)
