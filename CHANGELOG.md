@@ -28,6 +28,10 @@ WARNING: abs already refers to: #'clojure.core/abs in namespace: taoensso.encore
 - もっとビックリモード: 投稿者の名前が表示される
 - バリデーションに引っ掛かったらダイアログを出す。
 
+## 1.4.1-SNAPSHOT
+## Added
+- Makefile: uberjar, deplpy and clean
+
 ## 1.4.0 - 2022-06-09
 ### Fixme
 - (defn- validate? [s])
