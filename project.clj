@@ -7,6 +7,9 @@
   [[buddy/buddy-auth     "3.0.323"]
    [buddy/buddy-hashers  "1.8.158"]
 
+   ;; 2023-04-12
+   [cheshire/cheshire "5.11.0"]
+
    [clj-time             "0.15.2"]
 
    ;; without this, `lein uberjar` fails.
@@ -26,6 +29,9 @@
    [duct/module.web      "0.7.3"] ;; was 0.7.1
 
    [duct/server.http.http-kit "0.1.4"]
+
+   ;; 2023-04-12
+   [hato/hato "0.9.0"]
 
    ;; without this, compile error
    ;; Syntax error compiling at (taoensso/sente/server_adapters/http_kit.clj:25:7).

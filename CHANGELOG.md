@@ -28,7 +28,17 @@ WARNING: abs already refers to: #'clojure.core/abs in namespace: taoensso.encore
 - もっとビックリモード: 投稿者の名前が表示される
 - バリデーションに引っ掛かったらダイアログを出す。
 
-## 1.4.1-SNAPSHOT
+## 1.4.1 - 2023-04-12
+## Change auth method
+- mt2.users
+{:as :json} ってしてるのに戻りは edn になる模様。
+L22 側で対応するのがスジとは思うが。
+```
+(defn find-user [_ login]
+  (let [url (str "https://l22.melt.kyutech.ac.jp/api/user/" login)
+        body (:body (hc/get url {:as :json}))]
+    body))
+```
 ## Added
 - Makefile: uberjar, deplpy and clean
 
