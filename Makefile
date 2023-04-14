@@ -1,3 +1,5 @@
+all: clean deploy
+
 uberjar:
 	lein uberjar
 
@@ -9,4 +11,3 @@ deploy: uberjar
 clean:
 	${RM} -rf target
 	${RM} *~
-

@@ -28,6 +28,10 @@ WARNING: abs already refers to: #'clojure.core/abs in namespace: taoensso.encore
 - もっとビックリモード: 投稿者の名前が表示される
 - バリデーションに引っ掛かったらダイアログを出す。
 
+## 1.5.0-SNAPSHOT
+- added hato 0.9.0
+- replace mt2.users/find-user
+
 ## 1.4.1-SNAPSHOT
 ## Added
 - Makefile: uberjar, deplpy and clean

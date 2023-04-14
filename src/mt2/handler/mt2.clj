@@ -16,7 +16,7 @@
    [taoensso.sente.server-adapters.http-kit :refer (get-sch-adapter)]
    [taoensso.timbre  :as timbre :refer [debug info]]))
 
-(def version "1.4.0")
+(def version "1.5.0")
 (def version-string (str "hkimura, " version))
 
 (reset! sente/debug-mode?_ false)
@@ -86,9 +86,9 @@
       [:hr]
       [:p version-string])]))
 
-(defmethod ig/init-key :mt2.handler.mt2/login-post [_ {:keys [db]}]
+(defmethod ig/init-key :mt2.handler.mt2/login-post [_ _]
   (fn [{[_ {:strs [username password]}] :ataraxy/result}]
-    (let [u (users/find-user db username)]
+    (let [u (users/find-user username)]
       (if (hashers/check password (:password u))
         (do
           (info "login" username)
