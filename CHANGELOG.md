@@ -28,9 +28,10 @@ WARNING: abs already refers to: #'clojure.core/abs in namespace: taoensso.encore
 - もっとビックリモード: 投稿者の名前が表示される
 - バリデーションに引っ掛かったらダイアログを出す。
 
-## 1.5.0-SNAPSHOT
+## 1.5.0 - 2023-04-14
 - added hato 0.9.0
 - replace mt2.users/find-user
+- removed postgresql libraries
 
 ## 1.4.1-SNAPSHOT
 ## Added
