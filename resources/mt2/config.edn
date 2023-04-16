@@ -1,7 +1,7 @@
 {:duct.profile/base
  {:duct.core/project-ns mt2
 
-  ;; :duct.server.http/http-kit {:port 3040}
+  :duct.server.http/http-kit {:port 3040}
 
   :duct.router/ataraxy
   {:routes
