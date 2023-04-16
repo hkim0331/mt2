@@ -2,46 +2,60 @@ server {
     server_name mt.melt.kyutech.ac.jp;
 
     access_log /var/log/nginx/mt_access.log;
-    error_log /var/log/nginx/mt_error.log;
+    error_log  /var/log/nginx/mt_error.log;
 
-    # if ($remote_addr = '150.69.3.11' ) {
-    #    #changed 2018.05
-    #    # rewrite /mt http://10.27.104.1:20155/mt redirect;
-    #    # rewrite ^(.*)$ http://10.27.104.1:20154 redirect;
-    #    rewrite /mt http://10.27.102.200:20155/mt redirect;
-    #    rewrite ^(.*)$ http://10.27.102.200:20154 redirect;
-    # }
+    location ~ \.php$ {
+    	 deny all;
+    }
 
-    proxy_set_header    X-Real-IP       $remote_addr;
-    proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header    Host            $http_host;
-    proxy_redirect      off;
-    proxy_max_temp_file_size    0;
-#
-# for websocket
-#
-    proxy_http_version 1.1;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection "upgrade";
+    location ~ \.php$ {
+    	deny all;
+    }
 
     location / {
         proxy_pass http://127.0.0.1:3040;
+
+	proxy_set_header X-Real-IP $remote_addr;
+	proxy_set_header Host $host;
+	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+	# websocket headers
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+	proxy_set_header Connection $connection_upgrade;
+
+	proxy_set_header X-Scheme $scheme;
+	proxy_buffering off;
     }
 
     listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/ape.melt.kyutech.ac.jp/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/ape.melt.kyutech.ac.jp/privkey.pem; # managed by Certbot
+
+    ssl_certificate /etc/letsencrypt/live/melt.kyutech.ac.jp/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/melt.kyutech.ac.jp/privkey.pem; # managed by Certbot
+
     include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
 
 }
 
+
+
 server {
+    listen 80;
+    server_name mt.melt.kyutech.ac.jp;
+
     if ($host = mt.melt.kyutech.ac.jp) {
         return 301 https://$host$request_uri;
     } # managed by Certbot
 
-    listen 80;
-    server_name mt.melt.kyutech.ac.jp;
     return 404; # managed by Certbot
 }
+
+#server {
+#  server_name mt.melt.kyutech.ac.jp;
+#  listen 80;
+#  location / {
+#    include proxy_params;
+#    proxy_pass http://127.0.0.1:3040;
+#  }
+#}
