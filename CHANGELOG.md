@@ -28,6 +28,12 @@ WARNING: abs already refers to: #'clojure.core/abs in namespace: taoensso.encore
 - もっとビックリモード: 投稿者の名前が表示される
 - バリデーションに引っ掛かったらダイアログを出す。
 
+## 1.5.2 - 2023-04-16
+- 1.5.1 を m24 からデプロイしたら動かない。
+  nuc は vpn しないとダメだ。
+  mt 以外も l22 で認証させるアプリは nuc では動作確認できない。
+  認証をスキップするコードを忍ばせるか。
+
 ## 1.5.1 - 2023-04-14
 - merged github
 
