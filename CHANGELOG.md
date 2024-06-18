@@ -27,6 +27,18 @@ WARNING: abs already refers to: #'clojure.core/abs in namespace: taoensso.encore
 - びっくりモード: 自分の名前が表示される
 - もっとビックリモード: 投稿者の名前が表示される
 - バリデーションに引っ掛かったらダイアログを出す。
+- 家から reload しようとしたらサーバーエラー。214 からは OK. 2023-10-07
+
+
+## v1.5.341 / 2024-06-19
+- changed the policy about version tag.
+- on admin terminal, displays sender's login.
+
+## 1.5.2 - 2023-04-16
+- 1.5.1 を m24 からデプロイしたら動かない。
+  nuc は vpn しないとダメだ。
+  mt 以外も l22 で認証させるアプリは nuc では動作確認できない。
+  認証をスキップするコードを忍ばせるか。
 
 ## 1.5.1 - 2023-04-14
 - merged github
@@ -36,7 +48,7 @@ WARNING: abs already refers to: #'clojure.core/abs in namespace: taoensso.encore
 - replace mt2.users/find-user
 - removed postgresql libraries
 
-## 1.4.1-SNAPSHOT
+## v1.5.341 / 2024-06-19
 ## Added
 - Makefile: uberjar, deplpy and clean
 

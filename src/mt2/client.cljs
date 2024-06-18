@@ -49,6 +49,8 @@
   (aset output-el
         "value"
         (str (.-value output-el) "\n"
+             ;;2024-06-19
+             (when (= "hkimura" (login-name)) (str sender " ")
              (when (= sender (login-name)) " 🙋‍♀️ ")
              msg))
   (aset output-el "scrollTop" (.-scrollHeight output-el))
