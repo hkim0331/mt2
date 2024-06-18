@@ -30,6 +30,10 @@ WARNING: abs already refers to: #'clojure.core/abs in namespace: taoensso.encore
 - 家から reload しようとしたらサーバーエラー。214 からは OK. 2023-10-07
 
 
+## v1.5.3-SNAPSHOT
+- changed the policy about version tag.
+- on admin terminal, displays sender's login.
+
 ## 1.5.2 - 2023-04-16
 - 1.5.1 を m24 からデプロイしたら動かない。
   nuc は vpn しないとダメだ。
