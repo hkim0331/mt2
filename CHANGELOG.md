@@ -30,7 +30,7 @@ WARNING: abs already refers to: #'clojure.core/abs in namespace: taoensso.encore
 - 家から reload しようとしたらサーバーエラー。214 からは OK. 2023-10-07
 
 
-## v1.5.3-SNAPSHOT
+## v1.5.341 / 2024-06-19
 - changed the policy about version tag.
 - on admin terminal, displays sender's login.
 
@@ -48,7 +48,7 @@ WARNING: abs already refers to: #'clojure.core/abs in namespace: taoensso.encore
 - replace mt2.users/find-user
 - removed postgresql libraries
 
-## 1.4.1-SNAPSHOT
+## v1.5.341 / 2024-06-19
 ## Added
 - Makefile: uberjar, deplpy and clean
 
